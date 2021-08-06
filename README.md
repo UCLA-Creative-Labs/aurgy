@@ -1,4 +1,4 @@
-# Title
+# aurgy
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v2.0%20adopted-ff69b4.svg)](code_of_conduct.md)
 [![Mergify Status][mergify-status]][mergify]
 
@@ -29,12 +29,12 @@ Thanks for your interest in contributing to `aurgy`! ❤️
 
 Here's a quick guide on how to get started.
 
-1. [Fork](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo) the repository or checkout a branch; `master` is protected and is managed through our pipeline.
+1. [Fork](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo) the repository or checkout a branch; `main` is protected and is managed through our pipeline.
 2. Create an issue and/or mark an existing one to let everyone know that you are working your magic ⚡️
 3. Beep boop away!
 4. **Before you push**, it's always a good idea to check that your changes follow our linter rules! Run `yarn lint` at the root directory and watch it judge your code. 
 5. Stage, commit, and push your changes to make a [pull request](https://github.com/UCLA-Creative-Labs/aurgy/pulls)!
-6. A maintainer will review your code and if it passes all the checks, your contribution will be merged on to `master` 🥳
+6. A maintainer will review your code and if it passes all the checks, your contribution will be merged on to `main` 🥳
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) and [DESIGN_GUIDELINES.md](DESIGN_GUIDELINES.md) for more info.
 
@@ -44,4 +44,4 @@ If you ever need help with a feature or bug fix, no worries! Feel free to mark t
 
 ## License
 
-[MIT](LICENSE.md)
+[MIT](LICENSE)
