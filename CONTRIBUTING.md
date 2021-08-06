@@ -1,6 +1,6 @@
 # Contributing Guidelines
 
-Thanks for your interest in contributing to [Project Name]! ❤️
+Thanks for your interest in contributing to Aurgy! ❤️
 
 These guidelines describe how to set up your environment and submit your own contributions! Please read it 
 carefully and, if there is anything that isn't up-to-date, feel free to submit a PR with your corrections 🙃
@@ -27,30 +27,29 @@ We use [`yarn`](https://classic.yarnpkg.com/en/docs/install#mac-stable) as our p
 The basic commands to get this repository and start are:
 
 ```
-$ git clone https://github.com/UCLA-Creative-Labs/project.git
-$ cd project
+$ git clone https://github.com/UCLA-Creative-Labs/aurgy.git
+$ cd aurgy
 $ yarn install
 ```
 
 To expedite local development, run locally:
 
 ```
-$ yarn start
+$ yarn dev
 ```
 
 To test the production build, run:
 
 ```
 $ yarn build
-$ cd dist
-$ python3 -m http.server
+$ yarn start
 ```
 
 ## Contribution Workflow
 
-The following should be the general workflow of your pull requests. We have protected `master` so no one can 
-push directly to master. We also use [`mergify`](https://mergify.io/) to automate our merging process. No one 
-should be merging directly to `master`. Check out our [`.mergify.yml`](.mergify.yml) file for our conditions.
+The following should be the general workflow of your pull requests. We have protected `main` so no one can 
+push directly to main. We also use [`mergify`](https://mergify.io/) to automate our merging process. No one 
+should be merging directly to `main`. Check out our [`.mergify.yml`](.mergify.yml) file for our conditions.
 
 ### Step 1: Open an Issue
 
@@ -101,7 +100,7 @@ Create a commit with your changes.
 - All PRs are checked against a linter, netlify deploy, and conventional commits
 - Submit a Pull Request on GitHub. The maintainers will assign a reviewer.
 - Iterate until you get at least one “Approve”. When iterating, push new commits to the same branch. 
-- Most PR's will be squashed when you merge to master. If you want to disable squashing, request to add the label `pr/no-squash`
+- Most PR's will be squashed when you merge to main. If you want to disable squashing, request to add the label `pr/no-squash`
 
 ### Step 6: Merge
 
@@ -114,7 +113,7 @@ We have a pipeline to ensure that our production code will always build.
 
 ## Tools
 
-We recommend using Visual Studio Code to work on `Project`. Be sure to install the [eslint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) as we have strict linting rules that will prevent your code from merging. The combination of VSCode and this extension will allow you to automatically fix linter issues with a `Ctrl-` when hovering linter issues.
+We recommend using Visual Studio Code to work on `aurgy`. Be sure to install the [eslint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) as we have strict linting rules that will prevent your code from merging. The combination of VSCode and this extension will allow you to automatically fix linter issues with a `Ctrl-` when hovering linter issues.
 
 We use both [ESLint](https://eslint.org/) and [StyleLint](https://stylelint.io/) for two different functions that will be explained below.
 
@@ -140,15 +139,15 @@ See our [`.stylelintrc.json`](.stylelintrc.json) file for more info.
 
 ## Pipeline
 
-`Project` is configured to use a pipeline to merge changes to `master`. Humans aren't perfect, so we abstracted all our merging to a pipeline managed by a bot, [Mergify](https://mergify.io/). 
+`aurgy` is configured to use a pipeline to merge changes to `main`. Humans aren't perfect, so we abstracted all our merging to a pipeline managed by a bot, [Mergify](https://mergify.io/). 
 
 ### Mergify
 
-Mergify is a great tool for managing production code. The idea is to rely on maintainers to validate and approve pull requests and let Mergify handle production. This way, no one directly touches `master`. 
+Mergify is a great tool for managing production code. The idea is to rely on maintainers to validate and approve pull requests and let Mergify handle production. This way, no one directly touches `main`. 
 
 Key Aspects:
 - Mergify checks to see if the title follows conventional commits
-- Mergify, by default, will squash merge changes onto master
+- Mergify, by default, will squash merge changes onto main
 - Mergify automatically merges Dependatbots PRs
 - Mergify automatically dismisses stale reviews
 

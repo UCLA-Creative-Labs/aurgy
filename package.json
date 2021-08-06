@@ -1,0 +1,33 @@
+{
+  "name": "tiny",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "eslint": "npx eslint '**/*.tsx' '**/*.ts'",
+    "stylelint": "npx stylelint '**/*.css' '**/*.scss'",
+    "lint": "yarn run eslint && yarn run stylelint",
+    "lint:fix": "yarn run eslint --fix && yarn run stylelint --fix",
+    "no-lock": "scripts/noPackageLock.sh"
+  },
+  "dependencies": {
+    "next": "10.0.9",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.35",
+    "@types/react": "^17.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
+    "eslint": "^7.22.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-react": "^7.23.1",
+    "sass": "^1.32.8",
+    "stylelint": "^13.12.0",
+    "stylelint-config-standard": "^21.0.0",
+    "typescript": "^4.2.3"
+  }
+}
