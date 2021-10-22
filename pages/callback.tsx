@@ -9,7 +9,7 @@ export default function SpotifyCallback(): JSX.Element {
     const {code, state} = router.query;
     const storage = window.localStorage;
     if (!code || !state || state !== storage.getItem(SPOTIFY_STATE)) return;
-    windowCallback(code, storage);
+    void windowCallback(code, storage);
   }, [router]);
 
   return (

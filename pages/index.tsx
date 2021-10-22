@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import React, {useContext} from 'react';
-import styles from '../styles/Home.module.scss';
 import Layout from '../components/Layout';
 import * as SpotifyAuth from '../components/SpotifyAuth';
+import styles from '../styles/Home.module.scss';
 import {AppContext} from './_app';
 
 export default function Home(): JSX.Element {

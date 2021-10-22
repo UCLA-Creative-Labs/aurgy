@@ -5,8 +5,8 @@ import {
   SPOTIFY_ACCESS_TOKEN,
   SPOTIFY_REFRESH_TOKEN,
   SPOTIFY_CODE_VERIFIER,
-} from "./constants";
-import { generateChallenge, generateRandomString, IChallenge } from "./pkce";
+} from './constants';
+import { generateChallenge, generateRandomString, IChallenge } from './pkce';
 
 const getUrlPath = (): string => {
   const {protocol, hostname, port} = window.location;

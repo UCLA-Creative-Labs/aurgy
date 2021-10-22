@@ -40,7 +40,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
 
     return () => {
       window.removeEventListener('storage', registerSpotifyAuth);
-    }
+    };
   }, []);
 
   return (

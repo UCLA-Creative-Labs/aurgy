@@ -14,7 +14,7 @@ export default function SpotifyAuth(): JSX.Element {
     storage.setItem(SPOTIFY_STATE, state);
     storage.setItem(SPOTIFY_CODE_VERIFIER, code_verifier);
     window.open(authenticationUrl, 'Login with Spotify', 'width=800,height=600');
-  }
+  };
 
   return (
     <button onClick={login}>Log in to Spotify</button>
@@ -26,7 +26,7 @@ export function Logout(): JSX.Element {
     const storage = window.localStorage;
     storage.removeItem(SPOTIFY_ACCESS_TOKEN);
     storage.removeItem(SPOTIFY_REFRESH_TOKEN);
-  }
+  };
 
   return (
     <button onClick={logout}>Logout</button>
