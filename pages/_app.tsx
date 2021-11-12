@@ -14,7 +14,7 @@ export const AppContext = createContext<IAppContext>({
   accessToken: null,
   refreshToken: null,
   isAuthenticated: false,
-  setIsAuthenticated: (bool: boolean) => null,
+  setIsAuthenticated: (_bool: boolean) => null,
 });
 
 
