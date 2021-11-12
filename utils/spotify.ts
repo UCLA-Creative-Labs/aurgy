@@ -2,16 +2,10 @@ import querystring from 'querystring';
 import {
   CLIENT_ID,
   SPOTIFY_SCOPE,
-  SPOTIFY_ACCESS_TOKEN,
-  SPOTIFY_REFRESH_TOKEN,
   SPOTIFY_CODE_VERIFIER,
 } from './constants';
 import { generateChallenge, generateRandomString, IChallenge } from './pkce';
-
-const getUrlPath = (): string => {
-  const {protocol, hostname, port} = window.location;
-  return protocol + '//' + hostname + (port ? ':' : '') + port;
-};
+import {getUrlPath} from './url';
 
 export interface IAuthentication extends IChallenge {
   readonly state: string;
@@ -35,7 +29,12 @@ export async function authenticate(): Promise<IAuthentication> {
   return { state, authenticationUrl, code_challenge, code_verifier };
 }
 
-export async function windowCallback(code: string | string[], storage: Storage): Promise<void> {
+interface SpotifyTokens {
+  accessToken: string,
+  refreshToken: string
+}
+
+export async function fetchSpotifyTokens(code: string | string[], storage: Storage): Promise<SpotifyTokens> {
   const response = await window.fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
     headers: {
@@ -50,7 +49,5 @@ export async function windowCallback(code: string | string[], storage: Storage):
     }),
   });
   const {access_token, refresh_token} = await response.json();
-  storage.setItem(SPOTIFY_ACCESS_TOKEN, access_token);
-  storage.setItem(SPOTIFY_REFRESH_TOKEN, refresh_token);
-  window.close();
+  return {accessToken: access_token, refreshToken: refresh_token};
 }

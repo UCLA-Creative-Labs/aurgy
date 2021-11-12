@@ -4,17 +4,21 @@ import { SPOTIFY_ACCESS_TOKEN, SPOTIFY_REFRESH_TOKEN } from '../utils';
 import '../styles/globals.scss';
 
 export interface IAppContext {
-  accessToken?: string;
-  refreshToken?: string;
+  accessToken: string | null;
+  setAccessToken: (at: string) => void,
+  refreshToken: string | null;
+  setRefreshToken: (at: string) => void,
   isAuthenticated: boolean;
-  setIsAuthenticated: (bool: boolean) => void;
+  signOut: () => void;
 }
 
 export const AppContext = createContext<IAppContext>({
   accessToken: null,
+  setAccessToken: (_at: string) => null,
   refreshToken: null,
+  setRefreshToken: (_rt: string) => null,
   isAuthenticated: false,
-  setIsAuthenticated: (_bool: boolean) => null,
+  signOut: () => null,
 });
 
 
@@ -24,31 +28,40 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const [ isAuthenticated, setIsAuthenticated ] = useState(false);
 
   useEffect(() => {
-    const registerSpotifyAuth = () => {
-      const storage = window.localStorage;
-      const _at = storage.getItem(SPOTIFY_ACCESS_TOKEN);
-      const _rt = storage.getItem(SPOTIFY_REFRESH_TOKEN);
-
-      setAccessToken(_at);
-      setRefreshToken(_rt);
-      setIsAuthenticated(!!(_at && _rt));
-    };
-
-    window.addEventListener('storage', registerSpotifyAuth);
-
-    registerSpotifyAuth();
-
-    return () => {
-      window.removeEventListener('storage', registerSpotifyAuth);
-    };
+    const storage = window.localStorage;
+    setAccessToken(storage.getItem(SPOTIFY_ACCESS_TOKEN));
+    setRefreshToken(storage.getItem(SPOTIFY_REFRESH_TOKEN));
   }, []);
+
+  useEffect(() => {
+    const storage = window.localStorage;
+    accessToken
+      ? storage.setItem(SPOTIFY_ACCESS_TOKEN, accessToken)
+      : storage.removeItem(SPOTIFY_REFRESH_TOKEN);
+  }, [accessToken]);
+
+  useEffect(() => {
+    const storage = window.localStorage;
+    refreshToken
+      ? storage.setItem(SPOTIFY_REFRESH_TOKEN, refreshToken)
+      : storage.removeItem(SPOTIFY_REFRESH_TOKEN);
+    setIsAuthenticated(!!refreshToken);
+  }, [refreshToken]);
+
+  const signOut = () => {
+    setAccessToken(null);
+    setRefreshToken(null);
+    setIsAuthenticated(false);
+  };
 
   return (
     <AppContext.Provider value={{
       accessToken,
+      setAccessToken,
       refreshToken,
+      setRefreshToken,
       isAuthenticated,
-      setIsAuthenticated,
+      signOut,
     }}>
       <Component {...pageProps} />
     </AppContext.Provider>
