@@ -1,4 +1,3 @@
-import querystring from 'querystring';
 import { useRouter } from 'next/dist/client/router';
 import React, {useEffect} from 'react';
 import {SPOTIFY_STATE, windowCallback} from '../utils';

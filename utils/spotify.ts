@@ -35,7 +35,7 @@ export async function authenticate(): Promise<IAuthentication> {
   return { state, authenticationUrl, code_challenge, code_verifier };
 }
 
-export async function windowCallback(code, storage) {
+export async function windowCallback(code: string | string[], storage: Storage): Promise<void> {
   const response = await window.fetch('https://accounts.spotify.com/api/token', {
     method: 'POST',
     headers: {

@@ -16,14 +16,14 @@ export function generateRandomString(length: number, mask = SPOTIFY_MASK): strin
     `${acc}${mask[Math.floor(Math.abs(randomIndices[i]) / scalingFactor)]}`, '');
 }
 
-function base64UrlEncode(array): string {
+function base64UrlEncode(array: ArrayBuffer): string {
   return btoa(String.fromCharCode.apply(null, new Uint8Array(array)))
     .replace(/\+/g, '-')
     .replace(/\//g, '_')
     .replace(/=+$/, '');
 }
 
-function generateVerifier(length): string {
+function generateVerifier(length: number): string {
   return generateRandomString(length);
 }
 
