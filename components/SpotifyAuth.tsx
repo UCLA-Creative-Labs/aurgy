@@ -1,19 +1,20 @@
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, {useContext} from 'react';
+import {AppContext} from '../pages/_app';
 import {
   authenticate,
   SPOTIFY_CODE_VERIFIER,
   SPOTIFY_STATE,
-  SPOTIFY_ACCESS_TOKEN,
-  SPOTIFY_REFRESH_TOKEN,
 } from '../utils';
 
 export default function SpotifyAuth(): JSX.Element {
+  const router = useRouter();
   const login = async () => {
     const storage = window.localStorage;
     const { state, authenticationUrl, code_verifier } = await authenticate();
     storage.setItem(SPOTIFY_STATE, state);
     storage.setItem(SPOTIFY_CODE_VERIFIER, code_verifier);
-    window.open(authenticationUrl, 'Login with Spotify', 'width=800,height=600');
+    void router.push(authenticationUrl);
   };
 
   return (
@@ -22,13 +23,9 @@ export default function SpotifyAuth(): JSX.Element {
 }
 
 export function Logout(): JSX.Element {
-  const logout = () => {
-    const storage = window.localStorage;
-    storage.removeItem(SPOTIFY_ACCESS_TOKEN);
-    storage.removeItem(SPOTIFY_REFRESH_TOKEN);
-  };
+  const {signOut} = useContext(AppContext);
 
   return (
-    <button onClick={logout}>Logout</button>
+    <button onClick={signOut}>Logout</button>
   );
 }
