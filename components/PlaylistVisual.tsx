@@ -2,12 +2,12 @@ import React, {useRef, useEffect} from 'react';
 import * as THREE from 'three';
 import {sampleShader} from '../utils';
 
-interface Props {
+interface PlaylistVisualProps {
   width?: number;
   height?: number;
 }
 
-function PlaylistVisual({width, height}: Props): JSX.Element {
+function PlaylistVisual({width, height}: PlaylistVisualProps): JSX.Element {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -54,8 +54,6 @@ function PlaylistVisual({width, height}: Props): JSX.Element {
       renderer.render(scene, camera);
     }
     animate();
-
-    return () => ref.current.removeChild(renderer.domElement);
   }, []);
 
   return (
