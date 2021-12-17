@@ -51,7 +51,7 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactNode {
     refreshToken
       ? storage.setItem(SPOTIFY_REFRESH_TOKEN, refreshToken)
       : storage.removeItem(SPOTIFY_REFRESH_TOKEN);
-    
+
     // If refresh token is null then we are not authenticated
     setIsAuthenticated(!!refreshToken);
   }, [refreshToken]);
@@ -61,7 +61,7 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactNode {
     userData
       ? storage.setItem(AURGY_USER_DATA, JSON.stringify(userData))
       : storage.removeItem(AURGY_USER_DATA);
-    
+
     // If user data is null then we are not authenticated
     setIsAuthenticated(!!userData);
   }, [userData]);

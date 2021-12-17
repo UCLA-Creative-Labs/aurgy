@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import {useContext, useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Layout from '../components/Layout';
 import {AppContext} from '../pages/_app';
 import {
@@ -8,7 +8,7 @@ import {
   fetchSpotifyTokens,
 } from '../utils';
 
-export default function SpotifyCallback(): JSX.Element {
+export default function SpotifyCallback(): React.ReactNode {
   const {setAccessToken, setRefreshToken, setUserData} = useContext(AppContext);
   const router = useRouter();
   useEffect(() => {

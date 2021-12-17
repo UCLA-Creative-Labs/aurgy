@@ -1,1 +1,1 @@
-export interface IUserData extends Record<string, any> {}
+export type IUserData = Record<string, any>
