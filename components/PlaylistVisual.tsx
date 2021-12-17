@@ -54,6 +54,11 @@ function PlaylistVisual({width, height}: PlaylistVisualProps): JSX.Element {
       renderer.render(scene, camera);
     }
     animate();
+
+    return () => {
+      ref.current.removeChild(renderer.domElement);
+      window.removeEventListener('mousemove', handleMouseMove, false);
+    };
   }, []);
 
   return (
