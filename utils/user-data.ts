@@ -1,0 +1,1 @@
+export interface IUserData extends Record<string, any> {}

@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
-import React, {useContext, useEffect} from 'react';
+import {useContext, useEffect} from 'react';
+import Layout from '../components/Layout';
 import {AppContext} from '../pages/_app';
 import {
   getUrlPath,
@@ -8,7 +9,7 @@ import {
 } from '../utils';
 
 export default function SpotifyCallback(): JSX.Element {
-  const {setAccessToken, setRefreshToken} = useContext(AppContext);
+  const {setAccessToken, setRefreshToken, setUserData} = useContext(AppContext);
   const router = useRouter();
   useEffect(() => {
     const {code, state} = router.query;
@@ -18,12 +19,25 @@ export default function SpotifyCallback(): JSX.Element {
       const {accessToken, refreshToken} = await fetchSpotifyTokens(code, storage);
       setAccessToken(accessToken);
       setRefreshToken(refreshToken);
+      const res = await window.fetch('http://daddy.creativelabsucla.com/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refreshToken }),
+      });
+      const data = await res.json();
+      setUserData(data);
       void router.push(getUrlPath());
     };
     void redirect();
   }, [router]);
 
   return (
-    <div>You will be rerouted shortly!</div>
+    <Layout>
+      <div>
+        LOGGING YOU INTO AURGY
+      </div>
+    </Layout>
   );
 }
