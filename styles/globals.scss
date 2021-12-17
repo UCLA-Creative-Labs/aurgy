@@ -1,26 +1,37 @@
-html,
+@use 'variables.module' as *;
+
 body {
   padding: 0;
   margin: 0;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    Segoe UI,
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    Fira Sans,
-    Droid Sans,
-    Helvetica Neue,
-    sans-serif;
+  font: $body;
+  background-color: map-get($colors, 'black');
+}
+
+div {
+  color: map-get($colors, 'white');
+}
+
+h1 {
+  font: $header-1;
+}
+
+h2 {
+  font: $header-2;
+}
+
+h3 {
+  font: $body-xlarge;
+}
+
+h4 {
+  font: $body-large;
+}
+
+p {
+  line-height: 1.6em;
 }
 
 a {
   color: inherit;
   text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
 }
