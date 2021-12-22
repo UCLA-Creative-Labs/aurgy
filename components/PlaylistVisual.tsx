@@ -56,7 +56,7 @@ function PlaylistVisual({width, height}: PlaylistVisualProps): JSX.Element {
     animate();
 
     return () => {
-      ref.current.removeChild(renderer.domElement);
+      ref.current?.removeChild(renderer.domElement);
       window.removeEventListener('mousemove', handleMouseMove, false);
     };
   }, []);
