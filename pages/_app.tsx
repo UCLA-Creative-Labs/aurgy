@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactNode {
     const signin = async () => {
       const token = indexCookie('token');
       if (!token) return;
-      const res = await window.fetch('http://daddy.creativelabsucla.com/me', {
+      const res = await window.fetch('https://daddy.creativelabsucla.com/me', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,

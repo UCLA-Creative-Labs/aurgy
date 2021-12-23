@@ -17,7 +17,7 @@ export default function SpotifyCallback(): React.ReactNode {
     if (!code || !state || state !== storage.getItem(SPOTIFY_STATE)) return;
     const redirect = async () => {
       const {refreshToken} = await fetchSpotifyTokens(code, storage);
-      const res = await window.fetch('http://daddy.creativelabsucla.com/me', {
+      const res = await window.fetch('https://daddy.creativelabsucla.com/me', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
