@@ -8,7 +8,13 @@ import {
 } from '../utils';
 
 export default function SpotifyAuth(): JSX.Element {
+  const {isAuthenticated} = useContext(AppContext);
+  return isAuthenticated ? <LogOut /> : <LogIn />;
+}
+
+function LogIn(): JSX.Element {
   const router = useRouter();
+
   const login = async () => {
     const storage = window.localStorage;
     const { state, authenticationUrl, code_verifier } = await authenticate();
@@ -18,14 +24,13 @@ export default function SpotifyAuth(): JSX.Element {
   };
 
   return (
-    <button onClick={login}>Log in to Spotify</button>
+    <button onClick={login}>LOG IN</button>
   );
 }
 
-export function Logout(): JSX.Element {
+function LogOut(): JSX.Element {
   const {signOut} = useContext(AppContext);
-
   return (
-    <button onClick={signOut}>Logout</button>
+    <button onClick={signOut}>LOGOUT</button>
   );
 }

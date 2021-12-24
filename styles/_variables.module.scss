@@ -7,16 +7,17 @@ $header-2: normal 400 48px 'Audiowide', sans-serif;
 $body-xlarge: normal 600 32px 'Montserrat', sans-serif;
 $body-large: normal 600 28px 'Montserrat', sans-serif;
 $body-large-lite: normal 400 20px 'Montserrat', sans-serif;
-$body: normal 600 24px 'Montserrat', sans-serif;
-$body-small-bold: normal 600 20px 'Montserrat', sans-serif;
+$body: normal 600 20px 'Montserrat', sans-serif;
+$body-small-bold: normal 600 16px 'Montserrat', sans-serif;
 $body-small-fancy: normal 400 20px 'Audiowide', sans-serif;
 
-$button-text: normal 600 18px 'Monteserrat', sans-serif;
+$button-text: normal 400 16px 'Monteserrat', sans-serif;
 
 // COLORS
 $colors: (
   'black': #000,
   'white': #fff,
+  'white-50': #fff7,
   neonPink: #f89df6,
   neonPinkShadow: #b900b5,
 );
@@ -25,6 +26,8 @@ $colors: (
 $vertical-padding: 128px;
 $content-max-width: 850px;
 $button-horizontal-padding: 24px;
+
+$horizontal-margins: 64px;
 
 // Export to JS
 :export {

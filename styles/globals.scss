@@ -1,8 +1,13 @@
 @use 'variables.module' as *;
 
-body {
-  padding: 0;
+* {
+  text-transform: uppercase;
   margin: 0;
+}
+
+body {
+  overflow-x: hidden;
+  padding: 0;
   font: $body;
   background-color: map-get($colors, 'black');
 }
@@ -29,6 +34,21 @@ h4 {
 
 p {
   line-height: 1.6em;
+}
+
+button {
+  background-color: transparent;
+  font: $button-text;
+  color: map-get($colors, 'white');
+
+  // SIZING
+  padding: 4px $button-horizontal-padding;
+  min-height: 32px;
+
+  // BORDER
+  border: 2px solid map-get($colors, 'white');
+  border-radius: 32px;
+  cursor: pointer;
 }
 
 a {

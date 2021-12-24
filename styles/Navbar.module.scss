@@ -1,0 +1,32 @@
+@use 'variables.module' as *;
+
+#navbar,
+#logo-container,
+#links-container {
+  display: flex;
+  align-items: center;
+}
+
+#navbar {
+  justify-content: space-between;
+  min-height: 128px;
+  width: 100%;
+}
+
+#logo-container {
+  margin-left: $horizontal-margins;
+  font: $body-small-fancy;
+}
+
+#links-container {
+  margin-right: $horizontal-margins;
+  font: $body-small-bold;
+
+  * {
+    margin-left: 32px;
+  }
+
+  :nth-child(1) {
+    margin-left: 0;
+  }
+}

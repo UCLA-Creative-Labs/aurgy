@@ -2,13 +2,15 @@ import { useRouter } from 'next/router';
 import React, {useContext, useEffect} from 'react';
 import Layout from '../components/Layout';
 import {AppContext} from '../pages/_app';
+import styles from '../styles/Callback.module.scss';
 import {
   getUrlPath,
   SPOTIFY_STATE,
   fetchSpotifyTokens,
 } from '../utils';
+import { signIn } from '../utils/aurgy';
 
-export default function SpotifyCallback(): React.ReactNode {
+export default function SpotifyCallback(): JSX.Element {
   const {setUserData} = useContext(AppContext);
   const router = useRouter();
   useEffect(() => {
@@ -17,24 +19,17 @@ export default function SpotifyCallback(): React.ReactNode {
     if (!code || !state || state !== storage.getItem(SPOTIFY_STATE)) return;
     const redirect = async () => {
       const {refreshToken} = await fetchSpotifyTokens(code, storage);
-      const res = await window.fetch('https://daddy.creativelabsucla.com/me', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ refreshToken }),
-      });
-      const data = await res.json();
+      const data = await signIn(refreshToken);
       document.cookie = `token=${data.jwt}`;
       setUserData(data);
-      void router.push(getUrlPath());
+      void router.push(getUrlPath() + '/me');
     };
     void redirect();
   }, [router]);
 
   return (
     <Layout>
-      <div>
+      <div id={styles['callback-container']}>
         LOGGING YOU INTO AURGY
       </div>
     </Layout>

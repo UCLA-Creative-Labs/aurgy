@@ -2,6 +2,7 @@ import {AppProps} from 'next/app';
 import React, { createContext, useEffect, useState } from 'react';
 import { AURGY_USER_DATA} from '../utils';
 import '../styles/globals.scss';
+import { authCookie } from '../utils/aurgy';
 import { indexCookie } from '../utils/cookies';
 import { IUserData } from '../utils/user-data';
 
@@ -19,7 +20,7 @@ export const AppContext = createContext<IAppContext>({
   signOut: () => null,
 });
 
-function MyApp({ Component, pageProps }: AppProps): React.ReactNode {
+function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const [ userData, setUserData ] = useState<IUserData | null>(null);
   const [ isAuthenticated, setIsAuthenticated ] = useState(false);
 
@@ -29,15 +30,8 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactNode {
 
     const signin = async () => {
       const token = indexCookie('token');
-      if (!token) return;
-      const res = await window.fetch('https://daddy.creativelabsucla.com/me', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await res.json();
+      if (!token || token === 'undefined') return;
+      const data = await authCookie(token);
       setUserData(data);
     };
 
@@ -55,7 +49,7 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactNode {
   }, [userData]);
 
   const signOut = () => {
-    document.cookie = undefined;
+    document.cookie = 'token=undefined';
     setUserData(null);
 
     // make doubling work here but making sure this is set to null

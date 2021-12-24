@@ -1,0 +1,31 @@
+@use 'variables.module' as *;
+@use 'mixins.module' as mixin;
+
+#main {
+  padding: 0 $horizontal-margins;
+  width: calc(100% - #{$horizontal-margins} * 2);
+}
+
+#me-container {
+  max-width: $content-max-width;
+  margin: $vertical-padding auto;
+
+  h2 {
+    margin-bottom: 40px;
+  }
+}
+
+#login-container {
+  @include mixin.centerElements;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+
+  .value {
+    color: map-get($colors, 'white-50');
+  }
+}
