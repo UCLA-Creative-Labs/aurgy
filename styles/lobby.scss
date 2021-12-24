@@ -1,0 +1,61 @@
+@use 'variables.module' as *;
+
+$name-plate-width-min: 14px;
+$name-plate-width-max: 120px;
+$name-plate-padding-min: 0 10px;
+$name-plate-padding-max: 0 25px;
+
+.usersBar {
+  width: 100%;
+  padding-left: calc(100vw - 1000px);
+  display: flex;
+  margin: 25px;
+}
+
+.namePlate {
+  margin-right: 20px;
+  font: $body-small-fancy;
+  text-align: center;
+  z-index: 1;
+
+  .namePlate-container {
+    width: 40px;
+    height: 40px;
+  }
+
+  .namePlate-short {
+    width: 40px;
+    margin-top: -40px;
+    line-height: 40px;
+  }
+
+  .namePlate-long {
+    max-width: $name-plate-width-min;
+    height: 34px;
+    line-height: 34px;
+    margin-top: -40px;
+    padding: $name-plate-padding-min;
+    opacity: 0;
+    border: 3px solid #fff;
+    border-radius: 34px;
+  }
+
+  &.expanded .namePlate-long {
+    opacity: 1 !important;
+    max-width: $name-plate-width-max !important;
+    padding: $name-plate-padding-max !important;
+  }
+
+  &.expanded .namePlate-short,
+  &.expanded .namePlate-container {
+    opacity: 0 !important;
+  }
+
+  &.owner svg {
+    fill: map-get($colors, 'translucentWhite');
+  }
+
+  &.owner .namePlate-long {
+    background-color: map-get($colors, 'translucentWhite');
+  }
+}
