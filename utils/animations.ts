@@ -1,11 +1,6 @@
 import anime from 'animejs';
 import {Polygon, PolygonPoints} from '../components/Shape';
-import {
-  namePlateWidthMin,
-  namePlateWidthMax,
-  namePlatePaddingMin,
-  namePlatePaddingMax,
-} from '../styles/lobby.module.scss';
+import styles from '../styles/lobby.module.scss';
 
 function animate(target: HTMLElement, key: string, val: string | number, duration, delay = 0): void {
   anime({
@@ -63,13 +58,13 @@ export function animateNamePlate(
   if (forwards) {
     animate(shortNameNode, 'opacity', 0, 500);
     animate(longNameNode, 'opacity', 1, 500);
-    animate(longNameNode, 'maxWidth', namePlateWidthMax, 300);
-    animate(longNameNode, 'padding', namePlatePaddingMax, 400);
+    animate(longNameNode, 'maxWidth', styles.namePlateWidthMax, 300);
+    animate(longNameNode, 'padding', styles.namePlatePaddingMax, 400);
   }
   else {
     animate(shortNameNode, 'opacity', 1, 500);
     animate(longNameNode, 'opacity', 0, 500);
-    animate(longNameNode, 'maxWidth', namePlateWidthMin, 300);
-    animate(longNameNode, 'padding', namePlatePaddingMin, 400);
+    animate(longNameNode, 'maxWidth', styles.namePlateWidthMin, 300);
+    animate(longNameNode, 'padding', styles.namePlatePaddingMin, 400);
   }
 }
