@@ -1,0 +1,9 @@
+@use 'variables.module' as *;
+
+@mixin centerElements {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 2 * #{$vertical-padding});
+  margin-bottom: $vertical-padding;
+}
