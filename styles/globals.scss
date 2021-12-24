@@ -1,5 +1,5 @@
 @use 'variables.module' as *;
-@use 'lobby';
+@use 'lobby.module';
 
 body {
   padding: 0;

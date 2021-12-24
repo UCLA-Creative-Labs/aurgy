@@ -59,3 +59,10 @@ $name-plate-padding-max: 0 25px;
     background-color: map-get($colors, 'translucentWhite');
   }
 }
+
+:export {
+  namePlateWidthMin: $name-plate-width-min;
+  namePlateWidthMax: $name-plate-width-max;
+  namePlatePaddingMin: $name-plate-padding-min;
+  namePlatePaddingMax: $name-plate-padding-max;
+}

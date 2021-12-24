@@ -5,7 +5,7 @@ import {
   namePlateWidthMax,
   namePlatePaddingMin,
   namePlatePaddingMax,
-}from'../styles/_variables.module.scss';
+} from '../styles/lobby.module.scss';
 
 function animate(target: HTMLElement, key: string, val: string | number, duration, delay = 0): void {
   anime({
@@ -39,7 +39,7 @@ function morphPolygon(target: HTMLElement, shape: Polygon, forwards: boolean, de
 
 export function animatePolygon(
   containerNode: HTMLElement,
-  polygonNode:HTMLElement,
+  polygonNode: HTMLElement,
   shape: Polygon,
   forwards: boolean,
 ): void {
