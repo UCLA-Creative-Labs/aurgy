@@ -1,6 +1,6 @@
 import { IUserData } from './user-data';
 
-const URL = 'http://158.101.44.113:3000';
+const URL = 'https://daddy.creativelabsucla.com';
 
 export async function signIn(refreshToken: string): Promise<IUserData | null> {
   const res = await window.fetch(URL + '/me', {
