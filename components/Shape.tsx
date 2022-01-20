@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from '../styles/lobby.module.scss';
 
 interface ShapeProps {
   polygon: Polygon
@@ -15,7 +16,7 @@ export const PolygonPoints = {
 
 function Circle(ref): JSX.Element {
   return (
-    <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={styles.namePlateSize} height={styles.namePlateSize} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="50" cy="50" r="46" stroke="white" strokeWidth="7" ref={ref} />
     </svg>
   );
@@ -23,7 +24,7 @@ function Circle(ref): JSX.Element {
 
 function Pentagon(ref): JSX.Element {
   return (
-    <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={styles.namePlateSize} height={styles.namePlateSize} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <polygon points={PolygonPoints.pentagon} ref={ref} stroke="white" strokeWidth="7" />
     </svg>
   );
@@ -31,7 +32,7 @@ function Pentagon(ref): JSX.Element {
 
 function Hexagon(ref): JSX.Element {
   return (
-    <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={styles.namePlateSize} height={styles.namePlateSize} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <polygon points={PolygonPoints.hexagon} ref={ref} stroke="white" strokeWidth="7" />
     </svg>
   );
@@ -39,7 +40,7 @@ function Hexagon(ref): JSX.Element {
 
 function Heptagon(ref): JSX.Element {
   return (
-    <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={styles.namePlateSize} height={styles.namePlateSize} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <polygon points={PolygonPoints.heptagon} ref={ref} stroke="white" strokeWidth="7" />
     </svg>
   );
@@ -47,7 +48,7 @@ function Heptagon(ref): JSX.Element {
 
 function Octagon(ref): JSX.Element {
   return (
-    <svg width="40" height="40" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width={styles.namePlateSize} height={styles.namePlateSize} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
       <polygon points={PolygonPoints.octagon} ref={ref} stroke="white" strokeWidth="7" />
     </svg>
   );

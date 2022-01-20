@@ -1,6 +1,7 @@
 @use 'variables.module' as *;
 
-$name-plate-width-min: 14px;
+$name-plate-size: 35;
+$name-plate-width-min: 9px;
 $name-plate-width-max: 120px;
 $name-plate-padding-min: 0 10px;
 $name-plate-padding-max: 0 25px;
@@ -19,25 +20,25 @@ $name-plate-padding-max: 0 25px;
   z-index: 1;
 
   .namePlate-container {
-    width: 40px;
-    height: 40px;
+    width: #{$name-plate-size}px;
+    height: #{$name-plate-size}px;
   }
 
   .namePlate-short {
-    width: 40px;
-    margin-top: -40px;
-    line-height: 40px;
+    width: #{$name-plate-size}px;
+    margin-top: #{-$name-plate-size}px;
+    line-height: #{$name-plate-size}px;
   }
 
   .namePlate-long {
     max-width: $name-plate-width-min;
-    height: 34px;
-    line-height: 34px;
-    margin-top: -40px;
+    height: #{$name-plate-size - 6}px; // size - 2 * border-width
+    line-height: #{$name-plate-size - 6}px;
+    margin-top: #{-$name-plate-size}px;
     padding: $name-plate-padding-min;
     opacity: 0;
     border: 3px solid #fff;
-    border-radius: 34px;
+    border-radius: #{$name-plate-size - 6}px;
   }
 
   &.expanded .namePlate-long {
@@ -61,6 +62,7 @@ $name-plate-padding-max: 0 25px;
 }
 
 :export {
+  namePlateSize: $name-plate-size;
   namePlateWidthMin: $name-plate-width-min;
   namePlateWidthMax: $name-plate-width-max;
   namePlatePaddingMin: $name-plate-padding-min;
