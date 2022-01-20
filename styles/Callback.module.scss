@@ -1,0 +1,5 @@
+@use 'mixins.module' as mixin;
+
+#callback-container {
+  @include mixin.centerElements;
+}

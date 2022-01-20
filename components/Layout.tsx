@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import React from 'react';
 import {capitalize} from '../utils';
+import Navbar from './Navbar';
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -34,6 +35,7 @@ function Layout(props: LayoutProps): JSX.Element {
         <title>{title}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Navbar />
       <main id={props.id}>
         {props.children}
       </main>

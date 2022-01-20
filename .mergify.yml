@@ -25,7 +25,6 @@ pull_request_rules:
       comment:
         message: Thanks for contributing! Your pull request will be updated from main and then merged automatically (do not update manually, and be sure to [allow changes to be pushed to your fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork)).
       merge:
-        strict: smart
         method: squash
         strict_method: merge
         commit_message: title+body
@@ -47,7 +46,6 @@ pull_request_rules:
       comment:
         message: Thank you for contributing! Your pull request will be updated from main and then merged automatically (do not update manually, and be sure to [allow changes to be pushed to your fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork)).
       merge:
-        strict: smart
         # Merge instead of squash
         method: merge
         strict_method: merge

@@ -10,7 +10,6 @@ function Lobby(): JSX.Element {
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
       }}>
         <PlaylistVisual width={1000} height={600} />

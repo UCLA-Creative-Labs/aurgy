@@ -2,40 +2,34 @@ import { useRouter } from 'next/router';
 import React, {useContext, useEffect} from 'react';
 import Layout from '../components/Layout';
 import {AppContext} from '../pages/_app';
+import styles from '../styles/Callback.module.scss';
 import {
   getUrlPath,
   SPOTIFY_STATE,
   fetchSpotifyTokens,
 } from '../utils';
+import { signIn } from '../utils/aurgy';
 
-export default function SpotifyCallback(): React.ReactNode {
-  const {setAccessToken, setRefreshToken, setUserData} = useContext(AppContext);
+export default function SpotifyCallback(): JSX.Element {
+  const {setUserData} = useContext(AppContext);
   const router = useRouter();
   useEffect(() => {
     const {code, state} = router.query;
     const storage = window.localStorage;
     if (!code || !state || state !== storage.getItem(SPOTIFY_STATE)) return;
     const redirect = async () => {
-      const {accessToken, refreshToken} = await fetchSpotifyTokens(code, storage);
-      setAccessToken(accessToken);
-      setRefreshToken(refreshToken);
-      const res = await window.fetch('http://daddy.creativelabsucla.com/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ refreshToken }),
-      });
-      const data = await res.json();
+      const {refreshToken} = await fetchSpotifyTokens(code, storage);
+      const data = await signIn(refreshToken);
+      document.cookie = `token=${data.jwt}`;
       setUserData(data);
-      void router.push(getUrlPath());
+      void router.push(getUrlPath() + '/me');
     };
     void redirect();
   }, [router]);
 
   return (
     <Layout>
-      <div>
+      <div id={styles['callback-container']}>
         LOGGING YOU INTO AURGY
       </div>
     </Layout>

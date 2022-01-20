@@ -53,7 +53,7 @@ $name-plate-padding-max: 0 25px;
   }
 
   &.owner svg {
-    fill: map-get($colors, 'translucentWhite');
+    fill: map-get($colors, 'white-50');
   }
 
   &.owner .namePlate-long {
