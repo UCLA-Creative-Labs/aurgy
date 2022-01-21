@@ -9,7 +9,7 @@ export default function Navbar(): JSX.Element {
   const router = useRouter();
 
   function strikeCurrentPath(path: string, str: string): JSX.Element {
-    return router.asPath === path ? <del>{str}</del> : <p>{str}</p>;
+    return router.asPath === path ? <p><del>{str}</del></p> : <p>{str}</p>;
   }
 
   return (
