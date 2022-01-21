@@ -1,70 +1,129 @@
 @use 'variables.module' as *;
 
-$name-plate-size: 35;
-$name-plate-width-min: 9px;
-$name-plate-width-max: 120px;
-$name-plate-padding-min: 0 10px;
-$name-plate-padding-max: 0 25px;
+// NAMEPLATE
 
-.usersBar {
-  width: 100%;
-  padding-left: calc(100vw - 1000px);
-  display: flex;
-  margin: 25px;
-}
+$nameplate-size: 35;
+$nameplate-width-min: 9px;
+$nameplate-width-max: 110px;
+$nameplate-padding-min: 0 10px;
+$nameplate-padding-max: 0 25px;
 
-.namePlate {
+.nameplate {
   margin-right: 20px;
   font: $body-small-fancy;
   text-align: center;
   z-index: 1;
 
-  .namePlate-container {
-    width: #{$name-plate-size}px;
-    height: #{$name-plate-size}px;
+  .nameplate-container {
+    width: #{$nameplate-size}px;
+    height: #{$nameplate-size}px;
   }
 
-  .namePlate-short {
-    width: #{$name-plate-size}px;
-    margin-top: #{-$name-plate-size}px;
-    line-height: #{$name-plate-size}px;
+  .nameplate-short {
+    width: #{$nameplate-size}px;
+    margin-top: #{-$nameplate-size}px;
+    line-height: #{$nameplate-size}px;
   }
 
-  .namePlate-long {
-    max-width: $name-plate-width-min;
-    height: #{$name-plate-size - 6}px; // size - 2 * border-width
-    line-height: #{$name-plate-size - 6}px;
-    margin-top: #{-$name-plate-size}px;
-    padding: $name-plate-padding-min;
+  .nameplate-long {
+    max-width: $nameplate-width-min;
+    height: #{$nameplate-size - 6}px; // size - 2 * border-width
+    line-height: #{$nameplate-size - 6}px;
+    margin-top: #{-$nameplate-size}px;
+    padding: $nameplate-padding-min;
     opacity: 0;
     border: 3px solid #fff;
-    border-radius: #{$name-plate-size - 6}px;
+    border-radius: #{$nameplate-size - 6}px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  &.expanded .namePlate-long {
+  &.expanded .nameplate-long {
     opacity: 1 !important;
-    max-width: $name-plate-width-max !important;
-    padding: $name-plate-padding-max !important;
+    max-width: $nameplate-width-max !important;
+    padding: $nameplate-padding-max !important;
   }
 
-  &.expanded .namePlate-short,
-  &.expanded .namePlate-container {
+  &.expanded .nameplate-short,
+  &.expanded .nameplate-container {
     opacity: 0 !important;
   }
 
-  &.owner svg {
+  &.currentUser svg {
     fill: map-get($colors, 'white-50');
   }
 
-  &.owner .namePlate-long {
-    background-color: map-get($colors, 'translucentWhite');
+  &.currentUser .nameplate-long {
+    background-color: map-get($colors, 'white-50');
+  }
+}
+
+// PLAYLIST VISUALIZATION + USERS BAR
+
+$visual-width: 1200;
+$visual-height: 650;
+
+#visual {
+  width: #{$visual-width}px;
+  height: #{$visual-height}px;
+}
+
+#caption {
+  position: absolute;
+  margin-top: #{$visual-height - 170}px;
+  margin-left: 75px;
+}
+
+#playlist {
+  width: #{$visual-width}px;
+  padding: 100px 0;
+
+  .song {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h4 {
+      white-space: nowrap;
+      max-width: 380px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    h4:nth-of-type(2) {
+      margin-left: 10px;
+      color: map-get($colors, 'white-50');
+    }
+
+    .user-container {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+
+      .nameplate {
+        margin-left: 15px;
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+.userbar {
+  width: calc(#{$visual-width}px - 2 * 75px);
+  display: flex;
+  margin: 25px;
+
+  button {
+    margin-left: auto;
   }
 }
 
 :export {
-  namePlateSize: $name-plate-size;
-  namePlateWidthMin: $name-plate-width-min;
-  namePlateWidthMax: $name-plate-width-max;
-  namePlatePaddingMin: $name-plate-padding-min;
-  namePlatePaddingMax: $name-plate-padding-max;
+  visualWidth: $visual-width;
+  visualHeight: $visual-height;
+  nameplateSize: $nameplate-size;
+  nameplateWidthMin: $nameplate-width-min;
+  nameplateWidthMax: $nameplate-width-max;
+  nameplatePaddingMin: $nameplate-padding-min;
+  nameplatePaddingMax: $nameplate-padding-max;
 }

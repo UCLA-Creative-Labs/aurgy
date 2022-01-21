@@ -3,7 +3,7 @@ import React from 'react';
 
 export interface LinkProps {
   href: string;
-  children: string;
+  children: JSX.Element;
 }
 
 export default function Link({href, children}: LinkProps): JSX.Element {

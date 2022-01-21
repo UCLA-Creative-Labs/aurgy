@@ -2,7 +2,7 @@ import anime from 'animejs';
 import {Polygon, PolygonPoints} from '../components/Shape';
 import styles from '../styles/lobby.module.scss';
 
-function animate(target: HTMLElement, key: string, val: string | number, duration, delay = 0): void {
+function animate(target: HTMLElement, key: string, val: string | number, duration: number, delay = 0): void {
   anime({
     targets: target,
     [key]: val,
@@ -50,7 +50,7 @@ export function animatePolygon(
   }
 }
 
-export function animateNamePlate(
+export function animateNameplate(
   shortNameNode: HTMLElement,
   longNameNode: HTMLElement,
   forwards: boolean,
@@ -58,13 +58,13 @@ export function animateNamePlate(
   if (forwards) {
     animate(shortNameNode, 'opacity', 0, 500);
     animate(longNameNode, 'opacity', 1, 500);
-    animate(longNameNode, 'maxWidth', styles.namePlateWidthMax, 300);
-    animate(longNameNode, 'padding', styles.namePlatePaddingMax, 400);
+    animate(longNameNode, 'maxWidth', styles.nameplateWidthMax, 300);
+    animate(longNameNode, 'padding', styles.nameplatePaddingMax, 400);
   }
   else {
     animate(shortNameNode, 'opacity', 1, 500);
     animate(longNameNode, 'opacity', 0, 500);
-    animate(longNameNode, 'maxWidth', styles.namePlateWidthMin, 300);
-    animate(longNameNode, 'padding', styles.namePlatePaddingMin, 400);
+    animate(longNameNode, 'maxWidth', styles.nameplateWidthMin, 300);
+    animate(longNameNode, 'padding', styles.nameplatePaddingMin, 400);
   }
 }
