@@ -18,7 +18,7 @@ pull_request_rules:
       - status-failure=Semantic Pull Request
       - -merged
       - -closed
-  
+
   # 2. Automatically merge main into branch, build, and squash
   - name: automatic merge and squash
     actions:
@@ -26,7 +26,6 @@ pull_request_rules:
         message: Thanks for contributing! Your pull request will be updated from main and then merged automatically (do not update manually, and be sure to [allow changes to be pushed to your fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork)).
       merge:
         method: squash
-        strict_method: merge
         commit_message: title+body
       delete_head_branch: {}
     conditions:
@@ -39,7 +38,7 @@ pull_request_rules:
       - "#approved-reviews-by>=1"
       - -approved-reviews-by~=author
       - "#changes-requested-reviews-by=0"
-  
+
   # 3. Automatically merge main into branch and build
   - name: automatic merge
     actions:
@@ -48,7 +47,6 @@ pull_request_rules:
       merge:
         # Merge instead of squash
         method: merge
-        strict_method: merge
         commit_message: title+body
       delete_head_branch: {}
     conditions:
@@ -62,7 +60,7 @@ pull_request_rules:
       - "#approved-reviews-by>=1"
       - -approved-reviews-by~=author
       - "#changes-requested-reviews-by=0"
-  
+
   # 4. Dismiss reviews that are stale/merged
   - name: remove stale reviews
     actions:
@@ -75,7 +73,7 @@ pull_request_rules:
       - base=main
       - -merged
       - -closed
-  
+
   # 5. Automatically merge dependabot's blessed PRs
   - name: automatically merge Dependabot PRs
     actions:
