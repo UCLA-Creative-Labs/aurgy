@@ -1,4 +1,3 @@
-import {useRouter} from 'next/router';
 import React from 'react';
 
 import styles from '../styles/Navbar.module.scss';
@@ -6,20 +5,14 @@ import Link from './Link';
 import SpotifyAuth from './SpotifyAuth';
 
 export default function Navbar(): JSX.Element {
-  const router = useRouter();
-
-  function strikeCurrentPath(path: string, str: string): JSX.Element {
-    return router.asPath === path ? <p><del>{str}</del></p> : <p>{str}</p>;
-  }
-
   return (
     <div id={styles.navbar}>
       <div id={styles['logo-container']}>
-        <Link href='/'><p>Aurgy</p></Link>
+        <Link href='/'>Aurgy</Link>
       </div>
       <div id={styles['links-container']}>
-        <Link href='/me'>{strikeCurrentPath('/me', 'me?')}</Link>
-        <Link href='/lobby'>{strikeCurrentPath('/lobby', 'lobbys')}</Link>
+        <Link href='/me' activeClassName={styles.strikethrough}>me?</Link>
+        <Link href='/lobby' activeClassName={styles.strikethrough}>lobbys</Link>
         <SpotifyAuth />
       </div>
     </div>

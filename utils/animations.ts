@@ -2,17 +2,16 @@ import anime from 'animejs';
 import {Polygon, PolygonPoints} from '../components/Shape';
 import styles from '../styles/lobby.module.scss';
 
-function animate(target: HTMLElement, key: string, val: string | number, duration: number, delay = 0): void {
-  anime({
-    targets: target,
-    [key]: val,
-    duration,
-    easing: 'easeInOutCubic',
-    delay,
-  });
-}
+const DEFAULTS = {
+  easing: 'easeInOutCubic',
+  delay: 0,
+};
 
-function morphPolygon(target: HTMLElement, shape: Polygon, forwards: boolean, delay = 0): void {
+function morphPolygon(
+  target: HTMLElement,
+  shape: Polygon,
+  forwards: boolean,
+): void {
   if (shape === 'circle') {
     return;
   }
@@ -28,7 +27,6 @@ function morphPolygon(target: HTMLElement, shape: Polygon, forwards: boolean, de
     points: forwards ? points : rev,
     duration: 300,
     easing: 'linear',
-    delay,
   });
 }
 
@@ -38,16 +36,19 @@ export function animatePolygon(
   shape: Polygon,
   forwards: boolean,
 ): void {
-  if (forwards) {
-    animate(containerNode, 'rotate', 180, 300);
-    morphPolygon(polygonNode, shape, true);
-    animate(containerNode, 'opacity', 0, 500);
-  }
-  else {
-    animate(containerNode, 'rotate', 0, 300);
-    morphPolygon(polygonNode, shape, false);
-    animate(containerNode, 'opacity', 1, 500);
-  }
+  anime({
+    ...DEFAULTS,
+    targets: containerNode,
+    rotate: forwards ? 180 : 0,
+    duration: 300,
+  });
+  morphPolygon(polygonNode, shape, forwards);
+  anime({
+    ...DEFAULTS,
+    targets: containerNode,
+    opacity: forwards ? 0 : 1,
+    duration: 500,
+  });
 }
 
 export function animateNameplate(
@@ -55,16 +56,23 @@ export function animateNameplate(
   longNameNode: HTMLElement,
   forwards: boolean,
 ): void {
-  if (forwards) {
-    animate(shortNameNode, 'opacity', 0, 500);
-    animate(longNameNode, 'opacity', 1, 500);
-    animate(longNameNode, 'maxWidth', styles.nameplateWidthMax, 300);
-    animate(longNameNode, 'padding', styles.nameplatePaddingMax, 400);
-  }
-  else {
-    animate(shortNameNode, 'opacity', 1, 500);
-    animate(longNameNode, 'opacity', 0, 500);
-    animate(longNameNode, 'maxWidth', styles.nameplateWidthMin, 300);
-    animate(longNameNode, 'padding', styles.nameplatePaddingMin, 400);
-  }
+  anime({
+    ...DEFAULTS,
+    targets: shortNameNode,
+    opacity: forwards ? 0 : 1,
+    duration: 500,
+  });
+  anime({
+    ...DEFAULTS,
+    targets: longNameNode,
+    opacity: forwards ? 1 : 0,
+    duration: 500,
+  });
+  anime({
+    ...DEFAULTS,
+    targets: longNameNode,
+    maxWidth: forwards ? styles.nameplateWidthMax : styles.nameplateWidthMin,
+    padding: forwards ? styles.nameplatePaddingMax : styles.nameplatePaddingMin,
+    duration: 300,
+  });
 }
