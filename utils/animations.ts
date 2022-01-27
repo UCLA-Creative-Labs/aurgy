@@ -2,15 +2,30 @@ import anime from 'animejs';
 import {Polygon, PolygonPoints} from '../components/Shape';
 import styles from '../styles/lobby.module.scss';
 
+interface BaseAnimationOptions {
+  readonly target: HTMLElement;
+  readonly forwards: boolean;
+}
+
+interface MorphPolygonOptions extends BaseAnimationOptions {
+  readonly shape: Polygon;
+}
+
+interface AnimateNameplateOptions extends BaseAnimationOptions {
+  readonly subtarget: HTMLElement;
+}
+
+interface AnimatePolygonOptions extends MorphPolygonOptions {
+  readonly polygonNode: HTMLElement;
+}
+
 const DEFAULTS = {
   easing: 'easeInOutCubic',
   delay: 0,
 };
 
 function morphPolygon(
-  target: HTMLElement,
-  shape: Polygon,
-  forwards: boolean,
+  {target, forwards, shape}: MorphPolygonOptions,
 ): void {
   if (shape === 'circle') {
     return;
@@ -30,47 +45,59 @@ function morphPolygon(
   });
 }
 
-export function animatePolygon(
-  containerNode: HTMLElement,
-  polygonNode: HTMLElement,
-  shape: Polygon,
-  forwards: boolean,
+function fadeElementOut(
+  {target, forwards}: BaseAnimationOptions,
 ): void {
   anime({
     ...DEFAULTS,
-    targets: containerNode,
-    rotate: forwards ? 180 : 0,
-    duration: 300,
-  });
-  morphPolygon(polygonNode, shape, forwards);
-  anime({
-    ...DEFAULTS,
-    targets: containerNode,
+    targets: target,
     opacity: forwards ? 0 : 1,
     duration: 500,
   });
 }
 
-export function animateNameplate(
-  shortNameNode: HTMLElement,
-  longNameNode: HTMLElement,
-  forwards: boolean,
+function fadeElementIn(
+  {target, forwards}: BaseAnimationOptions,
+): void {
+  fadeElementOut({
+    target,
+    forwards: !forwards,
+  });
+}
+
+export function animatePolygon(
+  {target, polygonNode, forwards, shape}: AnimatePolygonOptions,
 ): void {
   anime({
     ...DEFAULTS,
-    targets: shortNameNode,
-    opacity: forwards ? 0 : 1,
-    duration: 500,
+    targets: target,
+    rotate: forwards ? 180 : 0,
+    duration: 300,
+  });
+  morphPolygon({
+    target: polygonNode,
+    shape,
+    forwards,
+  });
+  fadeElementOut({
+    target, forwards,
+  });
+}
+
+export function animateNameplate(
+  {target, subtarget, forwards}: AnimateNameplateOptions,
+): void {
+  fadeElementOut({
+    target,
+    forwards,
+  });
+  fadeElementIn({
+    target: subtarget,
+    forwards,
   });
   anime({
     ...DEFAULTS,
-    targets: longNameNode,
-    opacity: forwards ? 1 : 0,
-    duration: 500,
-  });
-  anime({
-    ...DEFAULTS,
-    targets: longNameNode,
+    targets: subtarget,
     maxWidth: forwards ? styles.nameplateWidthMax : styles.nameplateWidthMin,
     padding: forwards ? styles.nameplatePaddingMax : styles.nameplatePaddingMin,
     duration: 300,

@@ -18,7 +18,7 @@ pull_request_rules:
       - status-failure=Semantic Pull Request
       - -merged
       - -closed
-
+  
   # 2. Automatically merge main into branch, build, and squash
   - name: automatic merge and squash
     actions:
@@ -39,7 +39,7 @@ pull_request_rules:
       - "#approved-reviews-by>=1"
       - -approved-reviews-by~=author
       - "#changes-requested-reviews-by=0"
-
+  
   # 3. Automatically merge main into branch and build
   - name: automatic merge
     actions:
@@ -62,7 +62,7 @@ pull_request_rules:
       - "#approved-reviews-by>=1"
       - -approved-reviews-by~=author
       - "#changes-requested-reviews-by=0"
-
+  
   # 4. Dismiss reviews that are stale/merged
   - name: remove stale reviews
     actions:
@@ -75,7 +75,7 @@ pull_request_rules:
       - base=main
       - -merged
       - -closed
-
+  
   # 5. Automatically merge dependabot's blessed PRs
   - name: automatically merge Dependabot PRs
     actions:

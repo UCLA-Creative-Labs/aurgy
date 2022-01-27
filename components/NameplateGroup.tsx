@@ -25,17 +25,17 @@ export function Nameplate({name, shape, currentUser = false, expanded = false}: 
       return;
     }
 
-    animatePolygon(
-      containerRef.current,
-      polygonRef.current,
+    animatePolygon({
+      target: containerRef.current,
+      polygonNode: polygonRef.current,
+      forwards: isHovered,
       shape,
-      isHovered,
-    );
-    animateNameplate(
-      shortNameRef.current,
-      longNameRef.current,
-      isHovered,
-    );
+    });
+    animateNameplate({
+      target: shortNameRef.current,
+      subtarget: longNameRef.current,
+      forwards: isHovered,
+    });
   }, [isHovered]);
 
   return (
