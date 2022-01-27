@@ -22,6 +22,11 @@
   margin-right: $horizontal-margins;
   font: $body-small-bold;
 
+  .strikethrough {
+    text-decoration: line-through;
+    text-decoration-thickness: 20%;
+  }
+
   * {
     margin-left: 32px;
   }

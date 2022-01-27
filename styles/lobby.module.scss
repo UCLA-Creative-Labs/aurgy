@@ -1,0 +1,129 @@
+@use 'variables.module' as *;
+
+// NAMEPLATE
+
+$nameplate-size: 35;
+$nameplate-width-min: 9px;
+$nameplate-width-max: 110px;
+$nameplate-padding-min: 0 10px;
+$nameplate-padding-max: 0 25px;
+
+.nameplate {
+  margin-right: 20px;
+  font: $body-small-fancy;
+  text-align: center;
+  z-index: 1;
+
+  .nameplate-container {
+    width: #{$nameplate-size}px;
+    height: #{$nameplate-size}px;
+  }
+
+  .nameplate-short {
+    width: #{$nameplate-size}px;
+    margin-top: #{-$nameplate-size}px;
+    line-height: #{$nameplate-size}px;
+  }
+
+  .nameplate-long {
+    max-width: $nameplate-width-min;
+    height: #{$nameplate-size - 6}px; // size - 2 * border-width
+    line-height: #{$nameplate-size - 6}px;
+    margin-top: #{-$nameplate-size}px;
+    padding: $nameplate-padding-min;
+    opacity: 0;
+    border: 3px solid #fff;
+    border-radius: #{$nameplate-size - 6}px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.expanded .nameplate-long {
+    opacity: 1 !important;
+    max-width: $nameplate-width-max !important;
+    padding: $nameplate-padding-max !important;
+  }
+
+  &.expanded .nameplate-short,
+  &.expanded .nameplate-container {
+    opacity: 0 !important;
+  }
+
+  &.currentUser svg {
+    fill: map-get($colors, 'white-50');
+  }
+
+  &.currentUser .nameplate-long {
+    background-color: map-get($colors, 'white-50');
+  }
+}
+
+// PLAYLIST VISUALIZATION + USERS BAR
+
+$visual-width: 1200;
+$visual-height: 650;
+
+#visual {
+  width: #{$visual-width}px;
+  height: #{$visual-height}px;
+}
+
+#caption {
+  position: absolute;
+  margin-top: #{$visual-height - 170}px;
+  margin-left: 75px;
+}
+
+#playlist {
+  width: #{$visual-width}px;
+  padding: 100px 0;
+
+  .song {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+
+    h4 {
+      white-space: nowrap;
+      max-width: 380px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    h4:nth-of-type(2) {
+      margin-left: 10px;
+      color: map-get($colors, 'white-50');
+    }
+
+    .user-container {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+
+      .nameplate {
+        margin-left: 15px;
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+.userbar {
+  width: calc(#{$visual-width}px - 2 * 75px);
+  display: flex;
+  margin: 25px;
+
+  button {
+    margin-left: auto;
+  }
+}
+
+:export {
+  visualWidth: $visual-width;
+  visualHeight: $visual-height;
+  nameplateSize: $nameplate-size;
+  nameplateWidthMin: $nameplate-width-min;
+  nameplateWidthMax: $nameplate-width-max;
+  nameplatePaddingMin: $nameplate-padding-min;
+  nameplatePaddingMax: $nameplate-padding-max;
+}

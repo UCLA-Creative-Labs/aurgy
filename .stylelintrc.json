@@ -4,6 +4,8 @@
   "rules": {
     "value-keyword-case": null,
     "selector-pseudo-class-no-unknown": null,
-    "at-rule-no-unknown": null
+    "at-rule-no-unknown": null,
+    "property-case": null,
+    "property-no-unknown": null
   }
 }

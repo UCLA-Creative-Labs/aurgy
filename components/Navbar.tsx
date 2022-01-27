@@ -11,8 +11,8 @@ export default function Navbar(): JSX.Element {
         <Link href='/'>Aurgy</Link>
       </div>
       <div id={styles['links-container']}>
-        <Link href='/me'>me?</Link>
-        <Link href='/lobby'>lobbys</Link>
+        <Link href='/me' activeClassName={styles.strikethrough}>me?</Link>
+        <Link href='/lobby' activeClassName={styles.strikethrough}>lobbys</Link>
         <SpotifyAuth />
       </div>
     </div>

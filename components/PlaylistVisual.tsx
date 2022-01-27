@@ -1,13 +1,16 @@
 import React, {useRef, useEffect} from 'react';
 import * as THREE from 'three';
+import styles from '../styles/lobby.module.scss';
 import {sampleShader} from '../utils';
 
 interface PlaylistVisualProps {
+  title: string;
+  subtitle: string;
   width?: number;
   height?: number;
 }
 
-function PlaylistVisual({width, height}: PlaylistVisualProps): JSX.Element {
+function PlaylistVisual({title, subtitle, width, height}: PlaylistVisualProps): JSX.Element {
   const ref = useRef(null);
 
   useEffect(() => {
@@ -56,13 +59,18 @@ function PlaylistVisual({width, height}: PlaylistVisualProps): JSX.Element {
     animate();
 
     return () => {
-      ref.current.removeChild(renderer.domElement);
+      ref.current?.removeChild(renderer.domElement);
       window.removeEventListener('mousemove', handleMouseMove, false);
     };
   }, []);
 
   return (
-    <div ref={ref} />
+    <div ref={ref} id={styles.visual}>
+      <div id={styles.caption}>
+        <h1>{title}</h1>
+        <h4>{subtitle}</h4>
+      </div>
+    </div>
   );
 }
 
