@@ -3,70 +3,136 @@ import Shape, {Polygon} from '../components/Shape';
 import styles from '../styles/lobby.module.scss';
 import {animatePolygon, animateNameplate} from '../utils/animations';
 
-export interface NameplateProps {
-  name: string;
+interface BaseAnimatedProps {
   shape: Polygon;
-  currentUser?: boolean;
+  highlight?: boolean;
   expanded?: boolean;
+  animate?: boolean;
 }
 
-export function Nameplate({name, shape, currentUser = false, expanded = false}: NameplateProps): JSX.Element {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isFirstAnimation, setIsFirstAnimation] = useState(true);
+interface AnimatedShapeProps extends BaseAnimatedProps {
+  shortText: string;
+  longText: string;
+}
 
-  const containerRef = useRef(null);
-  const polygonRef = useRef(null);
-  const shortNameRef = useRef(null);
-  const longNameRef = useRef(null);
+interface OverflowProps {
+  value: number;
+}
 
-  useEffect(() => {
-    if (isFirstAnimation) {
-      setIsFirstAnimation(false);
-      return;
-    }
-
-    animatePolygon({
-      target: containerRef.current,
-      polygonNode: polygonRef.current,
-      forwards: isHovered,
-      shape,
-    });
-    animateNameplate({
-      target: shortNameRef.current,
-      subtarget: longNameRef.current,
-      forwards: isHovered,
-    });
-  }, [isHovered]);
-
-  return (
-    <div className={`${styles.nameplate} ${currentUser ? styles.currentUser : ''} ${expanded ? styles.expanded : ''}`} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-      <div className={styles['nameplate-container']} ref={containerRef}>
-        <Shape polygon={shape} ref={polygonRef} />
-      </div>
-      <div className={styles['nameplate-short']} ref={shortNameRef}>{name[0]}</div>
-      <div className={styles['nameplate-long']} ref={longNameRef}>{name}</div>
-    </div>
-  );
+export interface NameplateProps extends BaseAnimatedProps {
+  name: string;
 }
 
 interface NameplateGroupProps {
   names: NameplateProps[];
   expandCurrentUser?: boolean;
+  limit?: number;
 }
 
-function NameplateGroup({names, expandCurrentUser = false}: NameplateGroupProps): JSX.Element {
+function AnimatedShape({
+  shortText,
+  longText,
+  shape,
+  highlight = false,
+  expanded = false,
+  animate = true,
+}: AnimatedShapeProps): JSX.Element {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isFirstAnimation, setIsFirstAnimation] = useState(true);
+
+  const containerRef = useRef(null);
+  const polygonRef = useRef(null);
+  const shortLabelRef = useRef(null);
+  const longLabelRef = useRef(null);
+
+  useEffect(animate
+    ? () => {
+      if (isFirstAnimation) {
+        setIsFirstAnimation(false);
+        return;
+      }
+
+      animatePolygon({
+        target: containerRef.current,
+        polygonNode: polygonRef.current,
+        forwards: isHovered,
+        shape,
+      });
+      animateNameplate({
+        target: shortLabelRef.current,
+        subtarget: longLabelRef.current,
+        forwards: isHovered,
+      });
+    }
+    : () => null, [isHovered]);
+
+  const className = `${styles.nameplate} ${highlight ? styles.highlight : ''} ${expanded ? styles.expanded : ''}`;
+
+  return (
+    <div className={className} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+      <div className={styles['nameplate-container']} ref={containerRef}>
+        <Shape polygon={shape} ref={polygonRef} />
+      </div>
+      <div className={styles['nameplate-short']} ref={shortLabelRef}>{shortText}</div>
+      <div className={styles['nameplate-long']} ref={longLabelRef}>{longText}</div>
+    </div>
+  );
+}
+
+function Nameplate({
+  name,
+  shape,
+  highlight = false,
+  expanded = false,
+}: NameplateProps): JSX.Element {
+  return (
+    <AnimatedShape
+      shortText={name[0]}
+      longText={name}
+      shape={shape}
+      highlight={highlight}
+      expanded={expanded}
+    />
+  );
+}
+
+function Overflow({value}: OverflowProps): JSX.Element {
+  return (
+    <AnimatedShape
+      shortText={`+${value}`}
+      longText=""
+      shape="diamond"
+      highlight={false}
+      expanded={false}
+      animate={false}
+    />
+  );
+}
+
+
+function NameplateGroup({
+  names,
+  expandCurrentUser = false,
+  limit = null,
+}: NameplateGroupProps): JSX.Element {
+  limit = limit ?? names.length;
+
   return (
     <>
-      {names.map(passedProps =>
+      {names.slice(0, limit).map(passedProps =>
         <div key={`${passedProps.name}-${passedProps.shape}`}>
           <Nameplate
             name={passedProps.name}
             shape={passedProps.shape}
-            currentUser={passedProps.shape === 'circle'}
+            highlight={passedProps.shape === 'circle'}
             expanded={passedProps.shape === 'circle' && expandCurrentUser}
           />
         </div>,
       )}
+      {names.length > limit
+        ? <Overflow value={names.length - limit} />
+        : ''
+      }
     </>
   );
 }

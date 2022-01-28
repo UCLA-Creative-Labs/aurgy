@@ -1,8 +1,9 @@
 @use 'variables.module' as *;
+@use 'mixins.module' as *;
 
 // NAMEPLATE
 
-$nameplate-size: 35;
+$nameplate-size: 40;
 $nameplate-width-min: 9px;
 $nameplate-width-max: 110px;
 $nameplate-padding-min: 0 10px;
@@ -49,33 +50,37 @@ $nameplate-padding-max: 0 25px;
     opacity: 0 !important;
   }
 
-  &.currentUser svg {
+  &.highlight svg {
     fill: map-get($colors, 'white-50');
   }
 
-  &.currentUser .nameplate-long {
+  &.highlight .nameplate-long {
     background-color: map-get($colors, 'white-50');
   }
 }
 
 // PLAYLIST VISUALIZATION + USERS BAR
 
-$visual-width: 1200;
-$visual-height: 650;
+$mobile-visual-height: 300px;
+$desktop-visual-height: 650px;
+
+$mobile-visual-width: 90vw;
+$desktop-visual-width: 75vw;
+$max-visual-width: 1200px;
 
 #visual {
-  width: #{$visual-width}px;
-  height: #{$visual-height}px;
+  width: $desktop-visual-width;
+  min-height: $desktop-visual-height;
 }
 
 #caption {
   position: absolute;
-  margin-top: #{$visual-height - 170}px;
+  margin-top: calc(#{$desktop-visual-height} - 170px);
   margin-left: 75px;
 }
 
 #playlist {
-  width: #{$visual-width}px;
+  width: $desktop-visual-width;
   padding: 100px 0;
 
   .song {
@@ -108,9 +113,10 @@ $visual-height: 650;
   }
 }
 
-.userbar {
-  width: calc(#{$visual-width}px - 2 * 75px);
+#userbar {
+  width: calc(#{$desktop-visual-width} - 2 * 75px);
   display: flex;
+  align-items: center;
   margin: 25px;
 
   button {
@@ -118,9 +124,43 @@ $visual-height: 650;
   }
 }
 
+@include for-large-desktop-up {
+  #userbar {
+    width: calc(#{$max-visual-width} - 2 * 75px);
+  }
+
+  #playlist,
+  #visual {
+    width: $max-visual-width;
+  }
+}
+
+@include for-mobile-only {
+  #userbar {
+    width: calc(#{$mobile-visual-width});
+    margin: 25px;
+  }
+
+  #playlist,
+  #visual {
+    width: $mobile-visual-width;
+    max-height: $mobile-visual-height;
+    min-height: $mobile-visual-height;
+  }
+
+  #caption {
+    margin-top: calc(#{$mobile-visual-height} - 130px);
+    margin-left: 10px;
+
+    h1 {
+      font-size: 40px;
+    }
+  }
+}
+
 :export {
-  visualWidth: $visual-width;
-  visualHeight: $visual-height;
+  defaultVisualWidth: $max-visual-width;
+  defaultVisualHeight: $desktop-visual-height;
   nameplateSize: $nameplate-size;
   nameplateWidthMin: $nameplate-width-min;
   nameplateWidthMax: $nameplate-width-max;

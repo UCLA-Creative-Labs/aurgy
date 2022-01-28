@@ -1,21 +1,26 @@
 import React, {useRef, useEffect} from 'react';
 import * as THREE from 'three';
 import styles from '../styles/lobby.module.scss';
-import {sampleShader} from '../utils';
+import {Dimensions, sampleShader} from '../utils';
 
 interface PlaylistVisualProps {
   title: string;
   subtitle: string;
-  width?: number;
-  height?: number;
+  size: Dimensions;
+  getResizeSize?: () => Dimensions;
 }
 
-function PlaylistVisual({title, subtitle, width, height}: PlaylistVisualProps): JSX.Element {
+function PlaylistVisual({
+  title,
+  subtitle,
+  size,
+  getResizeSize,
+}: PlaylistVisualProps): JSX.Element {
   const ref = useRef(null);
 
   useEffect(() => {
-    const w = width ?? window.innerWidth;
-    const h = height ?? window.innerHeight;
+    const w = size != null ? size.width : window.innerWidth;
+    const h = size != null ? size.height : window.innerHeight;
 
     const clock = new THREE.Clock();
     const scene = new THREE.Scene();
@@ -50,6 +55,14 @@ function PlaylistVisual({title, subtitle, width, height}: PlaylistVisualProps): 
       uniforms.u_mouse.value.set(evt.pageX, w - evt.pageY);
     }
     window.addEventListener('mousemove', handleMouseMove, false);
+
+    function handleResize() {
+      if (getResizeSize != null) {
+        const {width: newW, height: newH} = getResizeSize();
+        renderer.setSize(newW, newH);
+      }
+    }
+    window.addEventListener('resize', handleResize, false);
 
     function animate() {
       requestAnimationFrame(animate);
