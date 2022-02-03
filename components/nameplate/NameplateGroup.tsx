@@ -10,9 +10,9 @@ export interface NameplateGroupProps {
 function NameplateGroup({
   names,
   expandCurrentUser = false,
-  limit,
+  limit: propLimit,
 }: NameplateGroupProps): JSX.Element {
-  limit = limit ?? names.length;
+  const limit = propLimit ?? names.length;
 
   return (
     <>

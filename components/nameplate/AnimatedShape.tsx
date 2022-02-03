@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useRef} from 'react';
 import Shape, {Polygon} from '../../components/Shape';
 import styles from '../../styles/lobby.module.scss';
 import {animatePolygon, animateNameplate} from '../../utils/animations';
@@ -23,44 +23,35 @@ function AnimatedShape({
   expanded = false,
   animate = true,
 }: AnimatedShapeProps): JSX.Element {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isFirstAnimation, setIsFirstAnimation] = useState(true);
-
   const containerRef = useRef(null);
   const polygonRef = useRef(null);
   const shortLabelRef = useRef(null);
   const longLabelRef = useRef(null);
 
-  useEffect(() => {
-    if (!animate) {
-      return;
-    }
-
-    if (isFirstAnimation) {
-      setIsFirstAnimation(false);
-      return;
-    }
-
-    animatePolygon({
-      target: containerRef.current,
-      polygonNode: polygonRef.current,
-      forwards: isHovered,
-      shape,
-    });
-    animateNameplate({
-      target: shortLabelRef.current,
-      subtarget: longLabelRef.current,
-      forwards: isHovered,
-    });
-  }, [isHovered]);
+  const [animateForwards, animateBackwards] = [true, false].map(forwards =>
+    useCallback(() => {
+      if (!animate) return;
+      animatePolygon({
+        target: containerRef.current,
+        polygonNode: polygonRef.current,
+        forwards,
+        shape,
+      });
+      animateNameplate({
+        target: shortLabelRef.current,
+        subtarget: longLabelRef.current,
+        forwards,
+      });
+    }, [animate]),
+  );
 
   const className = `${styles.nameplate} ${highlight ? styles.highlight : ''} ${expanded ? styles.expanded : ''}`;
 
   return (
     <div
       className={className}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={animateForwards}
+      onMouseLeave={animateBackwards}
     >
       <div className={styles['nameplate-container']} ref={containerRef}>
         <Shape polygon={shape} ref={polygonRef} />

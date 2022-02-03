@@ -1,10 +1,11 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import NameplateGroup, {NameplateGroupProps} from '../components/nameplate/NameplateGroup';
+import {NameplateProps} from '../components/nameplate/Nameplate';
+import NameplateGroup from '../components/nameplate/NameplateGroup';
 import PlaylistVisual from '../components/PlaylistVisual';
 import styles from '../styles/lobby.module.scss';
 
-const USERS: NameplateGroupProps['names'] = [
+const USERS: NameplateProps[] = [
   {
     name: 'BRYAN', shape: 'circle',
   },

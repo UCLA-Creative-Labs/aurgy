@@ -23,8 +23,8 @@ function PlaylistVisual({
 
   useEffect(() => {
     const size = getVisualSize();
-    const w = size != null ? size.width : window.innerWidth;
-    const h = size != null ? size.height : window.innerHeight;
+    const w = size?.width ?? window.innerWidth;
+    const h = size?.height ?? window.innerHeight;
 
     const clock = new THREE.Clock();
     const scene = new THREE.Scene();
