@@ -1,24 +1,28 @@
 import React, {useRef, useEffect} from 'react';
 import * as THREE from 'three';
 import styles from '../styles/lobby.module.scss';
-import {Dimensions, sampleShader} from '../utils';
+import {getElementSizeById, sampleShader} from '../utils';
 
 interface PlaylistVisualProps {
   title: string;
   subtitle: string;
-  size: Dimensions;
-  getResizeSize?: () => Dimensions;
 }
 
 function PlaylistVisual({
   title,
   subtitle,
-  size,
-  getResizeSize,
 }: PlaylistVisualProps): JSX.Element {
   const ref = useRef(null);
 
+  const getVisualSize = () => {
+    return getElementSizeById(styles.visual, {
+      width: parseInt(styles.defaultVisualWidth),
+      height: parseInt(styles.defaultVisualHeight),
+    });
+  };
+
   useEffect(() => {
+    const size = getVisualSize();
     const w = size != null ? size.width : window.innerWidth;
     const h = size != null ? size.height : window.innerHeight;
 
@@ -57,10 +61,8 @@ function PlaylistVisual({
     window.addEventListener('mousemove', handleMouseMove, false);
 
     function handleResize() {
-      if (getResizeSize != null) {
-        const {width: newW, height: newH} = getResizeSize();
-        renderer.setSize(newW, newH);
-      }
+      const {width: newW, height: newH} = getVisualSize();
+      renderer.setSize(newW, newH);
     }
     window.addEventListener('resize', handleResize, false);
 

@@ -69,18 +69,20 @@ $desktop-visual-width: 75vw;
 $max-visual-width: 1200px;
 
 #visual {
+  // Responsive Properties
   width: $desktop-visual-width;
   min-height: $desktop-visual-height;
 }
 
 #caption {
   position: absolute;
+
+  // Responsive Properties
   margin-top: calc(#{$desktop-visual-height} - 170px);
   margin-left: 75px;
 }
 
 #playlist {
-  width: $desktop-visual-width;
   padding: 100px 0;
 
   .song {
@@ -111,10 +113,12 @@ $max-visual-width: 1200px;
       }
     }
   }
+
+  // Responsive Properties
+  width: $desktop-visual-width;
 }
 
 #userbar {
-  width: calc(#{$desktop-visual-width} - 2 * 75px);
   display: flex;
   align-items: center;
   margin: 25px;
@@ -122,30 +126,31 @@ $max-visual-width: 1200px;
   button {
     margin-left: auto;
   }
+
+  // Responsive Properties
+  width: calc(#{$desktop-visual-width} - 2 * 75px);
 }
 
 @include for-large-desktop-up {
-  #userbar {
-    width: calc(#{$max-visual-width} - 2 * 75px);
+  #visual,
+  #playlist {
+    width: $max-visual-width;
   }
 
-  #playlist,
-  #visual {
-    width: $max-visual-width;
+  #userbar {
+    width: calc(#{$max-visual-width} - 2 * 75px);
   }
 }
 
 @include for-mobile-only {
-  #userbar {
-    width: calc(#{$mobile-visual-width});
-    margin: 25px;
-  }
-
-  #playlist,
   #visual {
     width: $mobile-visual-width;
-    max-height: $mobile-visual-height;
     min-height: $mobile-visual-height;
+    max-height: $mobile-visual-height;
+  }
+
+  #playlist {
+    width: $mobile-visual-width;
   }
 
   #caption {
@@ -155,6 +160,10 @@ $max-visual-width: 1200px;
     h1 {
       font-size: 40px;
     }
+  }
+
+  #userbar {
+    width: calc(#{$mobile-visual-width});
   }
 }
 

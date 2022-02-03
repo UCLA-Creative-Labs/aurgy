@@ -1,11 +1,10 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import NameplateGroup, {NameplateProps} from '../components/NameplateGroup';
+import NameplateGroup, {NameplateGroupProps} from '../components/nameplate/NameplateGroup';
 import PlaylistVisual from '../components/PlaylistVisual';
 import styles from '../styles/lobby.module.scss';
-import {getElementSizeById} from '../utils';
 
-const USERS: NameplateProps[] = [
+const USERS: NameplateGroupProps['names'] = [
   {
     name: 'BRYAN', shape: 'circle',
   },
@@ -57,13 +56,6 @@ const SAMPLE_PLAYLIST_DATA = [
 ];
 
 function Lobby(): JSX.Element {
-  function getVisualSize() {
-    return getElementSizeById(styles.visual, {
-      width: parseInt(styles.defaultVisualWidth),
-      height: parseInt(styles.defaultVisualHeight),
-    });
-  }
-
   return (
     <Layout>
       <div style={{
@@ -73,8 +65,6 @@ function Lobby(): JSX.Element {
         alignItems: 'center',
       }}>
         <PlaylistVisual
-          size={getVisualSize()}
-          getResizeSize={() => getVisualSize()}
           title="CREATIVE SLAPS"
           subtitle="PEANUT BUTTER JAM"
         />
