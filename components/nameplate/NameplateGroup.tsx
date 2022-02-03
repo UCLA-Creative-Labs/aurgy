@@ -25,7 +25,11 @@ function NameplateGroup({
           key={`${passedProps.name}-${passedProps.shape}`}
         />,
       )}
-      {names.length > limit && <Overflow value={names.length - limit} />}
+      {names.length > limit &&
+                <Overflow
+                  text={names.slice(limit).map(props => props.name).join(' ')}
+                  value={names.length - limit}
+                />}
     </>
   );
 }

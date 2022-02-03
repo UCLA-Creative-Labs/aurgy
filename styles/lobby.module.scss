@@ -59,6 +59,61 @@ $nameplate-padding-max: 0 25px;
   }
 }
 
+// TOOLTIP
+
+$tooltip-margintop-min: 0;
+$tooltip-margintop-max: -15px;
+
+.tooltip-wrapper {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.tooltip {
+  position: absolute;
+  max-width: 200px;
+  padding: 5px 20px;
+  transform: translate(-50%, -100%);
+  left: 50%;
+  z-index: 1;
+  font: $body-small-fancy;
+  pointer-events: none;
+  background-color: black;
+  border: 3px solid white;
+  border-radius: 10px;
+  opacity: 0;
+
+  &.show {
+    margin-top: $tooltip-margintop-max;
+    opacity: 1;
+  }
+
+  &::before {
+    position: absolute;
+    margin-top: 1px;
+    top: 100%;
+    left: calc(50% - 10px);
+    height: 0;
+    width: 0;
+    content: "";
+    border: 10px solid transparent;
+    border-top-color: white;
+  }
+
+  &::after {
+    position: absolute;
+    margin-top: 0px;
+    top: 100%;
+    left: calc(50% - 7px);
+    height: 0;
+    width: 0;
+    content: "";
+    border: 7px solid transparent;
+    border-top-color: black;
+  }
+}
+
 // PLAYLIST VISUALIZATION + USERS BAR
 
 $mobile-visual-height: 300px;
@@ -89,6 +144,7 @@ $max-visual-width: 1200px;
     display: flex;
     align-items: center;
     margin-bottom: 24px;
+    cursor: pointer;
 
     h4 {
       white-space: nowrap;
@@ -97,7 +153,7 @@ $max-visual-width: 1200px;
       text-overflow: ellipsis;
     }
 
-    h4:nth-of-type(2) {
+    .artist {
       margin-left: 10px;
       color: map-get($colors, 'white-50');
     }
@@ -108,7 +164,10 @@ $max-visual-width: 1200px;
       margin-left: auto;
 
       .nameplate {
-        margin-left: 15px;
+        margin-right: 15px;
+      }
+
+      .nameplate:last-of-type {
         margin-right: 0;
       }
     }
@@ -175,4 +234,6 @@ $max-visual-width: 1200px;
   nameplateWidthMax: $nameplate-width-max;
   nameplatePaddingMin: $nameplate-padding-min;
   nameplatePaddingMax: $nameplate-padding-max;
+  tooltipMargintopMin: $tooltip-margintop-min;
+  tooltipMargintopMax: $tooltip-margintop-max;
 }
