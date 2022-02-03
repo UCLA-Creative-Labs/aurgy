@@ -80,7 +80,7 @@ function Lobby(): JSX.Element {
           {SAMPLE_PLAYLIST_DATA.map((song) => (
             <div key={`${song.title}-${song.artist}`} className={styles.song}>
               <Tooltip text="play">
-                <h4>{song.title}</h4>
+                <h4 className={styles.title}>{song.title}</h4>
               </Tooltip>
               <h4 className={styles.artist}>{song.artist}</h4>
               <div className={styles['user-container']}>

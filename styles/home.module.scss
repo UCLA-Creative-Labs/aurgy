@@ -1,0 +1,12 @@
+@use 'variables.module' as *;
+@use 'mixins.module' as *;
+
+#lobbies {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 310px);
+  grid-gap: 15px;
+  justify-content: center;
+  max-width: 90vw;
+  margin: auto;
+  padding-bottom: 100px;
+}

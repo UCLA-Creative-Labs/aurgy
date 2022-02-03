@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useCallback} from 'react';
 import * as THREE from 'three';
 import styles from '../styles/lobby.module.scss';
 import {getElementSizeById, sampleShader} from '../utils';
@@ -6,20 +6,30 @@ import {getElementSizeById, sampleShader} from '../utils';
 interface PlaylistVisualProps {
   title: string;
   subtitle: string;
+  fullSize?: boolean;
+  animate?: boolean;
 }
 
 function PlaylistVisual({
   title,
   subtitle,
+  fullSize = true,
+  animate = true,
 }: PlaylistVisualProps): JSX.Element {
   const ref = useRef(null);
 
-  const getVisualSize = () => {
-    return getElementSizeById(styles.visual, {
-      width: parseInt(styles.defaultVisualWidth),
-      height: parseInt(styles.defaultVisualHeight),
-    });
-  };
+  const getVisualSize = useCallback(() => {
+    if (fullSize) {
+      return getElementSizeById(styles.visual, {
+        width: parseInt(styles.defaultVisualWidth),
+        height: parseInt(styles.defaultVisualHeight),
+      });
+    }
+    return {
+      width: parseInt(styles.visualCircleSize),
+      height: parseInt(styles.visualCircleSize),
+    };
+  }, [fullSize]);
 
   useEffect(() => {
     const size = getVisualSize();
@@ -42,7 +52,7 @@ function PlaylistVisual({
         value: new THREE.Vector2(w, h),
       },
       u_mouse: {
-        value: new THREE.Vector2(w, h),
+        value: new THREE.Vector2(Math.random() * w, Math.random() * h),
       },
     };
 
@@ -66,12 +76,14 @@ function PlaylistVisual({
     }
     window.addEventListener('resize', handleResize, false);
 
-    function animate() {
-      requestAnimationFrame(animate);
+    function animateCanvas() {
+      if (animate) {
+        requestAnimationFrame(animateCanvas);
+      }
       uniforms.u_time.value = clock.getElapsedTime();
       renderer.render(scene, camera);
     }
-    animate();
+    animateCanvas();
 
     return () => {
       ref.current?.removeChild(renderer.domElement);
@@ -80,7 +92,7 @@ function PlaylistVisual({
   }, []);
 
   return (
-    <div ref={ref} id={styles.visual}>
+    <div ref={ref} id={fullSize ? styles.visual : styles['visual-circle']}>
       <div id={styles.caption}>
         <h1>{title}</h1>
         <h4>{subtitle}</h4>

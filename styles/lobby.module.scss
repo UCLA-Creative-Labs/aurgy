@@ -123,10 +123,25 @@ $mobile-visual-width: 90vw;
 $desktop-visual-width: 75vw;
 $max-visual-width: 1200px;
 
+$visual-circle-size: 310px;
+
 #visual {
   // Responsive Properties
   width: $desktop-visual-width;
   min-height: $desktop-visual-height;
+}
+
+#visual-circle {
+  width: $visual-circle-size;
+  height: $visual-circle-size;
+
+  canvas {
+    border-radius: $visual-circle-size;
+  }
+
+  #caption {
+    display: none;
+  }
 }
 
 #caption {
@@ -144,13 +159,16 @@ $max-visual-width: 1200px;
     display: flex;
     align-items: center;
     margin-bottom: 24px;
-    cursor: pointer;
 
     h4 {
       white-space: nowrap;
       max-width: 380px;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .title {
+      cursor: pointer;
     }
 
     .artist {
@@ -229,6 +247,7 @@ $max-visual-width: 1200px;
 :export {
   defaultVisualWidth: $max-visual-width;
   defaultVisualHeight: $desktop-visual-height;
+  visualCircleSize: $visual-circle-size;
   nameplateSize: $nameplate-size;
   nameplateWidthMin: $nameplate-width-min;
   nameplateWidthMax: $nameplate-width-max;
