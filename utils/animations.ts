@@ -27,7 +27,7 @@ const DEFAULTS = {
 function morphPolygon(
   {target, forwards, shape}: MorphPolygonOptions,
 ): void {
-  if (shape === 'circle') {
+  if (shape === 'circle' || shape === 'diamond') {
     return;
   }
 
