@@ -103,7 +103,7 @@ $tooltip-margintop-max: -15px;
 
   &::after {
     position: absolute;
-    margin-top: 0px;
+    margin-top: 0;
     top: 100%;
     left: calc(50% - 7px);
     height: 0;
@@ -131,6 +131,14 @@ $visual-circle-size: 310px;
   min-height: $desktop-visual-height;
 }
 
+#caption {
+  position: absolute;
+
+  // Responsive Properties
+  margin-top: calc(#{$desktop-visual-height} - 170px);
+  margin-left: 75px;
+}
+
 #visual-circle {
   width: $visual-circle-size;
   height: $visual-circle-size;
@@ -142,14 +150,6 @@ $visual-circle-size: 310px;
   #caption {
     display: none;
   }
-}
-
-#caption {
-  position: absolute;
-
-  // Responsive Properties
-  margin-top: calc(#{$desktop-visual-height} - 170px);
-  margin-left: 75px;
 }
 
 #playlist {
