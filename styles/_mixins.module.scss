@@ -7,3 +7,15 @@
   height: calc(100vh - 2 * #{$vertical-padding});
   margin-bottom: $vertical-padding;
 }
+
+@mixin for-mobile-only {
+  @media (max-width: 600px) { @content; }
+}
+
+@mixin for-desktop-down {
+  @media (max-width: 1599px) { @content; }
+}
+
+@mixin for-large-desktop-up {
+  @media (min-width: 1600px) { @content; }
+}

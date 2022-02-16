@@ -1,6 +1,7 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import NameplateGroup, {NameplateProps} from '../components/NameplateGroup';
+import {NameplateProps} from '../components/nameplate/Nameplate';
+import NameplateGroup from '../components/nameplate/NameplateGroup';
 import PlaylistVisual from '../components/PlaylistVisual';
 import styles from '../styles/lobby.module.scss';
 
@@ -36,7 +37,7 @@ const SAMPLE_PLAYLIST_DATA = [
   {
     title: 'HEAT WAVES',
     artist: 'GLASS ANIMALS',
-    users: [USERS[0], USERS[2], USERS[3]],
+    users: [USERS[0], USERS[2], USERS[3], USERS[4]],
   },
   {
     title: 'FLOAT',
@@ -65,13 +66,11 @@ function Lobby(): JSX.Element {
         alignItems: 'center',
       }}>
         <PlaylistVisual
-          width={Number(styles.visualWidth)}
-          height={Number(styles.visualHeight)}
           title="CREATIVE SLAPS"
           subtitle="PEANUT BUTTER JAM"
         />
 
-        <div className={styles.userbar}>
+        <div id={styles.userbar}>
           <NameplateGroup names={USERS} expandCurrentUser={true} />
           <button>invite</button>
         </div>
@@ -82,7 +81,7 @@ function Lobby(): JSX.Element {
               <h4>{song.title}</h4>
               <h4>{song.artist}</h4>
               <div className={styles['user-container']}>
-                <NameplateGroup names={song.users} />
+                <NameplateGroup names={song.users} limit={4} />
               </div>
             </div>
           ))}
