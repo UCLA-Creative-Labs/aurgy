@@ -26,13 +26,13 @@ function Nameplate({
 export default Nameplate;
 
 interface OverflowProps {
-  text: string;
+  items: string[];
   value: number;
 }
 
-export function Overflow({text, value}: OverflowProps): JSX.Element {
+export function Overflow({items, value}: OverflowProps): JSX.Element {
   return (
-    <Tooltip text={text}>
+    <Tooltip text={items.join('\n')}>
       <AnimatedShape
         shortText={`+${value}`}
         longText=""

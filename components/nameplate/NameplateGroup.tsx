@@ -27,7 +27,7 @@ function NameplateGroup({
       )}
       {names.length > limit &&
                 <Overflow
-                  text={names.slice(limit).map(props => props.name).join(' ')}
+                  items={names.slice(limit).map(props => props.name)}
                   value={names.length - limit}
                 />}
     </>

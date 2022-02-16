@@ -16,7 +16,9 @@ function PlaylistVisual({
   fullSize = true,
   animate = true,
 }: PlaylistVisualProps): JSX.Element {
-  const ref = useRef(null);
+  const parentRef = useRef(null);
+  const animationFunctionRef = useRef(null);
+  const animationFrameRef = useRef(null);
 
   const getVisualSize = useCallback(() => {
     if (fullSize) {
@@ -42,7 +44,7 @@ function PlaylistVisual({
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(w, h);
-    ref.current.appendChild(renderer.domElement);
+    parentRef.current.appendChild(renderer.domElement);
 
     const uniforms = {
       u_time: {
@@ -76,23 +78,31 @@ function PlaylistVisual({
     }
     window.addEventListener('resize', handleResize, false);
 
-    function animateCanvas() {
-      if (animate) {
-        requestAnimationFrame(animateCanvas);
+    // requestAnimationFrame expects cb with timestamp as first parameter
+    function animateCanvas(ts?: DOMHighResTimeStamp, play = true) {
+      if (play) {
+        animationFrameRef.current = requestAnimationFrame(animateCanvas);
       }
       uniforms.u_time.value = clock.getElapsedTime();
       renderer.render(scene, camera);
     }
-    animateCanvas();
+    animationFunctionRef.current = animateCanvas;
 
     return () => {
-      ref.current?.removeChild(renderer.domElement);
+      parentRef.current?.removeChild(renderer.domElement);
       window.removeEventListener('mousemove', handleMouseMove, false);
     };
   }, []);
 
+  useEffect(() => {
+    if (animationFunctionRef.current != null) {
+      animationFunctionRef.current(null, animate);
+    }
+    return () => cancelAnimationFrame(animationFrameRef.current);
+  }, [animate]);
+
   return (
-    <div ref={ref} id={fullSize ? styles.visual : styles['visual-circle']}>
+    <div ref={parentRef} id={fullSize ? styles.visual : styles['visual-circle']}>
       <div id={styles.caption}>
         <h1>{title}</h1>
         <h4>{subtitle}</h4>

@@ -71,7 +71,7 @@ function Lobby(): JSX.Element {
           subtitle="PEANUT BUTTER JAM"
         />
 
-        <div id={styles.userbar}>
+        <div id={styles.userbar} data-tip={'test'}>
           <NameplateGroup names={USERS} expandCurrentUser={true} />
           <button>invite</button>
         </div>
