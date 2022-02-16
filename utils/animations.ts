@@ -1,6 +1,7 @@
 import anime from 'animejs';
 import {Polygon, PolygonPoints} from '../components/Shape';
 import styles from '../styles/lobby.module.scss';
+import tipStyles from '../styles/tooltip.module.scss';
 
 interface BaseAnimationOptions {
   readonly target: HTMLElement;
@@ -117,7 +118,7 @@ export function animateTooltip(
   anime({
     ...DEFAULTS,
     targets: target,
-    marginTop: forwards ? styles.tooltipMargintopMax : styles.tooltipMargintopMin,
+    marginTop: forwards ? tipStyles.tooltipMargintopMax : tipStyles.tooltipMargintopMin,
     duration: 200,
   });
 }

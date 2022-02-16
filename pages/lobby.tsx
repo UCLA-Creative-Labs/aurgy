@@ -60,12 +60,7 @@ const SAMPLE_PLAYLIST_DATA = [
 function Lobby(): JSX.Element {
   return (
     <Layout>
-      <div style={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}>
+      <div className={styles.container}>
         <PlaylistVisual
           title="CREATIVE SLAPS"
           subtitle="PEANUT BUTTER JAM"

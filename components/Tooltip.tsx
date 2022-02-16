@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import styles from '../styles/lobby.module.scss';
+import styles from '../styles/tooltip.module.scss';
 import {animateTooltip} from '../utils/animations';
 
 interface TooltipProps {
