@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useCallback} from 'react';
 import * as THREE from 'three';
 import styles from '../styles/lobby.module.scss';
 import {getElementSizeById, sampleShader} from '../utils';
@@ -6,20 +6,32 @@ import {getElementSizeById, sampleShader} from '../utils';
 interface PlaylistVisualProps {
   title: string;
   subtitle: string;
+  fullSize?: boolean;
+  animate?: boolean;
 }
 
 function PlaylistVisual({
   title,
   subtitle,
+  fullSize = true,
+  animate = true,
 }: PlaylistVisualProps): JSX.Element {
-  const ref = useRef(null);
+  const parentRef = useRef(null);
+  const animationFunctionRef = useRef(null);
+  const animationFrameRef = useRef(null);
 
-  const getVisualSize = () => {
-    return getElementSizeById(styles.visual, {
-      width: parseInt(styles.defaultVisualWidth),
-      height: parseInt(styles.defaultVisualHeight),
-    });
-  };
+  const getVisualSize = useCallback(() => {
+    if (fullSize) {
+      return getElementSizeById(styles.visual, {
+        width: parseInt(styles.defaultVisualWidth),
+        height: parseInt(styles.defaultVisualHeight),
+      });
+    }
+    return {
+      width: parseInt(styles.visualCircleSize),
+      height: parseInt(styles.visualCircleSize),
+    };
+  }, [fullSize]);
 
   useEffect(() => {
     const size = getVisualSize();
@@ -32,7 +44,7 @@ function PlaylistVisual({
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(w, h);
-    ref.current.appendChild(renderer.domElement);
+    parentRef.current.appendChild(renderer.domElement);
 
     const uniforms = {
       u_time: {
@@ -42,7 +54,7 @@ function PlaylistVisual({
         value: new THREE.Vector2(w, h),
       },
       u_mouse: {
-        value: new THREE.Vector2(w, h),
+        value: new THREE.Vector2(Math.random() * w, Math.random() * h),
       },
     };
 
@@ -66,21 +78,31 @@ function PlaylistVisual({
     }
     window.addEventListener('resize', handleResize, false);
 
-    function animate() {
-      requestAnimationFrame(animate);
+    // requestAnimationFrame expects cb with timestamp as first parameter
+    function animateCanvas(ts?: DOMHighResTimeStamp, play = true) {
+      if (play) {
+        animationFrameRef.current = requestAnimationFrame(animateCanvas);
+      }
       uniforms.u_time.value = clock.getElapsedTime();
       renderer.render(scene, camera);
     }
-    animate();
+    animationFunctionRef.current = animateCanvas;
 
     return () => {
-      ref.current?.removeChild(renderer.domElement);
+      parentRef.current?.removeChild(renderer.domElement);
       window.removeEventListener('mousemove', handleMouseMove, false);
     };
   }, []);
 
+  useEffect(() => {
+    if (animationFunctionRef.current != null) {
+      animationFunctionRef.current(null, animate);
+    }
+    return () => cancelAnimationFrame(animationFrameRef.current);
+  }, [animate]);
+
   return (
-    <div ref={ref} id={styles.visual}>
+    <div ref={parentRef} id={fullSize ? styles.visual : styles['visual-circle']}>
       <div id={styles.caption}>
         <h1>{title}</h1>
         <h4>{subtitle}</h4>

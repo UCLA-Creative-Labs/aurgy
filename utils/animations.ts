@@ -1,10 +1,12 @@
 import anime from 'animejs';
 import {Polygon, PolygonPoints} from '../components/Shape';
 import styles from '../styles/lobby.module.scss';
+import tipStyles from '../styles/tooltip.module.scss';
 
 interface BaseAnimationOptions {
   readonly target: HTMLElement;
   readonly forwards: boolean;
+  readonly duration?: number;
 }
 
 interface MorphPolygonOptions extends BaseAnimationOptions {
@@ -46,22 +48,23 @@ function morphPolygon(
 }
 
 function fadeElementOut(
-  {target, forwards}: BaseAnimationOptions,
+  {target, forwards, duration}: BaseAnimationOptions,
 ): void {
   anime({
     ...DEFAULTS,
     targets: target,
     opacity: forwards ? 0 : 1,
-    duration: 500,
+    duration: duration ?? 500,
   });
 }
 
 function fadeElementIn(
-  {target, forwards}: BaseAnimationOptions,
+  {target, forwards, duration}: BaseAnimationOptions,
 ): void {
   fadeElementOut({
     target,
     forwards: !forwards,
+    duration,
   });
 }
 
@@ -101,5 +104,21 @@ export function animateNameplate(
     maxWidth: forwards ? styles.nameplateWidthMax : styles.nameplateWidthMin,
     padding: forwards ? styles.nameplatePaddingMax : styles.nameplatePaddingMin,
     duration: 300,
+  });
+}
+
+export function animateTooltip(
+  {target, forwards}: BaseAnimationOptions,
+): void {
+  fadeElementIn({
+    target,
+    forwards,
+    duration: 200,
+  });
+  anime({
+    ...DEFAULTS,
+    targets: target,
+    marginTop: forwards ? tipStyles.tooltipMargintopMax : tipStyles.tooltipMargintopMin,
+    duration: 200,
   });
 }

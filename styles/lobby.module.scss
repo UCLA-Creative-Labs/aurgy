@@ -61,12 +61,21 @@ $nameplate-padding-max: 0 25px;
 
 // PLAYLIST VISUALIZATION + USERS BAR
 
+.container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 $mobile-visual-height: 300px;
 $desktop-visual-height: 650px;
 
 $mobile-visual-width: 90vw;
 $desktop-visual-width: 75vw;
 $max-visual-width: 1200px;
+
+$visual-circle-size: 310px;
 
 #visual {
   // Responsive Properties
@@ -80,6 +89,19 @@ $max-visual-width: 1200px;
   // Responsive Properties
   margin-top: calc(#{$desktop-visual-height} - 170px);
   margin-left: 75px;
+}
+
+#visual-circle {
+  width: $visual-circle-size;
+  height: $visual-circle-size;
+
+  canvas {
+    border-radius: $visual-circle-size;
+  }
+
+  #caption {
+    display: none;
+  }
 }
 
 #playlist {
@@ -97,7 +119,11 @@ $max-visual-width: 1200px;
       text-overflow: ellipsis;
     }
 
-    h4:nth-of-type(2) {
+    .title {
+      cursor: pointer;
+    }
+
+    .artist {
       margin-left: 10px;
       color: map-get($colors, 'white-50');
     }
@@ -108,7 +134,10 @@ $max-visual-width: 1200px;
       margin-left: auto;
 
       .nameplate {
-        margin-left: 15px;
+        margin-right: 15px;
+      }
+
+      .nameplate:last-of-type {
         margin-right: 0;
       }
     }
@@ -170,6 +199,7 @@ $max-visual-width: 1200px;
 :export {
   defaultVisualWidth: $max-visual-width;
   defaultVisualHeight: $desktop-visual-height;
+  visualCircleSize: $visual-circle-size;
   nameplateSize: $nameplate-size;
   nameplateWidthMin: $nameplate-width-min;
   nameplateWidthMax: $nameplate-width-max;

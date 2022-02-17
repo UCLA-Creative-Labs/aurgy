@@ -1,0 +1,61 @@
+@use 'variables.module' as *;
+
+// TOOLTIP
+
+$tooltip-margintop-min: 0;
+$tooltip-margintop-max: -15px;
+
+.tooltip-wrapper {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+.tooltip {
+  position: absolute;
+  max-width: 200px;
+  padding: 5px 20px;
+  transform: translate(-50%, -100%);
+  left: 50%;
+  z-index: 1;
+  font: $body-small-fancy;
+  pointer-events: none;
+  background-color: black;
+  border: 3px solid white;
+  border-radius: 10px;
+  opacity: 0;
+
+  &.show {
+    margin-top: $tooltip-margintop-max;
+    opacity: 1;
+  }
+
+  &::before {
+    position: absolute;
+    margin-top: 1px;
+    top: 100%;
+    left: calc(50% - 10px);
+    height: 0;
+    width: 0;
+    content: "";
+    border: 10px solid transparent;
+    border-top-color: white;
+  }
+
+  &::after {
+    position: absolute;
+    margin-top: 0;
+    top: 100%;
+    left: calc(50% - 7px);
+    height: 0;
+    width: 0;
+    content: "";
+    border: 7px solid transparent;
+    border-top-color: black;
+  }
+}
+
+:export {
+  tooltipMargintopMin: $tooltip-margintop-min;
+  tooltipMargintopMax: $tooltip-margintop-max;
+}
