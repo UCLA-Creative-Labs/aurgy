@@ -7,6 +7,7 @@ interface BaseAnimationOptions {
   readonly target: HTMLElement;
   readonly forwards: boolean;
   readonly duration?: number;
+  readonly delay?: number;
 }
 
 interface MorphPolygonOptions extends BaseAnimationOptions {
@@ -28,7 +29,7 @@ const DEFAULTS = {
 
 function morphPolygon(
   {target, forwards, shape}: MorphPolygonOptions,
-): void {
+) {
   if (shape === 'circle' || shape === 'diamond') {
     return;
   }
@@ -39,32 +40,34 @@ function morphPolygon(
     .map((poly) => ({value: PolygonPoints[poly]}));
   const rev = points.slice().reverse();
 
-  anime({
+  return {
     targets: target,
     points: forwards ? points : rev,
     duration: 300,
     easing: 'linear',
-  });
+  };
 }
 
 function fadeElementOut(
-  {target, forwards, duration}: BaseAnimationOptions,
-): void {
-  anime({
+  {target, forwards, duration, delay}: BaseAnimationOptions,
+) {
+  return {
     ...DEFAULTS,
     targets: target,
     opacity: forwards ? 0 : 1,
     duration: duration ?? 500,
-  });
+    delay: delay ?? 0,
+  };
 }
 
 function fadeElementIn(
-  {target, forwards, duration}: BaseAnimationOptions,
-): void {
-  fadeElementOut({
+  {target, forwards, duration, delay}: BaseAnimationOptions,
+) {
+  return fadeElementOut({
     target,
     forwards: !forwards,
     duration,
+    delay: delay ?? 0,
   });
 }
 

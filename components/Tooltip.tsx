@@ -1,6 +1,6 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import styles from '../styles/tooltip.module.scss';
-import {animateTooltip} from '../utils/animations';
+import {makeTooltipTimeline, playTimeline, reverseTimeline} from '../utils';
 
 interface TooltipProps {
   text: string;
@@ -8,19 +8,17 @@ interface TooltipProps {
 }
 
 function Tooltip({text, children}: TooltipProps): JSX.Element {
-  const ref = useRef(null);
+  const elemRef = useRef(null);
+  const tlRef = useRef(null);
 
-  const [animateForwards, animateBackwards] = [true, false].map(forwards => () => {
-    animateTooltip({
-      target: ref.current,
-      forwards,
-    });
-  });
+  useEffect(() => {
+    tlRef.current = makeTooltipTimeline(elemRef.current);
+  }, []);
 
   return (
-    <div className={styles['tooltip-wrapper']} onMouseLeave={animateBackwards}>
-      <div className={styles.tooltip} ref={ref}>{text}</div>
-      <div onMouseEnter={animateForwards}>
+    <div className={styles['tooltip-wrapper']} onMouseLeave={() => reverseTimeline(tlRef.current)}>
+      <div className={styles.tooltip} ref={elemRef}>{text}</div>
+      <div onMouseEnter={() => playTimeline(tlRef.current)}>
         {children}
       </div>
     </div >

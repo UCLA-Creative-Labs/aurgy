@@ -1,3 +1,4 @@
+export * from './animations/timeline';
 export * from './constants';
 export * from './dimensions';
 export * from './pkce';
