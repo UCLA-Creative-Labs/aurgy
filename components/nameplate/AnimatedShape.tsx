@@ -1,7 +1,8 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import Shape, {Polygon} from '../../components/Shape';
 import styles from '../../styles/lobby.module.scss';
-import {animatePolygon, animateNameplate} from '../../utils/animations';
+import {makeNameplateTimeline} from '../../utils';
+import useTimelineControls from '../../utils/animations/useTimelineControls';
 
 export interface BaseAnimatedProps {
   shape: Polygon;
@@ -27,23 +28,19 @@ function AnimatedShape({
   const polygonRef = useRef(null);
   const shortLabelRef = useRef(null);
   const longLabelRef = useRef(null);
+  const tlRef = useRef(null);
 
-  const [animateForwards, animateBackwards] = [true, false].map(forwards =>
-    useCallback(() => {
-      if (!animate) return;
-      animatePolygon({
-        target: containerRef.current,
-        polygonNode: polygonRef.current,
-        forwards,
-        shape,
-      });
-      animateNameplate({
-        target: shortLabelRef.current,
-        subtarget: longLabelRef.current,
-        forwards,
-      });
-    }, [animate]),
-  );
+  useEffect(() => {
+    tlRef.current = makeNameplateTimeline({
+      container: containerRef.current,
+      polygon: polygonRef.current,
+      shape,
+      shortLabel: shortLabelRef.current,
+      longLabel: longLabelRef.current,
+    });
+  }, []);
+
+  const [animateForwards, animateBackwards] = useTimelineControls({tlRef, animate});
 
   const className = `${styles.nameplate} ${highlight ? styles.highlight : ''} ${expanded ? styles.expanded : ''}`;
 
