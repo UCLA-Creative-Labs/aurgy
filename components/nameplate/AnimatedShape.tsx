@@ -1,7 +1,8 @@
-import React, {useEffect, useCallback, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import Shape, {Polygon} from '../../components/Shape';
 import styles from '../../styles/lobby.module.scss';
-import {makeNameplateTimeline, playTimeline, reverseTimeline} from '../../utils';
+import {makeNameplateTimeline} from '../../utils';
+import useTimelineControls from '../../utils/animations/useTimelineControls';
 
 export interface BaseAnimatedProps {
   shape: Polygon;
@@ -29,10 +30,6 @@ function AnimatedShape({
   const longLabelRef = useRef(null);
   const tlRef = useRef(null);
 
-  // The following timeline init/play/reverse code is identical for different timelines.
-  // TODO: Make a hook with generics to encapsulate this.
-  // (see utils/animations/useTimelineAnimation.tsx for first attempt, idk why it doesn't work)
-
   useEffect(() => {
     tlRef.current = makeNameplateTimeline({
       container: containerRef.current,
@@ -43,12 +40,7 @@ function AnimatedShape({
     });
   }, []);
 
-  const [animateForwards, animateBackwards] = [true, false].map(forwards =>
-    useCallback(() => {
-      if (!animate) return;
-      forwards ? playTimeline(tlRef.current) : reverseTimeline(tlRef.current);
-    }, [animate]),
-  );
+  const [animateForwards, animateBackwards] = useTimelineControls({tlRef, animate});
 
   const className = `${styles.nameplate} ${highlight ? styles.highlight : ''} ${expanded ? styles.expanded : ''}`;
 
