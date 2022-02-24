@@ -58,6 +58,7 @@ const SAMPLE_PLAYLIST_DATA = [
 ];
 
 function Lobby(): JSX.Element {
+
   return (
     <Layout>
       <div className={styles.container}>
@@ -67,7 +68,10 @@ function Lobby(): JSX.Element {
         />
 
         <div id={styles.userbar} data-tip={'test'}>
-          <NameplateGroup names={USERS} expandCurrentUser={true} />
+          <NameplateGroup names={USERS} expandCurrentUser={true} buttonOptions={{
+            text: 'wow',
+            callback: () => null,
+          }} />
           <button>invite</button>
         </div>
 

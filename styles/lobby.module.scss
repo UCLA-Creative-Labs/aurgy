@@ -5,7 +5,7 @@
 
 $nameplate-size: 40;
 $nameplate-width-min: 9px;
-$nameplate-width-max: 110px;
+$nameplate-width-max: 140px;
 $nameplate-padding-min: 0 10px;
 $nameplate-padding-max: 0 25px;
 
@@ -28,6 +28,7 @@ $nameplate-padding-max: 0 25px;
 
   .nameplate-long {
     max-width: $nameplate-width-min;
+    display: flex;
     height: #{$nameplate-size - 6}px; // size - 2 * border-width
     line-height: #{$nameplate-size - 6}px;
     margin-top: #{-$nameplate-size}px;
@@ -35,13 +36,21 @@ $nameplate-padding-max: 0 25px;
     opacity: 0;
     border: 3px solid #fff;
     border-radius: #{$nameplate-size - 6}px;
+  }
+
+  .nameplate-text {
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
+  .nameplate-button {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
   &.expanded .nameplate-long {
-    opacity: 1 !important;
     max-width: $nameplate-width-max !important;
+    opacity: 1 !important;
     padding: $nameplate-padding-max !important;
   }
 
