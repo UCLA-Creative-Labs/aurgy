@@ -4,10 +4,8 @@ import {
   SPOTIFY_SCOPE,
   SPOTIFY_CODE_VERIFIER,
 } from './constants';
-import {generateChallenge, generateRandomString, IChallenge} from './pkce';
+import { generateChallenge, generateRandomString, IChallenge } from './pkce';
 import {getUrlPath} from './url';
-
-const SPOTIFY_API = 'https://api.spotify.com/v1';
 
 export interface IAuthentication extends IChallenge {
   readonly state: string;
@@ -16,19 +14,19 @@ export interface IAuthentication extends IChallenge {
 
 export async function authenticate(): Promise<IAuthentication> {
   const state = generateRandomString(16);
-  const {code_challenge, code_verifier} = await generateChallenge();
+  const { code_challenge, code_verifier } = await generateChallenge();
   const authenticationUrl = 'https://accounts.spotify.com/authorize?' +
-        querystring.stringify({
-          response_type: 'code',
-          client_id: CLIENT_ID,
-          scope: SPOTIFY_SCOPE,
-          redirect_uri: getUrlPath() + '/callback',
-          state: state,
-          code_challenge,
-          code_challenge_method: 'S256',
-        });
+    querystring.stringify({
+      response_type: 'code',
+      client_id: CLIENT_ID,
+      scope: SPOTIFY_SCOPE,
+      redirect_uri: getUrlPath() + '/callback',
+      state: state,
+      code_challenge,
+      code_challenge_method: 'S256',
+    });
 
-  return {state, authenticationUrl, code_challenge, code_verifier};
+  return { state, authenticationUrl, code_challenge, code_verifier };
 }
 
 interface SpotifyTokens {
@@ -52,17 +50,4 @@ export async function fetchSpotifyTokens(code: string | string[], storage: Stora
   });
   const {access_token, refresh_token} = await response.json();
   return {accessToken: access_token, refreshToken: refresh_token};
-}
-
-export async function getPlaylistSongs(id: string) {
-  const res = await window.fetch(SPOTIFY_API + '/playlists/' + id + '/tracks', {
-    method: 'GET',
-    headers: {
-      // 'Authorization': `Bearer ${jwt}`,
-      'Content-Type': 'application/json',
-    },
-  });
-  if (!res.ok) return null;
-  const data = await res.json();
-  return data;
 }

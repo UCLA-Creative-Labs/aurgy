@@ -3,7 +3,6 @@ import Shape, {Polygon} from '../../components/Shape';
 import styles from '../../styles/lobby.module.scss';
 import {makeNameplateTimeline} from '../../utils';
 import useTimelineControls from '../../utils/animations/useTimelineControls';
-import Tooltip from '../Tooltip';
 
 export interface ButtonProps {
   text: string;
