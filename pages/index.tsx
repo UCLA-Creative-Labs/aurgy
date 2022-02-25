@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Layout from '../components/Layout';
+import Link from '../components/Link';
 import Modal from '../components/Modal';
 import {fetchAllLobbies, createLobby, fetchLobbyById} from '../utils/aurgy';
 import {indexCookie} from '../utils/cookies';
@@ -41,10 +42,11 @@ export default function Home(): JSX.Element {
       <div>
         {lobbies && lobbies.map(lobby =>
           <div key={lobby.id}>
+            <Link href={'/lobby?id=' + lobby.id}>GO TO LOBBY</Link>
+            <div>name: {lobby.name}</div>
+            <div>theme: {lobby.theme}</div>
             <div>id: {lobby.id}</div>
             <div>managerId: {lobby.managerId}</div>
-            <div>theme: {lobby.theme}</div>
-            <div>name: {lobby.name}</div>
             <div>participants: {lobby.participants.join(', ')}</div>
             <br />
           </div>,

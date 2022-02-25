@@ -1,10 +1,14 @@
-import React from 'react';
+import {useRouter} from 'next/router';
+import React, {useEffect, useState} from 'react';
 import Layout from '../components/Layout';
 import {NameplateProps} from '../components/nameplate/Nameplate';
 import NameplateGroup from '../components/nameplate/NameplateGroup';
 import PlaylistVisual from '../components/PlaylistVisual';
 import Tooltip from '../components/Tooltip';
 import styles from '../styles/lobby.module.scss';
+import {fetchLobbyById} from '../utils/aurgy';
+import {indexCookie} from '../utils/cookies';
+import {ILobbyData} from '../utils/lobby-data';
 
 const USERS: NameplateProps[] = [
   {
@@ -58,18 +62,39 @@ const SAMPLE_PLAYLIST_DATA = [
 ];
 
 function Lobby(): JSX.Element {
+  const {query} = useRouter();
+  const [lobbyData, setLobbyData] = useState<ILobbyData>(null);
+
+  useEffect(() => {
+    async function loadData() {
+      const token = indexCookie('token');
+      if (!token || token === 'undefined' || query?.id == null) return;
+
+      const data = await fetchLobbyById(query.id as string, token);
+      setLobbyData(data);
+    }
+    void loadData();
+  }, []);
+
+  if (lobbyData == null) {
+    return (
+      <Layout>
+        <div className={styles.container}>Invalid lobby.</div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
       <div className={styles.container}>
         <PlaylistVisual
-          title="CREATIVE SLAPS"
-          subtitle="PEANUT BUTTER JAM"
+          title={lobbyData.name}
+          subtitle={lobbyData.theme}
         />
 
         <div id={styles.userbar} data-tip={'test'}>
           <NameplateGroup names={USERS} expandCurrentUser={true} buttonOptions={{
-            text: 'wow',
+            text: 'DELETE USER',
             callback: () => null,
           }} />
           <button>invite</button>
