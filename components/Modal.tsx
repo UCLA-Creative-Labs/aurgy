@@ -6,20 +6,29 @@ interface ModalProps {
   show: boolean;
   onCancel: () => void;
   onConfirm: () => void;
+  showFooter?: boolean;
   children: React.ReactNode;
 }
 
-function Modal({title, show, onCancel, onConfirm, children}: ModalProps): JSX.Element {
+function Modal({
+  title,
+  show,
+  onCancel,
+  onConfirm,
+  showFooter = true,
+  children,
+}: ModalProps): JSX.Element {
   return (
     <>
       <div id={styles.overlay} className={show ? styles.show : ''} onClick={onCancel} />
       <div id={styles.modal}>
         <div id={styles['modal-header']}>{title}</div>
         {children}
-        <div id={styles['modal-footer']}>
-          <button onClick={onCancel}>NAH</button>
-          <button onClick={onConfirm}>GO</button>
-        </div>
+        {showFooter &&
+                    <div id={styles['modal-footer']}>
+                      <button onClick={onCancel}>NAH</button>
+                      <button onClick={onConfirm}>GO</button>
+                    </div>}
       </div>
     </>
   );

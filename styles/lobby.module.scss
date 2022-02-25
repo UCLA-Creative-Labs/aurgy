@@ -71,14 +71,13 @@ $nameplate-padding-max: 0 25px;
 // PLAYLIST VISUALIZATION + USERS BAR
 
 .container {
-  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.loading-text {
-  margin-top: calc(50vh - 128px);
+.center-text {
+  @include centerElements;
 }
 
 $mobile-visual-height: 300px;

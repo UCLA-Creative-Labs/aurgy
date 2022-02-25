@@ -1,36 +1,40 @@
 @use 'variables.module' as *;
 
 #modal {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   margin-left: calc((100vw - 350px) / 2);
-  margin-top: calc((100vh - 150px) / 2);
+  margin-top: calc((100vh - 200px) / 2);
   width: 350px;
-  height: 150px;
-  padding: 20px 30px;
-  color: map-get($colors, 'black');
+  height: 200px;
   background-color: map-get($colors, 'white');
+  background-color: transparent;
   display: none;
   flex-direction: column;
   justify-content: space-between;
+  z-index: 2;
 
   input {
-    width: 330px;
-    padding: 5px 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    width: 320px;
+    padding: 5px 15px;
+    outline: none;
+    border: none;
+    border-radius: 15px;
+    color: map-get($colors, 'white');
+    background-color: map-get($colors, 'white-25');
   }
 }
 
 #overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: map-get($colors, 'black-50');
+  background-color: map-get($colors, 'black-75');
   display: none;
+  z-index: 1;
 
   &.show {
     display: block;
@@ -41,18 +45,10 @@
   }
 }
 
-#modal-header {
-  color: map-get($colors, 'black');
-  padding-bottom: 10px;
-  border-bottom: 2px solid black;
-}
-
 #modal-footer {
   align-self: flex-end;
 
   button {
-    color: black;
-    border-color: black;
     margin-left: 10px;
   }
 }

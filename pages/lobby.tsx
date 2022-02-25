@@ -1,6 +1,7 @@
 import {useRouter} from 'next/router';
 import React, {useEffect, useState} from 'react';
 import Layout from '../components/Layout';
+import Modal from '../components/Modal';
 import {NameplateProps} from '../components/nameplate/Nameplate';
 import NameplateGroup from '../components/nameplate/NameplateGroup';
 import PlaylistVisual from '../components/PlaylistVisual';
@@ -65,6 +66,7 @@ function Lobby(): JSX.Element {
   const {query} = useRouter();
   const [lobbyData, setLobbyData] = useState<ILobbyData>(null);
   const [loaded, setLoaded] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     async function loadData() {
@@ -81,7 +83,7 @@ function Lobby(): JSX.Element {
   if (!loaded || lobbyData == null) {
     return (
       <Layout>
-        <div className={`${styles.container} ${styles['loading-text']}`}>
+        <div className={`${styles['center-text']}`}>
           {!loaded ? 'LOADING...' : 'INVALID LOBBY.'}
         </div>
       </Layout>
@@ -101,7 +103,7 @@ function Lobby(): JSX.Element {
             text: 'DELETE USER',
             callback: () => null,
           }} />
-          <button>invite</button>
+          <button onClick={() => setShowModal(true)}>invite</button>
         </div>
 
         <div id={styles.playlist}>
@@ -118,6 +120,17 @@ function Lobby(): JSX.Element {
           ))}
         </div>
       </div>
+
+      <Modal
+        title="SEND THIS LINK"
+        show={showModal}
+        onCancel={() => setShowModal(false)}
+        onConfirm={() => null}
+        showFooter={false}
+      >
+        <div>https://cl.com/me</div>
+        <button>COPY TO CLIPBOARD</button>
+      </Modal>
     </Layout>
   );
 }
