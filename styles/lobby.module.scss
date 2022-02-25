@@ -77,6 +77,10 @@ $nameplate-padding-max: 0 25px;
   align-items: center;
 }
 
+.loading-text {
+  margin-top: calc(50vh - 128px);
+}
+
 $mobile-visual-height: 300px;
 $desktop-visual-height: 650px;
 

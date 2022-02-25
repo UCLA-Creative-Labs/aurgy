@@ -64,6 +64,7 @@ const SAMPLE_PLAYLIST_DATA = [
 function Lobby(): JSX.Element {
   const {query} = useRouter();
   const [lobbyData, setLobbyData] = useState<ILobbyData>(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     async function loadData() {
@@ -72,14 +73,17 @@ function Lobby(): JSX.Element {
 
       const data = await fetchLobbyById(query.id as string, token);
       setLobbyData(data);
+      setLoaded(true);
     }
     void loadData();
   }, []);
 
-  if (lobbyData == null) {
+  if (!loaded || lobbyData == null) {
     return (
       <Layout>
-        <div className={styles.container}>Invalid lobby.</div>
+        <div className={`${styles.container} ${styles['loading-text']}`}>
+          {!loaded ? 'LOADING...' : 'INVALID LOBBY.'}
+        </div>
       </Layout>
     );
   }

@@ -46,8 +46,6 @@ export default function Home(): JSX.Element {
             <div>name: {lobby.name}</div>
             <div>theme: {lobby.theme}</div>
             <div>id: {lobby.id}</div>
-            <div>managerId: {lobby.managerId}</div>
-            <div>participants: {lobby.participants.join(', ')}</div>
             <br />
           </div>,
         )}
