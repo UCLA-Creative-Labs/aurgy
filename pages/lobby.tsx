@@ -1,11 +1,11 @@
 import {useRouter} from 'next/router';
 import React, {useEffect, useState} from 'react';
 import Layout from '../components/Layout';
-import Modal from '../components/Modal';
 import {NameplateProps} from '../components/nameplate/Nameplate';
 import NameplateGroup from '../components/nameplate/NameplateGroup';
 import PlaylistVisual from '../components/PlaylistVisual';
 import Tooltip from '../components/Tooltip';
+import useModal from '../hooks/useModal';
 import styles from '../styles/lobby.module.scss';
 import {fetchLobbyById} from '../utils/aurgy';
 import {indexCookie} from '../utils/cookies';
@@ -64,27 +64,35 @@ const SAMPLE_PLAYLIST_DATA = [
 
 function Lobby(): JSX.Element {
   const {query} = useRouter();
+  const [Modal, showModal, hideModal] = useModal();
   const [lobbyData, setLobbyData] = useState<ILobbyData>(null);
-  const [loaded, setLoaded] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     async function loadData() {
       const token = indexCookie('token');
-      if (!token || token === 'undefined' || query?.id == null) return;
+      if (!token || token === 'undefined' || query?.id == null) {
+        // TODO: Redirect to login
+        setError('LOG IN FIRST.');
+        return;
+      }
 
-      const data = await fetchLobbyById(query.id as string, token);
-      setLobbyData(data);
-      setLoaded(true);
+      try {
+        const data = await fetchLobbyById(query.id as string, token);
+        setLobbyData(data);
+      } catch (_) {
+        // TODO: Address all error codes
+        setError('INVALID LOBBY.');
+      }
     }
     void loadData();
   }, []);
 
-  if (!loaded || lobbyData == null) {
+  if (!!error || !lobbyData) {
     return (
       <Layout>
         <div className={`${styles['center-text']}`}>
-          {!loaded ? 'LOADING...' : 'INVALID LOBBY.'}
+          {error ?? 'LOADING...'}
         </div>
       </Layout>
     );
@@ -103,7 +111,7 @@ function Lobby(): JSX.Element {
             text: 'DELETE USER',
             callback: () => null,
           }} />
-          <button onClick={() => setShowModal(true)}>invite</button>
+          <button onClick={() => showModal()}>invite</button>
         </div>
 
         <div id={styles.playlist}>
@@ -123,8 +131,7 @@ function Lobby(): JSX.Element {
 
       <Modal
         title="SEND THIS LINK"
-        show={showModal}
-        onCancel={() => setShowModal(false)}
+        onCancel={() => hideModal()}
         onConfirm={() => null}
         showFooter={false}
       >

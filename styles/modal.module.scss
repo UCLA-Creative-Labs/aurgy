@@ -1,6 +1,6 @@
 @use 'variables.module' as *;
 
-#modal {
+.modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -13,7 +13,7 @@
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  z-index: 2;
+  z-index: 100;
 
   input {
     width: 320px;
@@ -26,7 +26,7 @@
   }
 }
 
-#overlay {
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -34,18 +34,18 @@
   height: 100vh;
   background-color: map-get($colors, 'black-75');
   display: none;
-  z-index: 1;
+  z-index: 99;
 
   &.show {
     display: block;
   }
 
-  &.show ~ #modal {
+  &.show ~ .modal {
     display: flex;
   }
 }
 
-#modal-footer {
+.modal-footer {
   align-self: flex-end;
 
   button {

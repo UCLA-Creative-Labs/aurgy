@@ -1,71 +1,8 @@
 @use 'variables.module' as *;
 @use 'mixins.module' as *;
 
-// NAMEPLATE
-
-$nameplate-size: 40;
-$nameplate-width-min: 9px;
-$nameplate-width-max: 140px;
-$nameplate-padding-min: 0 10px;
-$nameplate-padding-max: 0 25px;
-
-.nameplate {
-  margin-right: 20px;
-  font: $body-small-fancy;
-  text-align: center;
-  z-index: 1;
-
-  .nameplate-container {
-    width: #{$nameplate-size}px;
-    height: #{$nameplate-size}px;
-  }
-
-  .nameplate-short {
-    width: #{$nameplate-size}px;
-    margin-top: #{-$nameplate-size}px;
-    line-height: #{$nameplate-size}px;
-  }
-
-  .nameplate-long {
-    max-width: $nameplate-width-min;
-    display: flex;
-    height: #{$nameplate-size - 6}px; // size - 2 * border-width
-    line-height: #{$nameplate-size - 6}px;
-    margin-top: #{-$nameplate-size}px;
-    padding: $nameplate-padding-min;
-    opacity: 0;
-    border: 3px solid #fff;
-    border-radius: #{$nameplate-size - 6}px;
-  }
-
-  .nameplate-text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .nameplate-button {
-    margin-left: 10px;
-    cursor: pointer;
-  }
-
-  &.expanded .nameplate-long {
-    max-width: $nameplate-width-max !important;
-    opacity: 1 !important;
-    padding: $nameplate-padding-max !important;
-  }
-
-  &.expanded .nameplate-short,
-  &.expanded .nameplate-container {
-    opacity: 0 !important;
-  }
-
-  &.highlight svg {
-    fill: map-get($colors, 'white-50');
-  }
-
-  &.highlight .nameplate-long {
-    background-color: map-get($colors, 'white-50');
-  }
+:import('nameplate.module.scss') {
+  user-nameplate: nameplate;
 }
 
 // PLAYLIST VISUALIZATION + USERS BAR
@@ -145,11 +82,11 @@ $visual-circle-size: 310px;
       align-items: center;
       margin-left: auto;
 
-      .nameplate {
+      .user-nameplate {
         margin-right: 15px;
       }
 
-      .nameplate:last-of-type {
+      .user-nameplate:last-of-type {
         margin-right: 0;
       }
     }
@@ -212,9 +149,4 @@ $visual-circle-size: 310px;
   defaultVisualWidth: $max-visual-width;
   defaultVisualHeight: $desktop-visual-height;
   visualCircleSize: $visual-circle-size;
-  nameplateSize: $nameplate-size;
-  nameplateWidthMin: $nameplate-width-min;
-  nameplateWidthMax: $nameplate-width-max;
-  nameplatePaddingMin: $nameplate-padding-min;
-  nameplatePaddingMax: $nameplate-padding-max;
 }

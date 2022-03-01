@@ -1,13 +1,16 @@
 import React from 'react';
 import styles from '../styles/modal.module.scss';
 
-interface ModalProps {
+export interface BaseModalProps {
   title: string;
-  show: boolean;
   onCancel: () => void;
   onConfirm: () => void;
   showFooter?: boolean;
   children: React.ReactNode;
+}
+
+interface ModalProps extends BaseModalProps {
+  show: boolean;
 }
 
 function Modal({
@@ -18,14 +21,16 @@ function Modal({
   showFooter = true,
   children,
 }: ModalProps): JSX.Element {
+  const overlayClass = `${styles.overlay} ${show ? styles.show : ''}`;
+
   return (
     <>
-      <div id={styles.overlay} className={show ? styles.show : ''} onClick={onCancel} />
-      <div id={styles.modal}>
-        <div id={styles['modal-header']}>{title}</div>
+      <div className={overlayClass} onClick={onCancel} />
+      <div className={styles.modal}>
+        <div>{title}</div>
         {children}
         {showFooter &&
-                    <div id={styles['modal-footer']}>
+                    <div className={styles['modal-footer']}>
                       <button onClick={onCancel}>NAH</button>
                       <button onClick={onConfirm}>GO</button>
                     </div>}

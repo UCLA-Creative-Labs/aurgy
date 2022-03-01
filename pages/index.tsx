@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import Layout from '../components/Layout';
 import Link from '../components/Link';
-import Modal from '../components/Modal';
+import useModal from '../hooks/useModal';
 import {fetchAllLobbies, createLobby, fetchLobbyById} from '../utils/aurgy';
 import {indexCookie} from '../utils/cookies';
 import {ILobbyData} from '../utils/lobby-data';
 
 export default function Home(): JSX.Element {
-  const [showModal, setShowModal] = useState(false);
+  const [Modal, showModal, hideModal] = useModal();
   const [lobbies, setLobbies] = useState<ILobbyData[]>([]);
   const [name, setName] = useState('');
   const [theme, setTheme] = useState('');
@@ -31,7 +31,7 @@ export default function Home(): JSX.Element {
     const data = await createLobby({lobbyName: name, theme}, token);
     const lobby = await fetchLobbyById(data.id, token);
     setLobbies(lobbies.concat(lobby));
-    setShowModal(false);
+    hideModal();
   }
 
   return (
@@ -50,11 +50,10 @@ export default function Home(): JSX.Element {
           </div>,
         )}
       </div>
-      <button onClick={() => setShowModal(true)}>CREATE LOBBY</button>
+      <button onClick={() => showModal()}>CREATE LOBBY</button>
       <Modal
         title="CREATE LOBBY"
-        show={showModal}
-        onCancel={() => setShowModal(false)}
+        onCancel={() => hideModal()}
         onConfirm={onConfirm}
       >
         <input type="text" placeholder="NAME" value={name} onChange={(e) => setName(e.target.value)} />
