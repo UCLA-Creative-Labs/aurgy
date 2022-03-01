@@ -12,39 +12,5 @@
   height: 75vh;
 }
 
-.create {
-  margin-left: 17.5vh;
-}
-
-.single {
-  margin: auto;
-}
-
-.offset {
-  margin-left: 35vh;
-  margin-top: -4.5vh;
-}
-
-.top:nth-child(odd) {
-  margin-left: -17.5vh;
-}
-
-.top:nth-child(even) {
-  margin-top: -4.5vh;
-}
-
-// hides scrollbar
+  // hides scrollbar
 .container::-webkit-scrollbar { display: none; }
-
-// LOBBYCIRCLE
-.circle {
-  width: 35vh;
-  height: 35vh;
-  border-radius: 50%;
-  background-color: mediumturquoise;
-  text-align: center;
-}
-
-.name {
-  margin-top: 45%;
-}
