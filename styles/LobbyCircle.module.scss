@@ -1,36 +1,35 @@
 @use 'variables.module' as *;
 
-  .create {
-    margin-left: 17.5vh;
-  }
-  
-  .single {
-    margin: auto;
-  }
+.create {
+  margin-left: 17.5vh;
+}
 
-  // offset
-  .top:nth-child(2) {
-    margin-left: 35vh;
-    margin-top: -4.5vh;
-  }
+.single {
+  margin: auto;
+}
 
-  .top:nth-child(odd) {
-    margin-left: -17.5vh;
-  }
-  
-  .top:nth-child(even) {
-    margin-top: -4.5vh;
-  }
-  
-  .circle {
-    width: 35vh;
-    height: 35vh;
-    border-radius: 50%;
-    background-color: mediumturquoise;
-    text-align: center;
-  }
-  
-  .name {
-    margin-top: 45%;
-  }
-  
+// offset
+.top:nth-child(2) {
+  margin-left: 35vh;
+  margin-top: -4.5vh;
+}
+
+.top:nth-child(odd) {
+  margin-left: -17.5vh;
+}
+
+.top:nth-child(even) {
+  margin-top: -4.5vh;
+}
+
+.circle {
+  width: 35vh;
+  height: 35vh;
+  border-radius: 50%;
+  background-color: mediumturquoise;
+  text-align: center;
+}
+
+.name {
+  margin-top: 45%;
+}
