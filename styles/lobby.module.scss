@@ -1,10 +1,6 @@
 @use 'variables.module' as *;
 @use 'mixins.module' as *;
 
-:import('nameplate.module.scss') {
-  user-nameplate: nameplate;
-}
-
 // PLAYLIST VISUALIZATION + USERS BAR
 
 .container {
@@ -149,4 +145,8 @@ $visual-circle-size: 310px;
   defaultVisualWidth: $max-visual-width;
   defaultVisualHeight: $desktop-visual-height;
   visualCircleSize: $visual-circle-size;
+}
+
+:import('nameplate.module.scss') {
+  user-nameplate: nameplate;
 }
