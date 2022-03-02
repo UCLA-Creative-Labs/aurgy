@@ -20,12 +20,10 @@ const SAMPLE_LOBBIES = [
 ];
 
 export default function Home(): JSX.Element {
-  const createButton = <LobbyCircle name='CREATE' create={!SAMPLE_LOBBIES.length ? 1 : 2}/>;
-
   return (
     <Layout>
       <div className={styles.container}>
-        {createButton}
+        <LobbyCircle name='CREATE' create={!SAMPLE_LOBBIES.length ? 1 : 2}/>
         {SAMPLE_LOBBIES.map((lobby, index) => (
           <LobbyCircle name={lobby} key={index}/>
         ))}

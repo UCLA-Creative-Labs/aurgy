@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../styles/LobbyCircle.module.scss';
 
-enum Create {
+enum CreateOptions {
   NotCreate,
   CreateOnly,
   CreateWithLobbies
@@ -9,23 +9,19 @@ enum Create {
 
 export interface LobbyCircleProps {
   name: string;
-  create?: number;
+  create?: CreateOptions;
 }
 
-export function LobbyCircle({name, create = Create.NotCreate}: LobbyCircleProps): JSX.Element {
+export function LobbyCircle({name, create = CreateOptions.NotCreate}: LobbyCircleProps): JSX.Element {
+  const CreateOptions2Style = {
+    [CreateOptions.CreateOnly]: styles.single,
+    [CreateOptions.CreateWithLobbies]: styles.create,
+  };
 
-  let finalStyle;
-
-  if (create == Create.CreateOnly) {
-    finalStyle = styles.single;
-  } else if (create == Create.CreateWithLobbies) {
-    finalStyle = styles.create;
-  } else {
-    finalStyle = styles.top;
-  }
+  const additionalStyle = create ? CreateOptions2Style[create] : styles.top;
 
   return (
-    <a href='/' className={`${styles.circle} ${finalStyle}`}>
+    <a href='/' className={`${styles.circle} ${additionalStyle}`}>
       <div className={styles.name}>
         {name}
       </div>
