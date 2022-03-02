@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../styles/modal.module.scss';
 
-export interface BaseModalProps {
+export interface ModalProps {
   title: string;
   onCancel: () => void;
   onConfirm: () => void;
@@ -9,19 +9,14 @@ export interface BaseModalProps {
   children: React.ReactNode;
 }
 
-interface ModalProps extends BaseModalProps {
-  show: boolean;
-}
-
 function Modal({
   title,
-  show,
   onCancel,
   onConfirm,
   showFooter = true,
   children,
 }: ModalProps): JSX.Element {
-  const overlayClass = `${styles.overlay} ${show ? styles.show : ''}`;
+  const overlayClass = `${styles.overlay} ${styles.show}`;
 
   return (
     <>
