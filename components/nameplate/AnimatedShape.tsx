@@ -1,14 +1,20 @@
 import React, {useEffect, useRef} from 'react';
 import Shape, {Polygon} from '../../components/Shape';
-import styles from '../../styles/lobby.module.scss';
+import useTimelineControls from '../../hooks/useTimelineControls';
+import styles from '../../styles/nameplate.module.scss';
 import {makeNameplateTimeline} from '../../utils';
-import useTimelineControls from '../../utils/animations/useTimelineControls';
+
+export interface ButtonProps {
+  text: string;
+  callback: () => void;
+}
 
 export interface BaseAnimatedProps {
   shape: Polygon;
   highlight?: boolean;
   expanded?: boolean;
   animate?: boolean;
+  buttonOptions?: ButtonProps;
 }
 
 interface AnimatedShapeProps extends BaseAnimatedProps {
@@ -20,6 +26,7 @@ function AnimatedShape({
   shortText,
   longText,
   shape,
+  buttonOptions,
   highlight = false,
   expanded = false,
   animate = true,
@@ -44,6 +51,11 @@ function AnimatedShape({
 
   const className = `${styles.nameplate} ${highlight ? styles.highlight : ''} ${expanded ? styles.expanded : ''}`;
 
+  const optionalButton =
+        <div className={styles['nameplate-button']} onClick={buttonOptions?.callback}>
+            X
+        </div>;
+
   return (
     <div
       className={className}
@@ -54,7 +66,10 @@ function AnimatedShape({
         <Shape polygon={shape} ref={polygonRef} />
       </div>
       <div className={styles['nameplate-short']} ref={shortLabelRef}>{shortText}</div>
-      <div className={styles['nameplate-long']} ref={longLabelRef}>{longText}</div>
+      <div className={styles['nameplate-long']} ref={longLabelRef}>
+        <div className={styles['nameplate-text']}>{longText}</div>
+        {buttonOptions && optionalButton}
+      </div>
     </div >
   );
 }

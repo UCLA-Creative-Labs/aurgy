@@ -11,6 +11,7 @@ function Nameplate({
   shape,
   highlight = false,
   expanded = false,
+  buttonOptions,
 }: NameplateProps): JSX.Element {
   return (
     <AnimatedShape
@@ -19,6 +20,7 @@ function Nameplate({
       shape={shape}
       highlight={highlight}
       expanded={expanded}
+      buttonOptions={buttonOptions}
     />
   );
 }

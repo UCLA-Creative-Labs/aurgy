@@ -1,6 +1,6 @@
 import anime, {AnimeTimelineInstance} from 'animejs';
 import {Polygon} from '../../components/Shape';
-import styles from '../../styles/lobby.module.scss';
+import styles from '../../styles/nameplate.module.scss';
 import tipStyles from '../../styles/tooltip.module.scss';
 import {PARAM_DEFAULTS, fadeElement, morphPolygon} from './animations';
 

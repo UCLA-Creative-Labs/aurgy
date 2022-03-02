@@ -3,7 +3,7 @@ import {useCallback} from 'react';
 import {
   playTimeline,
   reverseTimeline,
-} from './timeline';
+} from '../utils/animations/timeline';
 
 interface Props {
   tlRef: React.MutableRefObject<AnimeTimelineInstance>,
