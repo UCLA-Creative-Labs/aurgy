@@ -7,21 +7,20 @@ enum CreateOptions {
   CreateWithLobbies
 }
 
+const CreateOptions2Style = {
+  [CreateOptions.NotCreate]: styles.top,
+  [CreateOptions.CreateOnly]: styles.single,
+  [CreateOptions.CreateWithLobbies]: styles.create,
+};
+
 export interface LobbyCircleProps {
   name: string;
   create?: CreateOptions;
 }
 
 export function LobbyCircle({name, create = CreateOptions.NotCreate}: LobbyCircleProps): JSX.Element {
-  const CreateOptions2Style = {
-    [CreateOptions.CreateOnly]: styles.single,
-    [CreateOptions.CreateWithLobbies]: styles.create,
-  };
-
-  const additionalStyle = create ? CreateOptions2Style[create] : styles.top;
-
   return (
-    <a href='/' className={`${styles.circle} ${additionalStyle}`}>
+    <a href='/' className={`${styles.circle} ${CreateOptions2Style[create]}`}>
       <div className={styles.name}>
         {name}
       </div>
