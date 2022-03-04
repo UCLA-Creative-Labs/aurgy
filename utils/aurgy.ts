@@ -88,7 +88,7 @@ export async function fetchLobbyById(id: string, jwt: string): Promise<ILobbyDat
       'Content-Type': 'application/json',
     },
   });
-  if (!res.ok) return null;
+  if (!res.ok) throw res.status;
   const data = await res.json();
   return data;
 }

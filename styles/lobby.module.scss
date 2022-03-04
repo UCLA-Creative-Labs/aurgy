@@ -9,8 +9,8 @@
   align-items: center;
 }
 
-.center-text {
-  @include centerElements;
+.center-across {
+  @include centerElementsX;
 }
 
 $mobile-visual-height: 300px;
@@ -59,7 +59,6 @@ $visual-circle-size: 310px;
 
     h4 {
       white-space: nowrap;
-      max-width: 380px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -77,6 +76,7 @@ $visual-circle-size: 310px;
       display: flex;
       align-items: center;
       margin-left: auto;
+      padding-left: 15px;
 
       .user-nameplate {
         margin-right: 15px;

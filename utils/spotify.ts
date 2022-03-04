@@ -4,8 +4,14 @@ import {
   SPOTIFY_SCOPE,
   SPOTIFY_CODE_VERIFIER,
 } from './constants';
-import { generateChallenge, generateRandomString, IChallenge } from './pkce';
+import {generateChallenge, generateRandomString, IChallenge} from './pkce';
 import {getUrlPath} from './url';
+
+const SPOTIFY_URL = 'https://open.spotify.com';
+
+export function getTrackUrl(trackid: string): string {
+  return SPOTIFY_URL + '/track/' + trackid;
+}
 
 export interface IAuthentication extends IChallenge {
   readonly state: string;
@@ -14,19 +20,19 @@ export interface IAuthentication extends IChallenge {
 
 export async function authenticate(): Promise<IAuthentication> {
   const state = generateRandomString(16);
-  const { code_challenge, code_verifier } = await generateChallenge();
+  const {code_challenge, code_verifier} = await generateChallenge();
   const authenticationUrl = 'https://accounts.spotify.com/authorize?' +
-    querystring.stringify({
-      response_type: 'code',
-      client_id: CLIENT_ID,
-      scope: SPOTIFY_SCOPE,
-      redirect_uri: getUrlPath() + '/callback',
-      state: state,
-      code_challenge,
-      code_challenge_method: 'S256',
-    });
+        querystring.stringify({
+          response_type: 'code',
+          client_id: CLIENT_ID,
+          scope: SPOTIFY_SCOPE,
+          redirect_uri: getUrlPath() + '/callback',
+          state: state,
+          code_challenge,
+          code_challenge_method: 'S256',
+        });
 
-  return { state, authenticationUrl, code_challenge, code_verifier };
+  return {state, authenticationUrl, code_challenge, code_verifier};
 }
 
 interface SpotifyTokens {

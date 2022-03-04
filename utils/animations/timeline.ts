@@ -1,7 +1,7 @@
 import anime, {AnimeTimelineInstance} from 'animejs';
-import {Polygon} from '../../components/Shape';
 import styles from '../../styles/nameplate.module.scss';
 import tipStyles from '../../styles/tooltip.module.scss';
+import {Polygon} from '../shapes';
 import {PARAM_DEFAULTS, fadeElement, morphPolygon} from './animations';
 
 interface LabelTargets {

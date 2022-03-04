@@ -1,14 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import Layout from '../components/Layout';
 import Link from '../components/Link';
+import Loading from '../components/Loading';
 import useModal from '../hooks/useModal';
 import {fetchAllLobbies, createLobby, fetchLobbyById} from '../utils/aurgy';
 import {indexCookie} from '../utils/cookies';
 import {ILobbyData} from '../utils/lobby-data';
 
+interface LobbyData extends ILobbyData {
+  id: string;
+}
+
 export default function Home(): JSX.Element {
   const [Modal, showModal, hideModal] = useModal();
-  const [lobbies, setLobbies] = useState<ILobbyData[]>([]);
+  const [lobbies, setLobbies] = useState<LobbyData[]>([]);
   const [name, setName] = useState('');
   const [theme, setTheme] = useState('');
 
@@ -17,8 +22,11 @@ export default function Home(): JSX.Element {
       const token = indexCookie('token');
       if (!token || token === 'undefined') return;
 
-      const ids = await fetchAllLobbies(token);
-      const lobbyData = await Promise.all(ids.lobbies.map(id => fetchLobbyById(id, token)));
+      const res = await fetchAllLobbies(token);
+      const lobbyData = await Promise.all(res.lobbies.map(async id => {
+        const lobby = await fetchLobbyById(id, token);
+        return {...lobby, id};
+      }));
       setLobbies(lobbyData);
     }
     void loadData();
@@ -30,8 +38,12 @@ export default function Home(): JSX.Element {
 
     const data = await createLobby({lobbyName: name, theme}, token);
     const lobby = await fetchLobbyById(data.id, token);
-    setLobbies(lobbies.concat(lobby));
+    setLobbies(lobbies.concat({...lobby, id: data.id}));
     hideModal();
+  }
+
+  if (!lobbies) {
+    return <Loading />;
   }
 
   return (
