@@ -1,0 +1,54 @@
+@use 'variables.module' as *;
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-left: calc((100vw - 350px) / 2);
+  margin-top: calc((100vh - 200px) / 2);
+  width: 350px;
+  height: 200px;
+  background-color: map-get($colors, 'white');
+  background-color: transparent;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 100;
+
+  input {
+    width: 320px;
+    padding: 5px 15px;
+    outline: none;
+    border: none;
+    border-radius: 15px;
+    color: map-get($colors, 'white');
+    background-color: map-get($colors, 'white-25');
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: map-get($colors, 'black-75');
+  display: none;
+  z-index: 99;
+
+  &.show {
+    display: block;
+  }
+
+  &.show ~ .modal {
+    display: flex;
+  }
+}
+
+.modal-footer {
+  align-self: flex-end;
+
+  button {
+    margin-left: 10px;
+  }
+}

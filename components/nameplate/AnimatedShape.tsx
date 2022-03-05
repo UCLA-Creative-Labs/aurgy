@@ -1,13 +1,20 @@
-import React, {useCallback, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import Shape, {Polygon} from '../../components/Shape';
-import styles from '../../styles/lobby.module.scss';
-import {animatePolygon, animateNameplate} from '../../utils/animations';
+import useTimelineControls from '../../hooks/useTimelineControls';
+import styles from '../../styles/nameplate.module.scss';
+import {makeNameplateTimeline} from '../../utils';
+
+export interface ButtonProps {
+  text: string;
+  callback: () => void;
+}
 
 export interface BaseAnimatedProps {
   shape: Polygon;
   highlight?: boolean;
   expanded?: boolean;
   animate?: boolean;
+  buttonOptions?: ButtonProps;
 }
 
 interface AnimatedShapeProps extends BaseAnimatedProps {
@@ -19,6 +26,7 @@ function AnimatedShape({
   shortText,
   longText,
   shape,
+  buttonOptions,
   highlight = false,
   expanded = false,
   animate = true,
@@ -27,25 +35,26 @@ function AnimatedShape({
   const polygonRef = useRef(null);
   const shortLabelRef = useRef(null);
   const longLabelRef = useRef(null);
+  const tlRef = useRef(null);
 
-  const [animateForwards, animateBackwards] = [true, false].map(forwards =>
-    useCallback(() => {
-      if (!animate) return;
-      animatePolygon({
-        target: containerRef.current,
-        polygonNode: polygonRef.current,
-        forwards,
-        shape,
-      });
-      animateNameplate({
-        target: shortLabelRef.current,
-        subtarget: longLabelRef.current,
-        forwards,
-      });
-    }, [animate]),
-  );
+  useEffect(() => {
+    tlRef.current = makeNameplateTimeline({
+      container: containerRef.current,
+      polygon: polygonRef.current,
+      shape,
+      shortLabel: shortLabelRef.current,
+      longLabel: longLabelRef.current,
+    });
+  }, []);
+
+  const [animateForwards, animateBackwards] = useTimelineControls({tlRef, animate});
 
   const className = `${styles.nameplate} ${highlight ? styles.highlight : ''} ${expanded ? styles.expanded : ''}`;
+
+  const optionalButton =
+        <div className={styles['nameplate-button']} onClick={buttonOptions?.callback}>
+            X
+        </div>;
 
   return (
     <div
@@ -57,7 +66,10 @@ function AnimatedShape({
         <Shape polygon={shape} ref={polygonRef} />
       </div>
       <div className={styles['nameplate-short']} ref={shortLabelRef}>{shortText}</div>
-      <div className={styles['nameplate-long']} ref={longLabelRef}>{longText}</div>
+      <div className={styles['nameplate-long']} ref={longLabelRef}>
+        <div className={styles['nameplate-text']}>{longText}</div>
+        {buttonOptions && optionalButton}
+      </div>
     </div >
   );
 }

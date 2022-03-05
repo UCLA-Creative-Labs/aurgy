@@ -1,4 +1,5 @@
 import React from 'react';
+import Tooltip from '../Tooltip';
 import AnimatedShape, {BaseAnimatedProps} from './AnimatedShape';
 
 export interface NameplateProps extends BaseAnimatedProps {
@@ -10,6 +11,7 @@ function Nameplate({
   shape,
   highlight = false,
   expanded = false,
+  buttonOptions,
 }: NameplateProps): JSX.Element {
   return (
     <AnimatedShape
@@ -18,6 +20,7 @@ function Nameplate({
       shape={shape}
       highlight={highlight}
       expanded={expanded}
+      buttonOptions={buttonOptions}
     />
   );
 }
@@ -25,18 +28,21 @@ function Nameplate({
 export default Nameplate;
 
 interface OverflowProps {
+  items: string[];
   value: number;
 }
 
-export function Overflow({value}: OverflowProps): JSX.Element {
+export function Overflow({items, value}: OverflowProps): JSX.Element {
   return (
-    <AnimatedShape
-      shortText={`+${value}`}
-      longText=""
-      shape="diamond"
-      highlight={false}
-      expanded={false}
-      animate={false}
-    />
+    <Tooltip text={items.join('\n')}>
+      <AnimatedShape
+        shortText={`+${value}`}
+        longText=""
+        shape="diamond"
+        highlight={false}
+        expanded={false}
+        animate={false}
+      />
+    </Tooltip>
   );
 }

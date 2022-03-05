@@ -1,10 +1,10 @@
 import {AppProps} from 'next/app';
-import React, { createContext, useEffect, useState } from 'react';
-import { AURGY_USER_DATA} from '../utils';
+import React, {createContext, useEffect, useState} from 'react';
+import {AURGY_USER_DATA} from '../utils';
 import '../styles/globals.scss';
-import { authCookie } from '../utils/aurgy';
-import { indexCookie } from '../utils/cookies';
-import { IUserData } from '../utils/user-data';
+import {authCookie} from '../utils/aurgy';
+import {indexCookie} from '../utils/cookies';
+import {IUserData} from '../utils/user-data';
 
 export interface IAppContext {
   userData: IUserData | null,
@@ -20,9 +20,9 @@ export const AppContext = createContext<IAppContext>({
   signOut: () => null,
 });
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-  const [ userData, setUserData ] = useState<IUserData | null>(null);
-  const [ isAuthenticated, setIsAuthenticated ] = useState(false);
+function MyApp({Component, pageProps}: AppProps): JSX.Element {
+  const [userData, setUserData] = useState<IUserData | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const storage = window.localStorage;

@@ -1,65 +1,17 @@
 @use 'variables.module' as *;
 @use 'mixins.module' as *;
 
-// NAMEPLATE
+// PLAYLIST VISUALIZATION + USERS BAR
 
-$nameplate-size: 40;
-$nameplate-width-min: 9px;
-$nameplate-width-max: 110px;
-$nameplate-padding-min: 0 10px;
-$nameplate-padding-max: 0 25px;
-
-.nameplate {
-  margin-right: 20px;
-  font: $body-small-fancy;
-  text-align: center;
-  z-index: 1;
-
-  .nameplate-container {
-    width: #{$nameplate-size}px;
-    height: #{$nameplate-size}px;
-  }
-
-  .nameplate-short {
-    width: #{$nameplate-size}px;
-    margin-top: #{-$nameplate-size}px;
-    line-height: #{$nameplate-size}px;
-  }
-
-  .nameplate-long {
-    max-width: $nameplate-width-min;
-    height: #{$nameplate-size - 6}px; // size - 2 * border-width
-    line-height: #{$nameplate-size - 6}px;
-    margin-top: #{-$nameplate-size}px;
-    padding: $nameplate-padding-min;
-    opacity: 0;
-    border: 3px solid #fff;
-    border-radius: #{$nameplate-size - 6}px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  &.expanded .nameplate-long {
-    opacity: 1 !important;
-    max-width: $nameplate-width-max !important;
-    padding: $nameplate-padding-max !important;
-  }
-
-  &.expanded .nameplate-short,
-  &.expanded .nameplate-container {
-    opacity: 0 !important;
-  }
-
-  &.highlight svg {
-    fill: map-get($colors, 'white-50');
-  }
-
-  &.highlight .nameplate-long {
-    background-color: map-get($colors, 'white-50');
-  }
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-// PLAYLIST VISUALIZATION + USERS BAR
+.center-text {
+  @include centerElements;
+}
 
 $mobile-visual-height: 300px;
 $desktop-visual-height: 650px;
@@ -67,6 +19,8 @@ $desktop-visual-height: 650px;
 $mobile-visual-width: 90vw;
 $desktop-visual-width: 75vw;
 $max-visual-width: 1200px;
+
+$visual-circle-size: 310px;
 
 #visual {
   // Responsive Properties
@@ -80,6 +34,19 @@ $max-visual-width: 1200px;
   // Responsive Properties
   margin-top: calc(#{$desktop-visual-height} - 170px);
   margin-left: 75px;
+}
+
+#visual-circle {
+  width: $visual-circle-size;
+  height: $visual-circle-size;
+
+  canvas {
+    border-radius: $visual-circle-size;
+  }
+
+  #caption {
+    display: none;
+  }
 }
 
 #playlist {
@@ -97,7 +64,11 @@ $max-visual-width: 1200px;
       text-overflow: ellipsis;
     }
 
-    h4:nth-of-type(2) {
+    .title {
+      cursor: pointer;
+    }
+
+    .artist {
       margin-left: 10px;
       color: map-get($colors, 'white-50');
     }
@@ -107,8 +78,11 @@ $max-visual-width: 1200px;
       align-items: center;
       margin-left: auto;
 
-      .nameplate {
-        margin-left: 15px;
+      .user-nameplate {
+        margin-right: 15px;
+      }
+
+      .user-nameplate:last-of-type {
         margin-right: 0;
       }
     }
@@ -170,9 +144,9 @@ $max-visual-width: 1200px;
 :export {
   defaultVisualWidth: $max-visual-width;
   defaultVisualHeight: $desktop-visual-height;
-  nameplateSize: $nameplate-size;
-  nameplateWidthMin: $nameplate-width-min;
-  nameplateWidthMax: $nameplate-width-max;
-  nameplatePaddingMin: $nameplate-padding-min;
-  nameplatePaddingMax: $nameplate-padding-max;
+  visualCircleSize: $visual-circle-size;
+}
+
+:import('nameplate.module.scss') {
+  user-nameplate: nameplate;
 }
