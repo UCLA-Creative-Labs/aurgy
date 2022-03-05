@@ -6,8 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "eslint": "npx eslint '**/*.tsx' '**/*.ts'",
-    "stylelint": "npx stylelint '**/*.css' '**/*.scss'",
+    "eslint": "npx eslint \"**/*.tsx\" \"**/*.ts\"",
+    "stylelint": "npx stylelint \"**/*.css\" \"**/*.scss\"",
     "lint": "yarn run eslint && yarn run stylelint",
     "lint:fix": "yarn run eslint --fix && yarn run stylelint --fix",
     "no-lock": "scripts/noPackageLock.sh"
