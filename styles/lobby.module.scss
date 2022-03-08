@@ -1,5 +1,6 @@
 @use 'variables.module' as *;
 @use 'mixins.module' as *;
+@use 'LobbyCircle.module' as *;
 
 // PLAYLIST VISUALIZATION + USERS BAR
 
@@ -37,11 +38,11 @@ $visual-circle-size: 310px;
 }
 
 #visual-circle {
-  width: $visual-circle-size;
-  height: $visual-circle-size;
+  width: $circle-size;
+  height: $circle-size;
 
   canvas {
-    border-radius: $visual-circle-size;
+    border-radius: $circle-size;
   }
 
   #caption {
@@ -144,7 +145,7 @@ $visual-circle-size: 310px;
 :export {
   defaultVisualWidth: $max-visual-width;
   defaultVisualHeight: $desktop-visual-height;
-  visualCircleSize: $visual-circle-size;
+  circleHeightPercent: $circle-size;
 }
 
 :import('nameplate.module.scss') {

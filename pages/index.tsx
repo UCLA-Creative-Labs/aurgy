@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
+import Footer from '../components/Footer';
 import Layout from '../components/Layout';
-import Link from '../components/Link';
 import Loading from '../components/Loading';
+import LobbyCircle, {CreateOptions} from '../components/LobbyCircle';
 import useModal from '../hooks/useModal';
+import styles from '../styles/home.module.scss';
 import {fetchAllLobbies, createLobby, fetchLobbyById} from '../utils/aurgy';
 import {indexCookie} from '../utils/cookies';
 import {ILobbyDataShort} from '../utils/lobby-data';
@@ -40,21 +42,16 @@ export default function Home(): JSX.Element {
 
   return (
     <Layout>
-      <h1>AURGY</h1>
-
-      <h3>lobbies:</h3>
-      <div>
-        {lobbies && lobbies.map(lobby =>
-          <div key={lobby.id}>
-            <Link href={'/lobby?id=' + lobby.id}>GO TO LOBBY</Link>
-            <div>name: {lobby.name}</div>
-            <div>theme: {lobby.theme}</div>
-            <div>id: {lobby.id}</div>
-            <br />
-          </div>,
-        )}
+      <div className={styles.container}>
+        <LobbyCircle
+          name='CREATE'
+          onClick={() => showModal()}
+          create={!lobbies.length ? CreateOptions.CreateOnly : CreateOptions.CreateWithLobbies} />
+        {lobbies.map((lobby, index) => (
+          <LobbyCircle name={lobby.name} href={'/lobby?id=' + lobby.id} key={index} />
+        ))}
       </div>
-      <button onClick={() => showModal()}>CREATE LOBBY</button>
+      <Footer />
       <Modal
         title="CREATE LOBBY"
         onCancel={() => hideModal()}

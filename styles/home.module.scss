@@ -1,0 +1,18 @@
+@use 'variables.module' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  img { margin-right: 15px; }
+
+  background-color: map-get($colors, 'grey-bg');
+  align-content: flex-start;
+  justify-content: center;
+  height: calc(100vh - 2 * #{$vertical-padding});
+}
+
+// hides scrollbar
+.container::-webkit-scrollbar { display: none; }

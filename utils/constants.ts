@@ -1,5 +1,5 @@
 // Spotify Info
-export const SPOTIFY_SCOPE = 'user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-read-email user-top-read user-follow-modify user-library-modify';
+export const SPOTIFY_SCOPE = 'user-read-playback-state user-modify-playback-state user-read-currently-playing user-read-private user-read-email user-top-read user-follow-modify user-library-modify playlist-modify-private';
 export const CLIENT_ID = '91c83169191d43628d4ff1d14369609c';
 
 // Local Storage Keys

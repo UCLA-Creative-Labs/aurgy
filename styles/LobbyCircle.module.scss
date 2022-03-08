@@ -1,0 +1,44 @@
+@use 'variables.module' as *;
+@use 'mixins.module' as *;
+
+$circle-size: 35vh;
+$circle-offset: 4.5vh;
+
+.create {
+  margin-left: calc(#{$circle-size} / 2);
+}
+
+.single {
+  margin: auto;
+}
+
+//offset
+.top:nth-child(2) {
+  margin-left: $circle-size;
+  margin-top: -$circle-offset;
+}
+
+.top:nth-child(odd) {
+  margin-left: calc(-#{$circle-size} / 2);
+}
+
+.top:nth-child(even) {
+  margin-top: -$circle-offset;
+}
+
+.circle {
+  width: $circle-size;
+  height: $circle-size;
+  border-radius: 50%;
+  border: 1px solid white;
+  text-align: center;
+  cursor: pointer;
+}
+
+.name {
+  margin-top: -15%;
+}
+
+:export {
+  circleHeightPercent: $circle-size;
+}
