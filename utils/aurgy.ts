@@ -1,7 +1,8 @@
-import {ILobbyCreationData, ILobbiesData, ILobbyData} from './lobby-data';
+import {ILobbyCreationData, ILobbiesData, ILobbyDataFull} from './lobby-data';
 import {IUserData} from './user-data';
 
-const URL = 'https://daddy.creativelabsucla.com';
+// const URL = 'https://daddy.creativelabsucla.com';
+const URL = 'http://158.101.44.113:3000';
 
 /**
  * USER SERVICES
@@ -80,7 +81,7 @@ export async function fetchAllLobbies(jwt: string): Promise<ILobbiesData | null>
   return data;
 }
 
-export async function fetchLobbyById(id: string, jwt: string): Promise<ILobbyData | null> {
+export async function fetchLobbyById(id: string, jwt: string): Promise<ILobbyDataFull | null> {
   const res = await window.fetch(URL + '/lobby/' + id, {
     method: 'GET',
     headers: {

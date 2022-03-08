@@ -8,47 +8,41 @@ import PlaylistVisual from '../components/PlaylistVisual';
 import Tooltip from '../components/Tooltip';
 import useModal from '../hooks/useModal';
 import styles from '../styles/lobby.module.scss';
-import {getUrlPath} from '../utils';
 import {fetchLobbyById} from '../utils/aurgy';
 import {indexCookie} from '../utils/cookies';
-import {ILobbyData} from '../utils/lobby-data';
+import {ILobbyDataFull} from '../utils/lobby-data';
 import {makeShapeMap, Polygon} from '../utils/shapes';
 import {getTrackUrl} from '../utils/spotify';
 import {AppContext} from './_app';
 
-interface LobbyData extends ILobbyData {
+interface LobbyData extends ILobbyDataFull {
   participantShapes: {[name: string]: Polygon};
 }
 
 function Lobby(): JSX.Element {
   const router = useRouter();
-  const {userData, signOut} = useContext(AppContext);
+  const {userData, relogin} = useContext(AppContext);
   const [Modal, showModal, hideModal] = useModal();
   const [lobbyData, setLobbyData] = useState<LobbyData>(null);
   const [error, setError] = useState<string>(null);
-
-  function reloginUser() {
-    signOut();
-    void router.push(getUrlPath() + '/me');
-  }
 
   useEffect(() => {
     async function loadData() {
       const token = indexCookie('token');
       if (!token || token === 'undefined') {
-        reloginUser();
+        relogin();
         return;
       }
 
       try {
         if (router.query?.id == null) throw 'id not provided';
         const data = await fetchLobbyById(router.query.id as string, token);
-        const map = makeShapeMap(userData.name, data.participants);
+        const map = makeShapeMap(userData.name, data.users.map(u => u.name));
         setLobbyData({...data, participantShapes: map});
       }
       catch (status) {
         if (status === 403) { // token expired
-          reloginUser();
+          relogin();
         } else { // user not in lobby, invalid id, or id not provided
           setError('INVALID LOBBY.');
         }
@@ -76,10 +70,14 @@ function Lobby(): JSX.Element {
         />
 
         <div id={styles.userbar} data-tip={'test'}>
-          <NameplateGroup names={addShapeToProps(lobbyData.participants)} expandCurrentUser={true} buttonOptions={{
-            text: 'DELETE USER',
-            callback: () => null,
-          }} />
+          <NameplateGroup
+            names={addShapeToProps(lobbyData.users.map(u => u.name))}
+            expandCurrentUser={true}
+            buttonOptions={{
+              text: 'DELETE USER',
+              callback: () => null,
+            }}
+          />
           <button onClick={() => showModal()}>invite</button>
         </div>
 
