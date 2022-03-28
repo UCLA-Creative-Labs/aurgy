@@ -1,9 +1,6 @@
 @use 'variables.module' as *;
 @use 'mixins.module' as *;
 
-$circle-size: 35vh;
-$circle-offset: 4.5vh;
-
 .create {
   margin-left: calc(#{$circle-size} / 2);
 }

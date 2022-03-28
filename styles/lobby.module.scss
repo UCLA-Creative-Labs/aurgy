@@ -1,6 +1,5 @@
 @use 'variables.module' as *;
-@use 'mixins.module' as *;
-@use 'LobbyCircle.module' as *;
+@use 'mixins.module' as mixin;
 
 // PLAYLIST VISUALIZATION + USERS BAR
 
@@ -11,7 +10,7 @@
 }
 
 .center-across {
-  @include centerElementsX;
+  @include mixin.centerElementsX;
 }
 
 $mobile-visual-height: 300px;
@@ -106,7 +105,7 @@ $visual-circle-size: 310px;
   width: calc(#{$desktop-visual-width} - 2 * 75px);
 }
 
-@include for-large-desktop-up {
+@include mixin.for-large-desktop-up {
   #visual,
   #playlist {
     width: $max-visual-width;
@@ -117,7 +116,7 @@ $visual-circle-size: 310px;
   }
 }
 
-@include for-mobile-only {
+@include mixin.for-mobile-only {
   #visual {
     width: $mobile-visual-width;
     min-height: $mobile-visual-height;

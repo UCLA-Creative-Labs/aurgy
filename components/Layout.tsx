@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
+import Footer from '../components/Footer';
 import {capitalize} from '../utils';
 import Navbar from './Navbar';
 
@@ -39,6 +40,7 @@ function Layout(props: LayoutProps): JSX.Element {
       <main id={props.id}>
         {props.children}
       </main>
+      <Footer />
     </>
   );
 }

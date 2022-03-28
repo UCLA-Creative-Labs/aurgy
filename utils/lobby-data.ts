@@ -1,35 +1,26 @@
-export type ILobbyCreationData = {
-  readonly name: string;
-  readonly id: string;
-}
-
-export type ILobbySong = {
-  id: string;
-  artists: string[];
-  name: string;
-  contributors: string[];
-}
-
-export type ILobbyUser = {
-  id: string,
-  name: string,
-}
-
-export type ILobbyDataShort = {
+export interface ILobbyBase {
   readonly id: string;
   readonly name: string;
+}
+
+export type ILobbyUser = ILobbyBase
+
+export interface ILobbySong extends ILobbyBase {
+  readonly artists: string[];
+  readonly contributors: string[];
+}
+
+export interface ILobbyDataBase extends ILobbyBase {
   readonly theme: string;
 }
 
-export type ILobbiesData = {
-  readonly lobbies: ILobbyDataShort[];
-}
-
-export type ILobbyDataFull = {
-  readonly name: string;
-  readonly theme: string;
+export interface ILobbyData extends ILobbyDataBase {
   readonly managerId: string;
   readonly managerName: string;
   readonly songs: ILobbySong[];
   readonly users: ILobbyUser[];
-};
+}
+
+export interface ILobbiesData {
+  readonly lobbies: ILobbyDataBase[];
+}

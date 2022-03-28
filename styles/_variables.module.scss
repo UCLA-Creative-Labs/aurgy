@@ -29,8 +29,11 @@ $colors: (
 $vertical-padding: 128px;
 $content-max-width: 850px;
 $button-horizontal-padding: 24px;
-
 $horizontal-margins: 64px;
+
+// LOBBY CIRCLE
+$circle-size: 35vh;
+$circle-offset: 4.5vh;
 
 // Export to JS
 :export {

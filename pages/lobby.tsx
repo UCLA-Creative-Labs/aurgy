@@ -5,18 +5,18 @@ import Loading from '../components/Loading';
 import {NameplateProps} from '../components/nameplate/Nameplate';
 import NameplateGroup from '../components/nameplate/NameplateGroup';
 import PlaylistVisual from '../components/PlaylistVisual';
-import Tooltip from '../components/Tooltip';
 import useModal from '../hooks/useModal';
 import styles from '../styles/lobby.module.scss';
 import {fetchLobbyById} from '../utils/aurgy';
 import {indexCookie} from '../utils/cookies';
-import {ILobbyDataFull} from '../utils/lobby-data';
-import {makeShapeMap, Polygon} from '../utils/shapes';
-import {getTrackUrl} from '../utils/spotify';
+import {ILobbyData} from '../utils/lobby-data';
+import {makeShapeMap} from '../utils/shapes';
 import {AppContext} from './_app';
 
-interface LobbyData extends ILobbyDataFull {
-  participantShapes: {[name: string]: Polygon};
+type NameplatePropsMap = {[name: string]: NameplateProps};
+
+interface LobbyData extends ILobbyData {
+  nameplateProps: NameplatePropsMap;
 }
 
 function Lobby(): JSX.Element {
@@ -37,8 +37,9 @@ function Lobby(): JSX.Element {
       try {
         if (router.query?.id == null) throw 'id not provided';
         const data = await fetchLobbyById(router.query.id as string, token);
-        const map = makeShapeMap(userData.name, data.users.map(u => u.name));
-        setLobbyData({...data, participantShapes: map});
+        const participantNames = data.users.map(u => u.name);
+        const propsMap = makePropsMap(userData.name, participantNames);
+        setLobbyData({...data, nameplateProps: propsMap});
       }
       catch (status) {
         if (status === 403) { // token expired
@@ -55,10 +56,13 @@ function Lobby(): JSX.Element {
     return <Loading error={error} />;
   }
 
-  function addShapeToProps(users: string[]): NameplateProps[] {
-    return users.map(
-      name => ({name, shape: lobbyData.participantShapes[name] ?? 'pentagon'}),
-    );
+  function makePropsMap(currentUser: string, participants: string[]): NameplatePropsMap {
+    const shapeMap = makeShapeMap(currentUser, participants);
+    const propsMap = {};
+    participants.forEach(name => {
+      propsMap[name] = {name, shape: shapeMap[name] ?? 'pentagon'};
+    });
+    return propsMap;
   }
 
   return (
@@ -71,7 +75,7 @@ function Lobby(): JSX.Element {
 
         <div id={styles.userbar} data-tip={'test'}>
           <NameplateGroup
-            names={addShapeToProps(lobbyData.users.map(u => u.name))}
+            names={lobbyData.users.map(u => lobbyData.nameplateProps[u.name])}
             expandCurrentUser={true}
             buttonOptions={{
               text: 'DELETE USER',
@@ -85,14 +89,10 @@ function Lobby(): JSX.Element {
           {lobbyData.songs.length
             ? lobbyData.songs.map((song) => {
               const artists = song.artists.join(', ');
-              const contributors = addShapeToProps(song.contributors);
+              const contributors = song.contributors.map(name => lobbyData.nameplateProps[name]);
               return (
                 <div key={`${song.name}-${artists}`} className={styles.song}>
-                  <Tooltip text="PLAY">
-                    <a href={getTrackUrl(song.id)}>
-                      <h4 className={styles.title}>{song.name}</h4>
-                    </a>
-                  </Tooltip>
+                  <h4 className={styles.title}>{song.name}</h4>
                   <h4 className={styles.artist}>{artists}</h4>
                   <div className={styles['user-container']}>
                     <NameplateGroup names={contributors} limit={3} />

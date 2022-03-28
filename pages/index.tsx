@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import Footer from '../components/Footer';
 import Layout from '../components/Layout';
 import Loading from '../components/Loading';
 import LobbyCircle, {CreateOptions} from '../components/LobbyCircle';
@@ -7,11 +6,11 @@ import useModal from '../hooks/useModal';
 import styles from '../styles/home.module.scss';
 import {fetchAllLobbies, createLobby, fetchLobbyById} from '../utils/aurgy';
 import {indexCookie} from '../utils/cookies';
-import {ILobbyDataShort} from '../utils/lobby-data';
+import {ILobbyDataBase} from '../utils/lobby-data';
 
 export default function Home(): JSX.Element {
   const [Modal, showModal, hideModal] = useModal();
-  const [lobbies, setLobbies] = useState<ILobbyDataShort[]>([]);
+  const [lobbies, setLobbies] = useState<ILobbyDataBase[]>([]);
   const [name, setName] = useState('');
   const [theme, setTheme] = useState('');
 
@@ -51,7 +50,6 @@ export default function Home(): JSX.Element {
           <LobbyCircle name={lobby.name} href={'/lobby?id=' + lobby.id} key={index} />
         ))}
       </div>
-      <Footer />
       <Modal
         title="CREATE LOBBY"
         onCancel={() => hideModal()}

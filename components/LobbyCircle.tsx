@@ -1,9 +1,9 @@
 import CircleType from 'circletype';
-import NextLink from 'next/link';
 import React, {useEffect, useRef} from 'react';
 import useTimelineControls from '../hooks/useTimelineControls';
 import styles from '../styles/LobbyCircle.module.scss';
 import {makeRotationTimeline} from '../utils';
+import Link from './Link';
 import PlaylistVisual from './PlaylistVisual';
 
 export enum CreateOptions {
@@ -42,9 +42,8 @@ export function LobbyCircle({
 
   useEffect(() => {
     const circText = new CircleType(ref.current);
-
     function setRadius() {
-      circText.radius(window.innerHeight * .35 / 2).dir(-1);
+      circText.radius(circRef.current.offsetWidth / 2).dir(-1);
     }
     setRadius();
     window.addEventListener('resize', setRadius);
@@ -53,25 +52,26 @@ export function LobbyCircle({
       window.removeEventListener('resize', setRadius);
       circText.destroy();
     };
-  }, [ref]);
+  }, [ref, circRef]);
 
   const padName = name?.replace(/./g, '$& ');
 
-  const base = (
+  return (
     <div
-      className={`${styles.circle} ${CreateOptions2Style[create]}`}
-      onClick={onClick}
       ref={circRef}
+      onClick={onClick}
+      className={`${styles.circle} ${CreateOptions2Style[create]}`}
       onMouseEnter={animateForwards}
       onMouseLeave={animateBackwards}
     >
-      <PlaylistVisual title='' subtitle='' fullSize={false} animate={false} />
+      <Link href={href} isDisabled={!href}>
+        <PlaylistVisual title='' subtitle='' fullSize={false} animate={false} />
+      </Link>
       <div className={styles.name} ref={ref}>
         {padName}
       </div>
     </div>
   );
-  return href ? (<NextLink href={href}>{base}</NextLink>) : base;
 }
 
 export default LobbyCircle;
