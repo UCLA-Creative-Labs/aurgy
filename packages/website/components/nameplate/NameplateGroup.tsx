@@ -19,7 +19,7 @@ function NameplateGroup({
 
   return (
     <>
-      {names.slice(0, limit).map((passedProps: NameplateProps) => {
+      {names.slice(0, limit).map(passedProps => {
         const isCurrentUser = passedProps.shape === 'circle';
         return <Nameplate
           name={passedProps.name}

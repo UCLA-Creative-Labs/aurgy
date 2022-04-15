@@ -1,0 +1,16 @@
+@use 'variables.module' as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  img { margin-right: 15px; }
+
+  align-items: flex-start;
+  height: 75vh;
+}
+
+// hides scrollbar
+.container::-webkit-scrollbar { display: none; }

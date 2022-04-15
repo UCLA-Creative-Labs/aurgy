@@ -1,8 +1,8 @@
 import React, {useEffect, useRef} from 'react';
+import Shape, {Polygon} from '../../components/Shape';
 import useTimelineControls from '../../hooks/useTimelineControls';
 import styles from '../../styles/nameplate.module.scss';
 import {makeNameplateTimeline} from '../../utils';
-import Shape, {Polygon} from '../Shape';
 
 export interface ButtonProps {
   text: string;
