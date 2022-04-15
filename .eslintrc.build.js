@@ -77,7 +77,7 @@ module.exports = {
 
     // Cannot shadow names
     'no-shadow': 'off',
-    '@typescript-eslint/no-shadow': ['error'],
+    '@typescript-eslint/no-shadow': 'error',
 
     // Required spacing in property declarations (copied from TSLint, defaults are good)
     'key-spacing': ['error'],
