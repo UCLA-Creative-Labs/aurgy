@@ -8,17 +8,43 @@
 This project adheres to the Contributor Covenant [code of conduct](CODE_OF_CONDUCT.md). By participating, you are 
 expected to uphold this code. Please report unacceptable behavior to uclacreatives@gmail.com.
 
+
 ## Getting Started
 
+`Aurgy` is a monorepo. Our `javascript` set up is run primarily
+for our web services. We use [lerna](https://github.com/lerna/lerna)
+to manage our `javascript` packages.
+
+Lerna is a tool to help dependency management for larger scale repositories.
+It fits into our current model as a tool to help us create a distinct, yet interdependent
+web of **shared** packages.
+
+Read this [blog post](https://circleci.com/blog/monorepo-dev-practices/) to learn more
+about the benefits and challenges of using a monorepo.
+
+### Prerequisites
+
+Below are the prerequisites for `Aurgy`:
+
+**Node Requirements**
+
+We use [`yarn`](https://classic.yarnpkg.com/en/docs/install#mac-stable) as
+our package manager. Run `nvm use` to get the right version.
+
+```
+node v16
+```
+
 We use [`yarn`](https://classic.yarnpkg.com/en/docs/install#mac-stable) as our package manager.
+
+**Step One**
 
 The basic commands to get this repository and start are:
 
 ```
 $ git clone https://github.com/UCLA-Creative-Labs/aurgy.git
 $ cd aurgy
-$ yarn install
-$ yarn dev
+$ yarn
 ```
 
 If you run into an issue, feel free to make an issue [here](https://github.com/UCLA-Creative-Labs/aurgy/issues). If you have a fix, even better! Check out the follow section to learn how to contribute!

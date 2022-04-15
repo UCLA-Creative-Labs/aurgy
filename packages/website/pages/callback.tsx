@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import React, {useContext, useEffect} from 'react';
 import Layout from '../components/Layout';
-import {AppContext} from '../pages/_app';
 import styles from '../styles/Callback.module.scss';
 import {
   getUrlPath,
@@ -9,6 +8,7 @@ import {
   fetchSpotifyTokens,
 } from '../utils';
 import { signIn } from '../utils/aurgy';
+import {AppContext} from './_app';
 
 export default function SpotifyCallback(): JSX.Element {
   const {setUserData} = useContext(AppContext);
