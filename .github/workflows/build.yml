@@ -1,9 +1,9 @@
-name: Simple Lint
+name: Simple Build
 on: pull_request
 
 jobs:
-  run-linters:
-    name: Run Linters
+  run-build:
+    name: Run Build
     runs-on: ubuntu-latest
 
     steps:
@@ -21,3 +21,9 @@ jobs:
 
       - name: Run linters
         run: yarn lint
+
+      - name: Run test
+        run: yarn test
+
+      - name: Run build
+        run: yarn build
