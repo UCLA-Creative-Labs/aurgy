@@ -1,6 +1,6 @@
 {
   "name": "@aurgy/server",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "dist/www/index.js",
   "description": "the server for the aurgy webapp",
   "scripts": {
