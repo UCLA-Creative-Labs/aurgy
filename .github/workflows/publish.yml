@@ -19,6 +19,9 @@ jobs:
         node-version: 16
         registry-url: https://registry.npmjs.com/
     
+    - name: Install dependencies
+      run: yarn ci
+    
     - name: Run linters
       run: yarn lint
 
