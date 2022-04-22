@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "version": "0.0.0",
+  "description": "generate out-of-body music playlists with your friends",
   "scripts": {
     "preci": "rm -rf node_modules",
     "ci": "yarn install --frozen-lockfile",
@@ -18,12 +19,13 @@
     "type": "git",
     "url": "git+https://github.com/UCLA-Creative-Labs/aurgy.git"
   },
-  "author": "Bryan Pan",
+  "author": "Creative Labs UCLA",
   "license": "MIT",
   "homepage": "https://github.com/UCLA-Creative-Labs/aurgy#readme",
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "packages/@aurgy/*"
     ]
   },
   "devDependencies": {

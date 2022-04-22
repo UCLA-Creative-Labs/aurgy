@@ -1,0 +1,34 @@
+name: yarn-publish
+on:
+  # Release using 'npm version minor'
+  create:
+    tags:
+      - v*
+jobs:
+  npm-publish:
+    name: yarn-publish
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Checkout repository
+      uses: actions/checkout@master
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@master
+      with:
+        node-version: 16
+        registry-url: https://registry.npmjs.com/
+    
+    - name: Run linters
+      run: yarn lint
+
+    - name: Run test
+      run: yarn test
+
+    - name: Run build
+      run: yarn build
+    
+    - name: Run publish
+      run: npx lerna publish from-package --yes
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # You need to set this in your repo settings

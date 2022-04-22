@@ -1,8 +1,8 @@
 {
-  "name": "aurgy-backend",
-  "version": "0.1.0",
+  "name": "@aurgy/server",
+  "version": "0.0.0",
   "main": "dist/www/index.js",
-  "private": true,
+  "description": "the server for the aurgy webapp",
   "scripts": {
     "dev": "npx nodemon www/index.ts",
     "prebuild": "npx tsc --build --clean",
@@ -12,6 +12,16 @@
     "lint:fix": "yarn run lint --fix",
     "test": "npx jest"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UCLA-Creative-Labs/aurgy.git",
+    "directory": "packages/@aurgy/server"
+  },
+  "author": "Creative Labs UCLA",
+  "engines": {
+    "node": ">= 16.0.0"
+  },
+  "license": "MIT",
   "devDependencies": {
     "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
