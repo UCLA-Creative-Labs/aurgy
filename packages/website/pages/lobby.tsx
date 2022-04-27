@@ -1,101 +1,68 @@
 import {useRouter} from 'next/router';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Layout from '../components/Layout';
+import Loading from '../components/Loading';
 import {NameplateProps} from '../components/nameplate/Nameplate';
 import NameplateGroup from '../components/nameplate/NameplateGroup';
 import PlaylistVisual from '../components/PlaylistVisual';
-import Tooltip from '../components/Tooltip';
 import useModal from '../hooks/useModal';
 import styles from '../styles/lobby.module.scss';
 import {fetchLobbyById} from '../utils/aurgy';
 import {indexCookie} from '../utils/cookies';
 import {ILobbyData} from '../utils/lobby-data';
+import {makeShapeMap} from '../utils/shapes';
+import {AppContext} from './_app';
 
-const USERS: NameplateProps[] = [
-  {
-    name: 'BRYAN', shape: 'circle',
-  },
-  {
-    name: 'NACH', shape: 'pentagon',
-  },
-  {
-    name: 'SMALLBERG', shape: 'hexagon',
-  },
-  {
-    name: 'PALSBERG', shape: 'heptagon',
-  },
-  {
-    name: 'REIHER', shape: 'octagon',
-  },
-];
+type NameplatePropsMap = {[name: string]: NameplateProps};
 
-const SAMPLE_PLAYLIST_DATA = [
-  {
-    title: 'REALLY LONG TITLE GOES HERE',
-    artist: 'LOREM, IPSUM, DOLOR, EGADS',
-    users: [USERS[0]],
-  },
-  {
-    title: 'FEEL IT STILL',
-    artist: 'PORTUGAL. THE MAN',
-    users: [USERS[1], USERS[2]],
-  },
-  {
-    title: 'HEAT WAVES',
-    artist: 'GLASS ANIMALS',
-    users: [USERS[0], USERS[2], USERS[3], USERS[4]],
-  },
-  {
-    title: 'FLOAT',
-    artist: 'HARBOUR',
-    users: USERS,
-  },
-  {
-    title: 'MAINE',
-    artist: 'NOAH KAHAN',
-    users: [USERS[2]],
-  },
-  {
-    title: 'THINKING OUT LOUD',
-    artist: 'ED SHEERAN',
-    users: [USERS[3], USERS[4]],
-  },
-];
+interface LobbyData extends ILobbyData {
+  nameplateProps: NameplatePropsMap;
+}
 
 function Lobby(): JSX.Element {
-  const {query} = useRouter();
+  const router = useRouter();
+  const {userData, relogin} = useContext(AppContext);
   const [Modal, showModal, hideModal] = useModal();
-  const [lobbyData, setLobbyData] = useState<ILobbyData>(null);
-  const [error, setError] = useState(null);
+  const [lobbyData, setLobbyData] = useState<LobbyData>(null);
+  const [error, setError] = useState<string>(null);
 
   useEffect(() => {
     async function loadData() {
       const token = indexCookie('token');
-      if (!token || token === 'undefined' || query?.id == null) {
-        // TODO: Redirect to login
-        setError('LOG IN FIRST.');
+      if (!token || token === 'undefined') {
+        relogin();
         return;
       }
 
       try {
-        const data = await fetchLobbyById(query.id as string, token);
-        setLobbyData(data);
-      } catch (_) {
-        // TODO: Address all error codes
-        setError('INVALID LOBBY.');
+        if (router.query?.id == null) throw 'id not provided';
+        const data = await fetchLobbyById(router.query.id as string, token);
+        const participantNames = data.users.map(u => u.name);
+        const propsMap = makePropsMap(userData.name, participantNames);
+        setLobbyData({...data, nameplateProps: propsMap});
+      }
+      catch (status) {
+        if (status === 403) { // token expired
+          relogin();
+        } else { // user not in lobby, invalid id, or id not provided
+          setError('INVALID LOBBY.');
+        }
       }
     }
     void loadData();
-  }, []);
+  }, [router]);
 
-  if (!!error || !lobbyData) {
-    return (
-      <Layout>
-        <div className={`${styles['center-text']}`}>
-          {error ?? 'LOADING...'}
-        </div>
-      </Layout>
-    );
+  if (!lobbyData) {
+    return <Loading error={error} />;
+  }
+
+  function makePropsMap(currentUser: string, participants: string[]): NameplatePropsMap {
+    const shapeMap = makeShapeMap(currentUser, participants);
+    const propsMap = {};
+    participants.forEach(name => {
+      propsMap[name] = {name, shape: shapeMap[name] ?? 'pentagon'};
+    });
+    return propsMap;
   }
 
   return (
@@ -107,25 +74,33 @@ function Lobby(): JSX.Element {
         />
 
         <div id={styles.userbar} data-tip={'test'}>
-          <NameplateGroup names={USERS} expandCurrentUser={true} buttonOptions={{
-            text: 'DELETE USER',
-            callback: () => null,
-          }} />
+          <NameplateGroup
+            names={lobbyData.users.map(u => lobbyData.nameplateProps[u.name])}
+            expandCurrentUser={true}
+            buttonOptions={{
+              text: 'DELETE USER',
+              callback: () => null,
+            }}
+          />
           <button onClick={() => showModal()}>invite</button>
         </div>
 
         <div id={styles.playlist}>
-          {SAMPLE_PLAYLIST_DATA.map((song) => (
-            <div key={`${song.title}-${song.artist}`} className={styles.song}>
-              <Tooltip text="play">
-                <h4 className={styles.title}>{song.title}</h4>
-              </Tooltip>
-              <h4 className={styles.artist}>{song.artist}</h4>
-              <div className={styles['user-container']}>
-                <NameplateGroup names={song.users} limit={3} />
-              </div>
-            </div>
-          ))}
+          {lobbyData.songs.length
+            ? lobbyData.songs.map((song) => {
+              const artists = song.artists.join(', ');
+              const contributors = song.contributors.map(name => lobbyData.nameplateProps[name]);
+              return (
+                <div key={`${song.name}-${artists}`} className={styles.song}>
+                  <h4 className={styles.title}>{song.name}</h4>
+                  <h4 className={styles.artist}>{artists}</h4>
+                  <div className={styles['user-container']}>
+                    <NameplateGroup names={contributors} limit={3} />
+                  </div>
+                </div>
+              );
+            })
+            : <div className={styles['center-across']}>NO SONGS YET, CHECK BACK LATER.</div>}
         </div>
       </div>
 

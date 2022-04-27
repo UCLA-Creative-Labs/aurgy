@@ -1,35 +1,41 @@
 @use 'variables.module' as *;
+@use 'mixins.module' as *;
 
 .create {
-  margin-left: 17.5vh;
+  margin-left: calc(#{$circle-size} / 2);
 }
 
 .single {
   margin: auto;
 }
 
-// offset
+//offset
 .top:nth-child(2) {
-  margin-left: 35vh;
-  margin-top: -4.5vh;
+  margin-left: $circle-size;
+  margin-top: -$circle-offset;
 }
 
 .top:nth-child(odd) {
-  margin-left: -17.5vh;
+  margin-left: calc(-#{$circle-size} / 2);
 }
 
 .top:nth-child(even) {
-  margin-top: -4.5vh;
+  margin-top: -$circle-offset;
 }
 
 .circle {
-  width: 35vh;
-  height: 35vh;
+  width: $circle-size;
+  height: $circle-size;
   border-radius: 50%;
-  background-color: mediumturquoise;
+  border: 1px solid white;
   text-align: center;
+  cursor: pointer;
 }
 
 .name {
-  margin-top: 45%;
+  margin-top: -15%;
+}
+
+:export {
+  circleHeightPercent: $circle-size;
 }

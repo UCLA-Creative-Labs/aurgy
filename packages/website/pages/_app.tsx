@@ -1,6 +1,7 @@
 import {AppProps} from 'next/app';
+import {useRouter} from 'next/router';
 import React, {createContext, useEffect, useState} from 'react';
-import {AURGY_USER_DATA} from '../utils';
+import {AURGY_USER_DATA, getUrlPath} from '../utils';
 import '../styles/globals.scss';
 import {authCookie} from '../utils/aurgy';
 import {indexCookie} from '../utils/cookies';
@@ -11,6 +12,7 @@ export interface IAppContext {
   setUserData: (data: IUserData) => void,
   isAuthenticated: boolean;
   signOut: () => void;
+  relogin: () => void;
 }
 
 export const AppContext = createContext<IAppContext>({
@@ -18,9 +20,11 @@ export const AppContext = createContext<IAppContext>({
   setUserData: (_data) => null,
   isAuthenticated: false,
   signOut: () => null,
+  relogin: () => null,
 });
 
 function MyApp({Component, pageProps}: AppProps): JSX.Element {
+  const router = useRouter();
   const [userData, setUserData] = useState<IUserData | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -56,12 +60,18 @@ function MyApp({Component, pageProps}: AppProps): JSX.Element {
     setIsAuthenticated(false);
   };
 
+  const relogin = () => {
+    signOut();
+    void router.push(getUrlPath() + '/me');
+  };
+
   return (
     <AppContext.Provider value={{
       userData,
       setUserData,
       isAuthenticated,
       signOut,
+      relogin,
     }}>
       <Component {...pageProps} />
     </AppContext.Provider>

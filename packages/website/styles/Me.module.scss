@@ -9,6 +9,7 @@
 #me-container {
   max-width: $content-max-width;
   margin: $vertical-padding auto;
+  height: calc(100vh - 4 * #{$vertical-padding});
 
   h2 {
     margin-bottom: 40px;

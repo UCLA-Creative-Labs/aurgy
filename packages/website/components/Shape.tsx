@@ -1,11 +1,10 @@
 import React from 'react';
 import styles from '../styles/lobby.module.scss';
+import {Polygon} from '../utils/shapes';
 
 interface ShapeProps {
   polygon: Polygon
 }
-
-export type Polygon = 'pentagon' | 'hexagon' | 'heptagon' | 'octagon' | 'circle' | 'diamond';
 
 export const PolygonPoints = {
   pentagon: '50 4, 96 38, 82 93, 30 93, 50 93, 70 93, 18 93, 4 38',

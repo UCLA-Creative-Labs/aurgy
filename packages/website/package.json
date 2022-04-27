@@ -1,19 +1,21 @@
 {
   "name": "aurgy",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "eslint": "npx eslint '**/*.tsx' '**/*.ts'",
-    "stylelint": "npx stylelint '**/*.css' '**/*.scss'",
+    "eslint": "npx eslint \"**/*.tsx\" \"**/*.ts\"",
+    "stylelint": "npx stylelint \"**/*.css\" \"**/*.scss\"",
     "lint": "yarn run eslint && yarn run stylelint",
-    "lint:fix": "yarn run eslint --fix && yarn run stylelint --fix"
+    "lint:fix": "yarn run eslint --fix && yarn run stylelint --fix",
+    "no-lock": "scripts/noPackageLock.sh"
   },
   "dependencies": {
     "@types/animejs": "^3.1.4",
     "animejs": "^3.2.1",
+    "circletype": "^2.3.0",
     "next": "10.0.9",
     "querystring": "^0.2.1",
     "react": "17.0.2",

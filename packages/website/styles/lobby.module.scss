@@ -1,5 +1,5 @@
 @use 'variables.module' as *;
-@use 'mixins.module' as *;
+@use 'mixins.module' as mixin;
 
 // PLAYLIST VISUALIZATION + USERS BAR
 
@@ -9,8 +9,8 @@
   align-items: center;
 }
 
-.center-text {
-  @include centerElements;
+.center-across {
+  @include mixin.centerElementsX;
 }
 
 $mobile-visual-height: 300px;
@@ -37,11 +37,11 @@ $visual-circle-size: 310px;
 }
 
 #visual-circle {
-  width: $visual-circle-size;
-  height: $visual-circle-size;
+  width: $circle-size;
+  height: $circle-size;
 
   canvas {
-    border-radius: $visual-circle-size;
+    border-radius: $circle-size;
   }
 
   #caption {
@@ -59,7 +59,6 @@ $visual-circle-size: 310px;
 
     h4 {
       white-space: nowrap;
-      max-width: 380px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -77,6 +76,7 @@ $visual-circle-size: 310px;
       display: flex;
       align-items: center;
       margin-left: auto;
+      padding-left: 15px;
 
       .user-nameplate {
         margin-right: 15px;
@@ -105,7 +105,7 @@ $visual-circle-size: 310px;
   width: calc(#{$desktop-visual-width} - 2 * 75px);
 }
 
-@include for-large-desktop-up {
+@include mixin.for-large-desktop-up {
   #visual,
   #playlist {
     width: $max-visual-width;
@@ -116,7 +116,7 @@ $visual-circle-size: 310px;
   }
 }
 
-@include for-mobile-only {
+@include mixin.for-mobile-only {
   #visual {
     width: $mobile-visual-width;
     min-height: $mobile-visual-height;
@@ -144,7 +144,7 @@ $visual-circle-size: 310px;
 :export {
   defaultVisualWidth: $max-visual-width;
   defaultVisualHeight: $desktop-visual-height;
-  visualCircleSize: $visual-circle-size;
+  circleHeightPercent: $circle-size;
 }
 
 :import('nameplate.module.scss') {
