@@ -536,6 +536,9 @@ and server is small. Below structures how the endpoints work:
 | GET    | `/lobby/:id`          | Get lobby specific info                                             |
 | DELETE | `/lobby/:id`          | Delete a lobby                                                      |
 | DELETE | `/lobby/:id/user/:id` | Delete a user from a lobby                                          |
+| ------ | --------------------- | ------------------------------------------------------------------- |
+| POST   | `/ranksongs`          | Send the ranking between two songs that a user decided              |
+| GET    | `/ranksongs`          | Get two songs for a user to compare                                 |
 
 **Content Types**
 
@@ -865,13 +868,14 @@ Verification:
 
 ### GET /ranksongs
 
-The GET request for `/ranksongs` is a way for a user of the data collection web app to get two songs to rank.
+The GET request for `/ranksongs` is a way for a user of the data collection web app to get two songs to rank. Note, the user should not have yet ranked the two songs based on this theme.
 
 If the email of the user isn't in the ranking_users collection, create a new ranking_user and add it to the collection.
 
 | Request Body Parameter | Description                        |
 | ---------------------- | ---------------------------------- |
 | email                  | The email of the user              |
+| theme                  | The theme we are comparing on      |
 
 **Responses**
 
