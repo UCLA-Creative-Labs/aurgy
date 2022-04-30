@@ -1,7 +1,7 @@
 import anime, {AnimeTimelineInstance} from 'animejs';
-import {Polygon} from '../../components/Shape';
 import styles from '../../styles/nameplate.module.scss';
 import tipStyles from '../../styles/tooltip.module.scss';
+import {Polygon} from '../shapes';
 import {PARAM_DEFAULTS, fadeElement, morphPolygon} from './animations';
 
 interface LabelTargets {
@@ -73,7 +73,6 @@ function addLabelAnimation(
     .add(expandLong, 200);
 }
 
-
 export function makeNameplateTimeline({
   container,
   polygon,
@@ -118,6 +117,21 @@ export function makeTooltipTimeline(
   };
   tl.add(show, 0).add(shiftMargin, 0);
 
+  return tl;
+}
+
+export function makeRotationTimeline(
+  target: HTMLElement,
+): anime.AnimeTimelineInstance {
+  const tl = anime.timeline({
+    autoplay: false,
+  });
+  tl.add({
+    ...PARAM_DEFAULTS,
+    targets: target,
+    rotate: 45,
+    duration: 200,
+  }, 0);
   return tl;
 }
 

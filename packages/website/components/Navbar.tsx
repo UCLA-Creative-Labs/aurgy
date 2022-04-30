@@ -12,7 +12,7 @@ export default function Navbar(): JSX.Element {
       </div>
       <div id={styles['links-container']}>
         <Link href='/me' activeClassName={styles.strikethrough}>me?</Link>
-        <Link href='/lobby' activeClassName={styles.strikethrough}>lobbys</Link>
+        <Link href='/' activeClassName={styles.strikethrough}>lobbys</Link>
         <SpotifyAuth />
       </div>
     </div>

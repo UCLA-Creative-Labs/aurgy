@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
+import Footer from '../components/Footer';
 import {capitalize} from '../utils';
 import Navbar from './Navbar';
 
@@ -18,7 +19,7 @@ function Layout(props: LayoutProps): JSX.Element {
       <Head>
         <meta charSet="UTF-8" />
         <meta name="title" content={title} />
-        <meta name="description" content={description}/>
+        <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 
         <meta property="og:type" content="website" />
@@ -39,6 +40,7 @@ function Layout(props: LayoutProps): JSX.Element {
       <main id={props.id}>
         {props.children}
       </main>
+      <Footer />
     </>
   );
 }

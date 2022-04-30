@@ -8,6 +8,11 @@
   margin-bottom: $vertical-padding;
 }
 
+@mixin centerElementsX {
+  display: flex;
+  justify-content: center;
+}
+
 @mixin for-mobile-only {
   @media (max-width: 600px) { @content; }
 }

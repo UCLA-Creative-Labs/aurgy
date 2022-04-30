@@ -8,8 +8,10 @@
   -webkit-overflow-scrolling: touch;
   img { margin-right: 15px; }
 
-  align-items: flex-start;
-  height: 75vh;
+  background-color: map-get($colors, 'grey-bg');
+  align-content: flex-start;
+  justify-content: center;
+  height: calc(100vh - 2 * #{$vertical-padding});
 }
 
 // hides scrollbar
