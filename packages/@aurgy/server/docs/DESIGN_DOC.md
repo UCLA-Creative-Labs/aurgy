@@ -14,6 +14,7 @@ of the API and combat them in an ad hoc fashion.
   * [Songs](#Songs)
   * [Users](#Users)
   * [Lobbies](#Lobbies)
+  * [Ranking Users](#Ranking-Users)
 * [Spotify Interactions](#Spotify-Interactions)
   * [Access Token](#Access-Token)
   * [User Info](#User-Info)
@@ -374,6 +375,62 @@ export class Lobby extends DbItem implements ILobby {
    * Update the playlist based on the name and songs
    */
   public async updatePlaylist(): Promise<void>;
+}
+```
+
+### Ranking Users
+
+Not to be confused with users. Ranking Users are the users that are ranking songs in the data collection of our app. They will be inserted into the database, so it must extend from Database Item.
+
+The fundamental knowlege the RankingUser class must have is the following:
+
+```ts
+/**
+ * The class containing a ranking user and the songs they ranked
+ */
+export class RankingUser extends DbItem implements IRankingUser {
+  /**
+   * A static function to query for a RankingUser from it's id
+   * 
+   * @returns a RankingUser object if the id exists in the database
+   */
+  public static async fromId(id: string): Promise<RankingUser | null>;
+
+  /**
+   * The email which is also the id of the RankingUser
+   */
+  public readonly id: string;
+
+  /**
+   * The collection name for a ranking user is 'rankingusers'
+   */
+  public readonly collectionName = 'rankingusers';
+
+  /**
+   * The songs ranked by the user
+   */
+  public readonly rankings: Ranking[];
+}
+```
+
+For simplicity, Ranking won't extend DbItem and will just be a simple object:
+
+```ts
+export class Ranking {
+  /**
+   * The uri of the song that the user thinks matches the theme better
+   */
+  public better_song: string;
+
+  /**
+   * The uri of the song that the user thinks doesn't matches the theme as well
+   */
+  public other_song: string;
+
+  /**
+   * The theme that the user is categorizing the songs in
+   */
+  public theme: string;
 }
 ```
 
