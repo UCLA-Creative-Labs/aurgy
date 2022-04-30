@@ -33,6 +33,9 @@ of the API and combat them in an ad hoc fashion.
   * [PATCH /lobby/:id](#PATCH-lobbyid)
   * [GET /lobby/:id](#GET-lobbyid)
   * [DELETE /lobby/:id](#DELETE-lobbyid)
+  * [DELETE /lobby/:id/user:id](#DELETE-lobbyiduserid)
+  * [POST /ranksongs](#POST-ranksongs)
+  * [GET /ranksongs](#GET-ranksongs)
 * [Playlist Generation](#Playlist-Generation)
   * [Themes and Audio Features](#Themes-and-Audio-Features)
 
@@ -776,6 +779,59 @@ Verification happens in two stages:
 | 403         | Token does not pass verification (expired)          |
 | 404         | User is not found in database                       |
 | 406         | User is not a manager of the lobby                  |
+
+---
+
+### POST /ranksongs
+
+The POST request for `/ranksongs` is a way for a user of the data collection web app to send their ranking of two songs to the database.
+
+Verification:
+1. User verification: make sure the email sent in the request matches the email of a user in the ranking_users database
+
+| Request Body Parameter | Description                                 |
+| ---------------------- | ------------------------------------------- |
+| email                  | The email of the user                       |
+| theme                  | The theme that the user is ranking based on |
+| better_song            | The uri of the song that is a better match  |
+| other_song             | The uri of the song that is a worse match   |
+
+**Responses**
+
+| Status Code | Description                                               |
+| ----------- | --------------------------------------------------------- |
+| 200         | User rankings have been succesfully added to the database |
+| 401         | Email is not present in the body params                   |
+| 404         | User is not found in database                             |
+
+---
+
+### GET /ranksongs
+
+The GET request for `/ranksongs` is a way for a user of the data collection web app to get two songs to rank.
+
+If the email of the user isn't in the ranking_users collection, create a new ranking_user and add it to the collection.
+
+| Request Body Parameter | Description                        |
+| ---------------------- | ---------------------------------- |
+| email                  | The email of the user              |
+
+**Responses**
+
+| Status Code | Description                               |
+| ----------- | ----------------------------------------- |
+| 200         | A user response (detailed below)          |
+| 401         | No email is present in the body parameter |
+
+**User Response**
+
+The response sent to the user
+```json
+{
+  "song1": "string",        // the uri of the first song
+  "song2": "string",        // the uri of the second song
+}
+```
 
 ## Playlist Generation
 
