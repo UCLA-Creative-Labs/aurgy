@@ -1,0 +1,13 @@
+@mixin highlight {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  cursor: pointer;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: #0070f3;
+    border-color: #0070f3;
+  }
+}
