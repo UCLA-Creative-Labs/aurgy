@@ -14,6 +14,7 @@ of the API and combat them in an ad hoc fashion.
   * [Songs](#Songs)
   * [Users](#Users)
   * [Lobbies](#Lobbies)
+  * [Ranking Users](#Ranking-Users)
 * [Spotify Interactions](#Spotify-Interactions)
   * [Access Token](#Access-Token)
   * [User Info](#User-Info)
@@ -33,6 +34,9 @@ of the API and combat them in an ad hoc fashion.
   * [PATCH /lobby/:id](#PATCH-lobbyid)
   * [GET /lobby/:id](#GET-lobbyid)
   * [DELETE /lobby/:id](#DELETE-lobbyid)
+  * [DELETE /lobby/:id/user:id](#DELETE-lobbyiduserid)
+  * [POST /ranksongs](#POST-ranksongs)
+  * [GET /ranksongs](#GET-ranksongs)
 * [Playlist Generation](#Playlist-Generation)
   * [Themes and Audio Features](#Themes-and-Audio-Features)
 
@@ -374,6 +378,62 @@ export class Lobby extends DbItem implements ILobby {
 }
 ```
 
+### Ranking Users
+
+Not to be confused with users. Ranking Users are the users that are ranking songs in the data collection of our app. They will be inserted into the database, so it must extend from Database Item.
+
+The fundamental knowlege the RankingUser class must have is the following:
+
+```ts
+/**
+ * The class containing a ranking user and the songs they ranked
+ */
+export class RankingUser extends DbItem implements IRankingUser {
+  /**
+   * A static function to query for a RankingUser from it's id
+   * 
+   * @returns a RankingUser object if the id exists in the database
+   */
+  public static async fromId(id: string): Promise<RankingUser | null>;
+
+  /**
+   * The email which is also the id of the RankingUser
+   */
+  public readonly id: string;
+
+  /**
+   * The collection name for a ranking user is 'rankingusers'
+   */
+  public readonly collectionName = 'rankingusers';
+
+  /**
+   * The songs ranked by the user
+   */
+  public readonly rankings: Ranking[];
+}
+```
+
+For simplicity, Ranking won't extend DbItem and will just be a simple object:
+
+```ts
+export class Ranking {
+  /**
+   * The uri of the song that the user thinks matches the theme better
+   */
+  public better_song: string;
+
+  /**
+   * The uri of the song that the user thinks doesn't matches the theme as well
+   */
+  public other_song: string;
+
+  /**
+   * The theme that the user is categorizing the songs in
+   */
+  public theme: string;
+}
+```
+
 ## Spotify Interactions
 
 Below I detailed some spotify interactions that we will most likely need.
@@ -476,6 +536,9 @@ and server is small. Below structures how the endpoints work:
 | GET    | `/lobby/:id`          | Get lobby specific info                                             |
 | DELETE | `/lobby/:id`          | Delete a lobby                                                      |
 | DELETE | `/lobby/:id/user/:id` | Delete a user from a lobby                                          |
+| ------ | --------------------- | ------------------------------------------------------------------- |
+| POST   | `/ranksongs`          | Send the ranking between two songs that a user decided              |
+| GET    | `/ranksongs`          | Get two songs for a user to compare                                 |
 
 **Content Types**
 
@@ -776,6 +839,60 @@ Verification happens in two stages:
 | 403         | Token does not pass verification (expired)          |
 | 404         | User is not found in database                       |
 | 406         | User is not a manager of the lobby                  |
+
+---
+
+### POST /ranksongs
+
+The POST request for `/ranksongs` is a way for a user of the data collection web app to send their ranking of two songs to the database.
+
+Verification:
+1. User verification: make sure the email sent in the request matches the email of a user in the ranking_users database
+
+| Request Body Parameter | Description                                 |
+| ---------------------- | ------------------------------------------- |
+| email                  | The email of the user                       |
+| theme                  | The theme that the user is ranking based on |
+| better_song            | The uri of the song that is a better match  |
+| other_song             | The uri of the song that is a worse match   |
+
+**Responses**
+
+| Status Code | Description                                               |
+| ----------- | --------------------------------------------------------- |
+| 200         | User rankings have been succesfully added to the database |
+| 401         | Email is not present in the body params                   |
+| 404         | User is not found in database                             |
+
+---
+
+### GET /ranksongs
+
+The GET request for `/ranksongs` is a way for a user of the data collection web app to get two songs to rank. Note, the user should not have yet ranked the two songs based on this theme.
+
+If the email of the user isn't in the ranking_users collection, create a new ranking_user and add it to the collection.
+
+| Request Body Parameter | Description                        |
+| ---------------------- | ---------------------------------- |
+| email                  | The email of the user              |
+| theme                  | The theme we are comparing on      |
+
+**Responses**
+
+| Status Code | Description                               |
+| ----------- | ----------------------------------------- |
+| 200         | A user response (detailed below)          |
+| 401         | No email is present in the body parameter |
+
+**User Response**
+
+The response sent to the user
+```json
+{
+  "song1": "string",        // the uri of the first song
+  "song2": "string",        // the uri of the second song
+}
+```
 
 ## Playlist Generation
 
