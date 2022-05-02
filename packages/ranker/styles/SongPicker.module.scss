@@ -1,0 +1,31 @@
+@use 'mixins.module' as *;
+
+.media {
+  margin: 20px;
+}
+
+.media iframe {
+  margin: 0 5px;
+}
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  @include highlight;
+
+  border-radius: 10px;
+  padding: 5px 20px;
+  margin: 0 5px;
+  text-align: center;
+  width: 400px;
+  cursor: pointer;
+}
+
+.card h2,
+.card p {
+  margin: 0;
+}
