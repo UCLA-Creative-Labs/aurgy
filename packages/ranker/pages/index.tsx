@@ -5,7 +5,6 @@ import Layout from '../components/Layout';
 import SongPicker from '../components/SongPicker';
 import {IRankingData} from '../utils/song-data';
 
-
 function Home(): JSX.Element {
   const {data: session} = useSession();
   const [ranking, setRanking] = useState<IRankingData | null>(null);

@@ -9,7 +9,6 @@ interface PickerProps {
   onPick: (id: string) => void;
 }
 
-
 function SongPicker({title, optionA, optionB, onPick}: PickerProps): JSX.Element {
   return (
     <div>
