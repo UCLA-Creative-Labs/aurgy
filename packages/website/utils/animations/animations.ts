@@ -1,5 +1,6 @@
 import {AnimeParams} from 'animejs';
-import {Polygon, PolygonPoints} from '../../components/Shape';
+import {PolygonPoints} from '../../components/Shape';
+import {Polygon} from '../shapes';
 
 interface BaseAnimationOptions {
   readonly target: HTMLElement;

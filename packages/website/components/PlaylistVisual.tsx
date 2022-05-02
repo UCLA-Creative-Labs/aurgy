@@ -28,8 +28,8 @@ function PlaylistVisual({
       });
     }
     return {
-      width: parseInt(styles.visualCircleSize),
-      height: parseInt(styles.visualCircleSize),
+      width: window.innerHeight * .01 * parseInt(styles.circleHeightPercent),
+      height: window.innerHeight * .01 * parseInt(styles.circleHeightPercent),
     };
   }, [fullSize]);
 

@@ -1,13 +1,15 @@
 @use 'variables.module' as *;
 
 #navbar,
+#footer,
 #logo-container,
 #links-container {
   display: flex;
   align-items: center;
 }
 
-#navbar {
+#navbar,
+#footer {
   justify-content: space-between;
   min-height: 128px;
   width: 100%;

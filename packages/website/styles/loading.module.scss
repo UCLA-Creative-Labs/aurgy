@@ -1,0 +1,5 @@
+@use 'mixins.module' as *;
+
+.loading-text {
+  @include centerElements;
+}

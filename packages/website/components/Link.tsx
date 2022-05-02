@@ -5,19 +5,17 @@ import React from 'react';
 export interface LinkProps {
   href: string;
   activeClassName?: string;
-  children: string;
+  isDisabled?: boolean;
+  children: React.ReactNode;
 }
 
-export default function Link({href, activeClassName, children}: LinkProps): JSX.Element {
+export default function Link({href, activeClassName, isDisabled, children}: LinkProps): JSX.Element {
   // No built-in activeClassName prop for Next links:
   // https://github.com/vercel/next.js/tree/canary/examples/active-class-name
 
   const {asPath} = useRouter();
   const className = asPath === href && activeClassName != null ? activeClassName : '';
 
-  return (
-    <NextLink href={href}>
-      <a className={className}>{children}</a>
-    </NextLink>
-  );
+  const base = <a className={className}>{children}</a>;
+  return !isDisabled ? <NextLink href={href}>{base}</NextLink> : base;
 }

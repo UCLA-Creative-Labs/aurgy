@@ -6,7 +6,6 @@
 # 5. Dependabot
 
 pull_request_rules:
-
   # 1. Check title to follow conventional commits
   - name: if fails conventional commits
     actions:
@@ -26,7 +25,9 @@ pull_request_rules:
         message: Thanks for contributing! Your pull request will be updated from main and then merged automatically (do not update manually, and be sure to [allow changes to be pushed to your fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork)).
       merge:
         method: squash
-        commit_message: title+body
+        commit_message_template: |-
+          {{ title }} (#{{ number }})
+          {{ body }}
       delete_head_branch: {}
     conditions:
       - -title~=(WIP|wip)
@@ -45,9 +46,10 @@ pull_request_rules:
       comment:
         message: Thank you for contributing! Your pull request will be updated from main and then merged automatically (do not update manually, and be sure to [allow changes to be pushed to your fork](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork)).
       merge:
-        # Merge instead of squash
         method: merge
-        commit_message: title+body
+        commit_message_template: |-
+          {{ title }} (#{{ number }})
+          {{ body }}
       delete_head_branch: {}
     conditions:
       - -title~=(WIP|wip)
@@ -81,6 +83,9 @@ pull_request_rules:
         message: Thanks Dependabot 🙏!
       merge:
         method: squash
+        commit_message_template: |-
+          {{ title }} (#{{ number }})
+          {{ body }}
       delete_head_branch: {}
     conditions:
       - -title~=(WIP|wip)
