@@ -98,7 +98,8 @@ export class Lobby extends DbItem implements ILobby {
     const client = await getClient();
     const document = await client.findDbItem(COLLECTION.LOBBIES, id);
     if (!document) return null;
-    const content = document.getContent();
+    const content = document.data();
+    if (!content) return null;
     return new Lobby(id, content as DatabaseEntry, document.key ?? null);
   }
 
@@ -108,6 +109,8 @@ export class Lobby extends DbItem implements ILobby {
    * @returns a newly created Lobby object
    */
   public static async create(props: LobbyCreateProps, key : string | null = null) : Promise<Lobby | null> {
+    console.log("inside Lobby create");
+    console.log(props);
     const manager = props.manager;
     const playlistId = await createSpotifyPlaylist(props.name);
     if (!playlistId) return null;

@@ -13,18 +13,27 @@ client to simplify database interactions.
 
 In order for the database client to function properly, you need 3 key components:
 
-* Oracle Client Library unzipped and installed to the `configDir` location
-* The environment variable PASSWORD set to the database password
-* The environemnet variable CONNECTION_STRING set to the connection string for
-the database
+* The JSON file containing the service account key downloaded
+* The environment variable GOOGLE_APPLICATION_CREDENTIALS set to the path of the JSON file with the service account key
 
 The easiest way to ensure the latter half is something like the following:
 
 ```sh
-PASSWORD="DB_PASSWORD" CONNECTION_STRING="CONNECTION_STRING_123" <start command here>
+GOOGLE_APPLICATION_CREDENTIALS="JSON_FILE_PATH" <start command here>
 
 # i.e.
-PASSWORD="DB_PASSWORD" CONNECTION_STRING="CONNECTION_STRING_123" yarn dev
+GOOGLE_APPLICATION_CREDENTIALS="JSON_FILE_PATH" yarn dev
+```
+You can also set the environment variable separately from the `yarn dev` command like so:
+
+Windows: 
+```sh
+set GOOGLE_APPLICATION_CREDENTIALS=JSON_FILE_PATH
+```
+
+Unix:
+```sh
+export GOOGLE_APPLICATION_CREDENTIALS="JSON_FILE_PATH"
 ```
 
 ### Initialization
