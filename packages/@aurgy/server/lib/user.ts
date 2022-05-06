@@ -82,7 +82,10 @@ export class User extends DbItem implements IUser {
     const client = await getClient();
     const document = await client.findDbItem(COLLECTION.USERS, id);
     if (!document) return null;
-    const content = document.getContent();
+    const content = document.data();
+    console.log("data of user");
+    console.log(content);
+    if (!content) return null;
     return new User(id, content as DatabaseEntry, document.key ?? null);
   }
 
@@ -166,6 +169,7 @@ export class User extends DbItem implements IUser {
    */
   public async addLobby(lobby: Lobby, writeToDatabase = true): Promise<boolean> {
     this.#lobbies.push({id: lobby.id, name: lobby.name, theme: lobby.theme});
+    console.log("calling add lobby");
     if (writeToDatabase) void this.writeToDatabase();
     const addedToPlaylist = await followPlaylist(this, lobby.id);
     return addedToPlaylist;
