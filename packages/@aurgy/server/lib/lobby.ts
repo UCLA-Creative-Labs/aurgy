@@ -98,7 +98,7 @@ export class Lobby extends DbItem implements ILobby {
     const client = await getClient();
     const document = await client.findDbItem(COLLECTION.LOBBIES, id);
     if (!document) return null;
-    const content = document.data();
+    const content = document.getContent();
     if (!content) return null;
     return new Lobby(id, content as DatabaseEntry, document.key ?? null);
   }

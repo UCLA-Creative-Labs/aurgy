@@ -73,6 +73,20 @@ export interface IUser extends Omit<UserProps, 'topSongs'>, IDbItem {
  * The class containing a user and their data
  */
 export class User extends DbItem implements IUser {
+   /**
+   * A static function to get all the lobby in the database
+   *
+   * @returns all lobby in the lobby collection
+   */
+    public static async all(): Promise<User[]> {
+      const client = await getClient();
+      const docs = await client.getCollectionItems(COLLECTION.USERS);
+      return await Promise.all(docs.map(doc => {
+        const content = doc.getContent();
+        return new User(content.id, content as DatabaseEntry, content.key);
+      }));
+    }
+
   /**
    * A static function to query for a user from their id
    *
@@ -82,7 +96,7 @@ export class User extends DbItem implements IUser {
     const client = await getClient();
     const document = await client.findDbItem(COLLECTION.USERS, id);
     if (!document) return null;
-    const content = document.data();
+    const content = document.getContent();
     console.log("data of user");
     console.log(content);
     if (!content) return null;

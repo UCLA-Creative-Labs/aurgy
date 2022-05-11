@@ -52,6 +52,15 @@ export abstract class DbItem implements IDbItem {
   }
 
   /**
+   * 
+   * Writes this database item to the Firestore Database
+   */
+  public async writeToFbDatabase(): Promise<void> {
+    const client = await getClient();
+    return client.writeFbDbItems(this);
+  }
+
+  /**
    * Remove this database item from the database
    */
   public async removeFromDatabase(): Promise<oracledb.SodaRemoveResult> {

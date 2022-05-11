@@ -75,7 +75,7 @@ export class Song extends DbItem implements ISong {
     const client = await getClient();
     const document = await client.findDbItem(COLLECTION.SONGS, id);
     if (!document) return null;
-    const content = document.data();
+    const content = document.getContent();
     if (!content) return null;
     return new Song(id, content as DatabaseEntry, document.key ?? null);
   }
