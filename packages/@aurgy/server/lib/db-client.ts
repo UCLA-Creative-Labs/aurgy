@@ -207,9 +207,6 @@ export class DbClient {
       ? pCollectionName
       : `test_${pCollectionName}`;
 
-    if (this.collections[collectionName] != null)
-      return this.collections[collectionName];
-
     const collection = await this.firestore.collection(collectionName);
     if (collection == undefined) {
       throw new Error('Collection not found. Make sure you provide the correct collection name.');
