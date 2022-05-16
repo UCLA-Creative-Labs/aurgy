@@ -66,11 +66,8 @@ export default NextAuth({
     async signIn({user}) {
       const firebase = new _Firebase();
       void firebase.put({
-        path: `ranker-users/${user.email}`,
-        data: user,
-        defaults: {
-          devices: [],
-        },
+        path: `ranking-users/${user.email}`,
+        data: {...user, rankings: []},
       });
       return true;
     },
@@ -100,7 +97,7 @@ export default NextAuth({
 
       const firebase = new _Firebase();
       void firebase.put({
-        path: `ranker-users/${session.user.email}`,
+        path: `ranking-users/${session.user.email}`,
         data: {
           accessToken: token.accessToken,
           refreshToken: token.refreshToken,

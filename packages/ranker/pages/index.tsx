@@ -3,7 +3,7 @@ import {useRouter} from 'next/router';
 import React, {useEffect, useState} from 'react';
 import Layout from '../components/Layout';
 import SongPicker from '../components/SongPicker';
-import {IRankingData} from '../utils/song-data';
+import {IRankingData} from '../utils/ranking-data';
 
 function Home(): JSX.Element {
   const {data: session} = useSession();
@@ -12,12 +12,28 @@ function Home(): JSX.Element {
 
   useEffect(() => {
     async function loadSongs() {
-      const res = await window.fetch('/api/rank-songs');
+      const res = await window.fetch('/api/get-song');
       const data = await res.json();
       setRanking(data);
     }
-    void loadSongs();
-  }, []);
+
+    if (!ranking) {
+      void loadSongs();
+    }
+  }, [ranking]);
+
+  const onPick = async (matches: boolean) => {
+    const res = await window.fetch('/api/rank-song', {
+      method: 'POST',
+      body: JSON.stringify({
+        songid: ranking.song.id,
+        theme: ranking.theme,
+        matches,
+      }),
+    });
+    if (!res.ok) {return;}
+    setRanking(null);
+  };
 
   if (!session) {
     return (
@@ -41,14 +57,13 @@ function Home(): JSX.Element {
     );
   }
 
-  const title = <p>Pick the song that sounds more like: <b>{ranking.theme}</b></p>;
+  const title = <p>Would you categorize this song under the theme: <b>{ranking.theme}</b></p>;
   return (
     <Layout>
       <SongPicker
         title={title}
-        optionA={ranking.song1}
-        optionB={ranking.song2}
-        onPick={() => null}
+        song={ranking.song}
+        onPick={onPick}
       />
     </Layout>
   );
